@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
+        android:id="@+id/navigation_artists"
+        android:name="com.example.proyectomoviles.ui.artist.ArtistFragment"
+        android:label="@string/title_artists"
+        tools:layout="@layout/fragment_artist" />
+
+    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.proyectomoviles.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
