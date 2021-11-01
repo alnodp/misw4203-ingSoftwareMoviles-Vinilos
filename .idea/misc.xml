@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Maestria/Ingenieria de Software para Moviles/misw4203-ingSoftwareMoviles-Vinilos/app/src/main/res/layout/activity_main.xml" value="0.371875" />
+        <entry key="..\:/Maestria/Ingenieria de Software para Moviles/misw4203-ingSoftwareMoviles-Vinilos/app/src/main/res/layout/fragment_artist.xml" value="0.22" />
+        <entry key="..\:/Maestria/Ingenieria de Software para Moviles/misw4203-ingSoftwareMoviles-Vinilos/app/src/main/res/layout/fragment_dashboard.xml" value="0.371875" />
+        <entry key="..\:/Maestria/Ingenieria de Software para Moviles/misw4203-ingSoftwareMoviles-Vinilos/app/src/main/res/menu/bottom_nav_menu.xml" value="0.371875" />
         <entry key="..\:/Users/pedri/AndroidStudioProjects/proyectomoviles/app/src/main/res/layout/activity_main.xml" value="0.3484375" />
         <entry key="..\:/Users/pedri/AndroidStudioProjects/proyectomoviles/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3625" />
       </map>
