@@ -1,4 +1,4 @@
-package com.example.proyectomoviles.ui.artist
+package com.example.proyectomoviles.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
