@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Vinilos app</string>
     <string name="title_home">Home</string>
-    <string name="title_albums">Albumes</string>
+    <string name="title_albumes">Albumes</string>
     <string name="title_artists">Artistas</string>
     <string name="title_collectors">Coleccionistas</string>
     <string name="hint_artist_search">Filtrar por nombre</string>

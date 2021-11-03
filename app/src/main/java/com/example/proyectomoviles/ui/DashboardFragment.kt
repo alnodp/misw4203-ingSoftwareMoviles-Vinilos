@@ -1,4 +1,4 @@
-package com.example.proyectomoviles.ui.artist
+package com.example.proyectomoviles.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,13 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.proyectomoviles.databinding.FragmentArtistBinding
-import com.example.proyectomoviles.ui.artist.ArtistViewModel
+import com.example.proyectomoviles.databinding.FragmentDashboardBinding
+import com.example.proyectomoviles.viewmodels.DashboardViewModel
 
-class ArtistFragment : Fragment() {
+class DashboardFragment : Fragment() {
 
-    private lateinit var artistViewModel: ArtistViewModel
-    private var _binding: FragmentArtistBinding? = null
+    private lateinit var dashboardViewModel: DashboardViewModel
+    private var _binding: FragmentDashboardBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,16 +25,16 @@ class ArtistFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        artistViewModel =
-            ViewModelProvider(this).get(ArtistViewModel::class.java)
+        dashboardViewModel =
+            ViewModelProvider(this).get(DashboardViewModel::class.java)
 
-        _binding = FragmentArtistBinding.inflate(inflater, container, false)
+        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        val textView: TextView = binding.textArtist
-//        artistViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
+        val textView: TextView = binding.textDashboard
+        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
+            textView.text = it
+        })
         return root
     }
 
