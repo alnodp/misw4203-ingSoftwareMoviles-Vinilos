@@ -10,7 +10,9 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.proyectomoviles.models.Album
+import com.example.proyectomoviles.models.Comment
 import com.example.proyectomoviles.models.Performer
+import com.example.proyectomoviles.models.Track
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -74,6 +76,63 @@ class NetworkServiceAdapter constructor(context: Context) {
             onError(it)
         }))
     }
+
+    fun getAlbum(albumId: Int, onComplete: (resp: Album) -> Unit, onError: (error: VolleyError) -> Unit) {
+        requestQueue.add(getRequest("albums/$albumId",
+            { response ->
+                Log.d("tagb", response)
+                val resp = JSONObject(response)
+
+                val commentsList: JSONArray = resp.getJSONArray("comments")
+                val comments = mutableListOf<Comment>()
+                var comment: JSONObject? = null
+
+                for (i in 0 until commentsList.length()) {
+                    comment = commentsList.getJSONObject(i)
+                    comments.add(
+                        Comment(comment.getString("description"),
+                            comment.getInt("rating").toString(), albumId)
+                    )
+                }
+
+                val performersList: JSONArray = resp.getJSONArray("performers")
+                val performers = mutableListOf<Performer>()
+                var performer: JSONObject? = null
+
+                for (i in 0 until performersList.length()) {
+                    performer = performersList.getJSONObject(i)
+                    performers.add(
+                        Performer(performer.getInt("id").toInt(), performer.getString("name"),
+                            performer.getString("image"), performer.getString("description"),
+                            performer.getString("birthDate"))
+                    )
+                }
+
+                val tracksList: JSONArray = resp.getJSONArray("tracks")
+                val tracks = mutableListOf<Track>()
+                var track: JSONObject? = null
+
+                for (i in 0 until tracksList.length()) {
+                    track = tracksList.getJSONObject(i)
+                    tracks.add(
+                        Track(track.getInt("id").toInt(), track.getString("name"),
+                            track.getString("duration"))
+                    )
+                }
+
+                val album: Album = Album(
+                    albumId, resp.getString("name"), resp.getString("name"),
+                    resp.getString("name"), resp.getString("releaseDate"), resp.getString("genre"),
+                    resp.getString("description"), comments, performers, tracks
+                )
+
+                onComplete(album)
+            },
+            {
+                onError(it)
+            }))
+    }
+
     /*
     fun getCollectors(onComplete:(resp:List<Collector>)->Unit, onError: (error:VolleyError)->Unit) {
         requestQueue.add(getRequest("collectors",

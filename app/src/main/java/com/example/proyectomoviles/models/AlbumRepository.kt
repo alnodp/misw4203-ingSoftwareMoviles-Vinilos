@@ -22,6 +22,7 @@ class AlbumRepository(context: Context) {
         networkServiceAdapter.getAlbums(onComplete, onError)
     }
 
-
-
+    fun getAlbum(albumId: Int, onComplete: (resp:Album)->Unit, onError: (error: VolleyError)->Unit) {
+        networkServiceAdapter.getAlbum(albumId, onComplete, onError)
+    }
 }
