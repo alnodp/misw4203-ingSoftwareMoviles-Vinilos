@@ -3,29 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/albumesFragment">
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.proyectomoviles.ui.home.HomeFragment"
+        android:name="com.example.proyectomoviles.ui.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.proyectomoviles.ui.dashboard.DashboardFragment"
+        android:name="com.example.proyectomoviles.ui.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_artists"
-        android:name="com.example.proyectomoviles.ui.artist.ArtistFragment"
+        android:name="com.example.proyectomoviles.ui.ArtistFragment"
         android:label="@string/title_artists"
         tools:layout="@layout/fragment_artist" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.proyectomoviles.ui.notifications.NotificationsFragment"
+        android:name="com.example.proyectomoviles.ui.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/albumesFragment"
+        android:name="com.example.proyectomoviles.ui.AlbumesFragment"
+        android:label="@string/title_albumes"
+        tools:layout="@layout/albumes_fragment" />
 </navigation>
