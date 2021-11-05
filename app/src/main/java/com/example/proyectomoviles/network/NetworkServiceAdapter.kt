@@ -31,13 +31,13 @@ class NetworkServiceAdapter constructor(context: Context) {
     }
 
 
-    fun getArtist(onComplete:(resp:Artist)->Unit , onError: (error: VolleyError)->Unit) {
+    fun getArtists(onComplete:(resp:Artist)->Unit , onError: (error: VolleyError)->Unit) {
         requestQueue.add(getRequest("musicians/",
             Response.Listener<String> { response ->
                 val resp = JSONObject(response)
-                val album = Artist(name=resp.getString("name"),id = resp.getString("id"), image = resp.getString("image"),
+                val artist = Artist(name=resp.getString("name"),id = resp.getString("id"), image = resp.getString("image"),
                     description = resp.getString("description"), creationDate = resp.getString("creationDate"))
-                onComplete(album)
+                onComplete(artist)
             },
             Response.ErrorListener {
                 onError(it)

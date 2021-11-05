@@ -4,26 +4,26 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.models.Artist
+import com.example.proyectomoviles.models.ArtistRepository
+import java.lang.Exception
 
 class ArtistsViewModel(application: Application) : AndroidViewModel(application){
-    private val _artists = MutableLiveData<List<Artist>>()
 
-    val artists: LiveData<List<Artist>>
-        get() = _artists
+    private var artistRepository: ArtistRepository = ArtistRepository.getInstance(application)
 
-    private var _eventNetworkError = MutableLiveData<Boolean>(false)
+    private val _artist = MutableLiveData<List<Artist>>()
 
-    val eventNetworkError: LiveData<Boolean>
-        get() = _eventNetworkError
-
-    private var _isNetworkErrorShown = MutableLiveData<Boolean>(false)
-
-    val isNetworkErrorShown: LiveData<Boolean>
-        get() = _isNetworkErrorShown
+    val artist: LiveData<List<Artist>>
+        get() = _artist
 
     init {
-        refreshDataFromNetwork()
+        artistRepository.getArtist({
+            _artist.value = it
+        }, {
+            throw Exception("Fallo el llamado getArtist al repo")
+        })
     }
+
 
     private fun refreshDataFromNetwork() {
         // TODO: Que use el repositorio para traer datos, y cambiar el nombre del metodo

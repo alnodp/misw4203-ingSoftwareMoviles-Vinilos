@@ -23,6 +23,6 @@ class ArtistRepository(application: Application)  {
 
 
     fun getArtist(onComplete:(resp:Artist)->Unit , onError: (error: VolleyError)->Unit){
-        serviceAdapter.getArtist(onComplete, onError)
+        serviceAdapter.getArtists(onComplete, onError)
     }
 }

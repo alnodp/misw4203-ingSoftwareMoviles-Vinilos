@@ -24,12 +24,12 @@ class ArtistFragment : Fragment() {
     ): View? {
 
         _binding = DataBindingUtil.setContentView(
-            this, R.layout.fragment_artist)
+            this.requireActivity(), R.layout.fragment_artist)
 
         artistViewModel =
-            ViewModelProvider(this, ArtistsViewModel.Factory(application)).get(ArtistsViewModel::class.java)
+            ViewModelProvider(this.requireActivity(), ArtistsViewModel.Factory(application)).get(ArtistsViewModel::class.java)
 
-        artistViewModel.artists.observe(this, {
+        artistViewModel.artist.observe(this.requireActivity(), {
             binding.artist = it
         })
     }
