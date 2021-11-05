@@ -3,6 +3,8 @@ package com.example.proyectomoviles.viewmodels
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Album
+import com.example.proyectomoviles.models.AlbumRepository
+import com.example.proyectomoviles.network.NetworkServiceAdapter
 
 class AlbumesViewModel(application: Application) : AndroidViewModel(application){
     private val _albumes = MutableLiveData<List<Album>>()
@@ -21,36 +23,19 @@ class AlbumesViewModel(application: Application) : AndroidViewModel(application)
         get() = _isNetworkErrorShown
 
     init {
-        refreshDataFromNetwork()
+        getDataFromRepository()
     }
 
-    private fun refreshDataFromNetwork() {
-        // TODO: Que use el repositorio para traer datos, y cambiar el nombre del metodo
-
-        val tempList = mutableListOf<Album>()
-        val _album = Album(cover="https://i.pinimg.com/564x/aa/5f/ed/aa5fed7fac61cc8f41d1e79db917a7cd.jpg",
-            name = "Buscando América", id = 100, description = "Buscando América es el primer " +
-                    "álbum de la banda de Rubén Blades y Seis del Solar lanzado en 1984.",
-            genre = "Salsa", recordLabel = "Elektra", releaseDate = "1984-08-01T00:00:00.000Z")
-        tempList.add(_album)
-        tempList.add(_album)
-        tempList.add(_album)
-
-        _albumes.postValue(
-            tempList
-        )
-
-        /*
-        NetworkServiceAdapter.getInstance(getApplication()).getAlbums({
+    private fun getDataFromRepository() {
+        AlbumRepository.getInstance(getApplication()).getAlbums({
             val list = it
 
-            _albums.postValue(list)
+            _albumes.postValue(list)
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false
         },{
             _eventNetworkError.value = true
         })
-         */
     }
 
     fun onNetworkErrorShown() {

@@ -10,8 +10,22 @@ data class Album(
     val description:String,
     val genre:String,
     val recordLabel:String,
+    val performers: List<Performer> = mutableListOf<Performer>()
     // TODO tracks
-    // TODO performers
     // TODO comments
-)
+){
+    val artistaRepresentation : String
+        get() {
+            var resp = ""
+            if ( performers.isNotEmpty()) {
+                resp = performers[0].name
+
+                if (performers.size > 1) {
+                    resp += ",..,"
+                    resp += performers.last().name
+                }
+            }
+            return resp
+        }
+}
 
