@@ -15,9 +15,6 @@ class ArtistFragment : Fragment() {
 
     private lateinit var artistViewModel: ArtistsViewModel
     private var _binding: ListItemArtistsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
