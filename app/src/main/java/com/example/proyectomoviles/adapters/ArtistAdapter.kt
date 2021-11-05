@@ -40,15 +40,6 @@ class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(){
         holder.viewDataBinding.also {
             it.artist = artists[position]
         }
-        // TODO Configure on click artist
-        /*
-        holder.viewDataBinding.root.setOnClickListener {
-
-            val action = AlbumFragmentDirections.actionAlbumFragmentToCommentFragment(albums[position].albumId)
-            // Navigate using that action
-            holder.viewDataBinding.root.findNavController().navigate(action)
-        }
-        */
     }
 
     override fun getItemCount(): Int {

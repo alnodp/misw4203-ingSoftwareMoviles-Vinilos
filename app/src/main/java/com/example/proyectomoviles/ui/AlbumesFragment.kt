@@ -2,14 +2,16 @@ package com.example.proyectomoviles.ui
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.AlbumesAdapter
@@ -22,6 +24,7 @@ class AlbumesFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: AlbumesViewModel
+    private lateinit var filterAlbumET: EditText
     private var viewModelAdapter: AlbumesAdapter? = null
 
     override fun onCreateView(
@@ -29,8 +32,15 @@ class AlbumesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = AlbumesFragmentBinding.inflate(inflater, container, false)
+        binding.isLoading = true
+
         val view = binding.root
+        filterAlbumET = view.findViewById<EditText>(R.id.AlbumSearchEt)
+
         viewModelAdapter = AlbumesAdapter()
+
+
+
         return view
     }
 
@@ -49,12 +59,28 @@ class AlbumesFragment : Fragment() {
             AlbumesViewModel::class.java)
         viewModel.albumes.observe(viewLifecycleOwner, Observer<List<Album>> {
             it.apply {
+                if(it.isNotEmpty()) binding.isLoading = false
                 viewModelAdapter!!.albums = this
             }
         })
+
+        filterAlbumET.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                viewModelAdapter!!.filter.filter(charSequence)
+            }
+            override fun afterTextChanged(editable: Editable) {}
+        })
+        
         viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
             if (isNetworkError) onNetworkError()
         })
+    }
+
+    override fun onResume() {
+        viewModelAdapter!!.filter.filter("")
+        filterAlbumET.setText("")
+        super.onResume()
     }
 
     override fun onDestroyView() {
