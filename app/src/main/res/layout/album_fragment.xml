@@ -18,41 +18,84 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/ad_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/album_detail_title"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.4"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.05"
-                tools:text="Detalle de álbum" />
-
             <ImageView
                 android:id="@+id/ad_cover"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                tools:srcCompat="@drawable/ic_launcher_background" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/ad_name"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <TextView
                 android:id="@+id/ad_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{album.name}"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintTop_toBottomOf="@id/ad_cover"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ad_cover"
-                app:layout_constraintVertical_bias="0.1"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textStyle="bold"
                 tools:text="Buscando América" />
+
+            <TextView
+                android:id="@+id/ad_release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="1984/08/01"
+                android:textSize="18sp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintTop_toBottomOf="@+id/ad_name"
+                app:layout_constraintBottom_toTopOf="@id/ad_genre"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textStyle="italic"
+                android:text="@{album.releaseDate}" />
+
+            <TextView
+                android:id="@+id/ad_genre"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintTop_toBottomOf="@+id/ad_release_date"
+                app:layout_constraintBottom_toBottomOf="@id/ad_record_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="18sp"
+                android:text="@{album.genre}"
+                android:textStyle="bold"
+                tools:text="Salsa" />
+
+            <TextView
+                android:id="@+id/ad_record_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintTop_toBottomOf="@+id/ad_genre"
+                app:layout_constraintBottom_toBottomOf="@id/ad_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="18sp"
+                android:text="@{album.recordLabel}"
+                android:textStyle="italic"
+                tools:text="Elektra" />
+
+            <TextView
+                android:id="@+id/ad_description"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/ad_record_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="18sp"
+                android:text="@{album.description}"
+                tools:text="Descripción" />
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
