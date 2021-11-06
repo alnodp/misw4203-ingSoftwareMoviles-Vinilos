@@ -63,7 +63,7 @@ class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(), 
     }
 
     override fun getItemCount(): Int {
-        return artists.size
+        return artistsFiltered.size
     }
 
     override fun getFilter(): Filter {
