@@ -3,6 +3,7 @@ package com.example.proyectomoviles.ui
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.example.proyectomoviles.adapters.ComentariosAdapter
 import com.example.proyectomoviles.databinding.AlbumFragmentBinding
 import com.example.proyectomoviles.databinding.AlbumesFragmentBinding
 import com.example.proyectomoviles.models.Album
+import com.example.proyectomoviles.models.Comment
 import com.example.proyectomoviles.viewmodels.AlbumViewModel
 import com.example.proyectomoviles.viewmodels.AlbumesViewModel
 import com.squareup.picasso.Picasso
@@ -41,7 +43,7 @@ class AlbumFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView = binding.comentariosList
+        recyclerView = binding.comentariosRV
         recyclerView.layoutManager = GridLayoutManager(context, 2)
         recyclerView.adapter = viewModelAdapter
     }
@@ -53,20 +55,33 @@ class AlbumFragment : Fragment() {
         }
         viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application, 100)).get(
             AlbumViewModel::class.java)
+
+
         viewModel.album.observe(viewLifecycleOwner, Observer<Album> {
-            binding.album = it
+
+            Log.d("COMMENTS", it.comments.toString())
+            Log.d("PERFORMERS", it.performers.toString())
+            Log.d("TRACKS", it.tracks.toString())
 
             it.apply {
+                binding.album = this
                 Picasso.get()
                     .load(it.cover)
                     .placeholder(R.drawable.ic_album)
                     .error(R.drawable.ic_artist)
                     .into(binding.adCover);
+
+
+                val values = this.comments + this.comments + this.comments
+                viewModelAdapter!!.comments = values
+
                 if(it.comments.isNotEmpty()){
-                    binding.comentariosList.visibility = View.VISIBLE
+                    binding.comentariosRV.visibility = View.VISIBLE
                 }else{
-                    binding.comentariosList.visibility = View.GONE
+                    binding.comentariosRV.visibility = View.GONE
                 }
+
+
             }
         })
 

@@ -25,21 +25,20 @@ class ComentariosAdapter() : RecyclerView.Adapter<ComentariosAdapter.CommentView
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComentariosAdapter.CommentViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val withDataBinding: ListItemComentariosBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            ComentariosAdapter.CommentViewHolder.LAYOUT,
+            CommentViewHolder.LAYOUT,
             parent,
             false)
-        return ComentariosAdapter.CommentViewHolder(withDataBinding)
+        return CommentViewHolder(withDataBinding)
     }
 
-    override fun onBindViewHolder(holder: ComentariosAdapter.CommentViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         holder.viewDataBinding.also {
             it.comment = comments[position]
         }
     }
-
 
     override fun getItemCount(): Int {
         return comments.size

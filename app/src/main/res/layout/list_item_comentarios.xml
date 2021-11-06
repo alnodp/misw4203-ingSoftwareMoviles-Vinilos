@@ -9,27 +9,35 @@
         <variable name="comment" type="com.example.proyectomoviles.models.Comment"/>
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/item_comment_Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/cdDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="@{comment.description}"
-            tools:text="The most relevant album of Ruben Blades" />
 
-        <TextView
-            android:id="@+id/cdRating"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="@{comment.rating}"
-            tools:text="5" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <TextView
+                android:id="@+id/cdDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{comment.description}"
+                android:textSize="14sp"
+                tools:text="The most relevant album of Ruben Blades" />
+
+            <TextView
+                android:id="@+id/cdRating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{comment.rating}"
+                android:textSize="14sp"
+                tools:text="5" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -39,8 +39,8 @@ class NetworkServiceAdapter constructor(context: Context) {
             for (i in 0 until resp.length()) {
                 val item = resp.getJSONObject(i)
                 //TODO add tracks and comments
-                val performers = mutableListOf<Performer>()
 
+                val performers = mutableListOf<Performer>()
                 if (item.has("performers")){
                     val performersJsonArray = item.getJSONArray("performers")
                     for(index in 0 until performersJsonArray.length()){
@@ -95,17 +95,21 @@ class NetworkServiceAdapter constructor(context: Context) {
                     )
                 }
 
-                val performersList: JSONArray = resp.getJSONArray("performers")
                 val performers = mutableListOf<Performer>()
-                var performer: JSONObject? = null
-
-                for (i in 0 until performersList.length()) {
-                    performer = performersList.getJSONObject(i)
-                    performers.add(
-                        Performer(performer.getInt("id").toInt(), performer.getString("name"),
-                            performer.getString("image"), performer.getString("description"),
-                            performer.getString("birthDate"))
-                    )
+                if (resp.has("performers")){
+                    val performersJsonArray = resp.getJSONArray("performers")
+                    for(index in 0 until performersJsonArray.length()){
+                        val perfItem = performersJsonArray.getJSONObject(index)
+                        performers.add(
+                            Performer(
+                                id = perfItem.getInt("id"),
+                                name = perfItem.getString("name"),
+                                image = perfItem.getString("image"),
+                                description = perfItem.getString("description"),
+                                birthDate = if (perfItem.has("birthDate")) perfItem.getString("birthDate") else "",
+                            )
+                        )
+                    }
                 }
 
                 val tracksList: JSONArray = resp.getJSONArray("tracks")
@@ -115,15 +119,25 @@ class NetworkServiceAdapter constructor(context: Context) {
                 for (i in 0 until tracksList.length()) {
                     track = tracksList.getJSONObject(i)
                     tracks.add(
-                        Track(track.getInt("id").toInt(), track.getString("name"),
-                            track.getString("duration"))
+                        Track(
+                            track.getInt("id"),
+                            track.getString("name"),
+                            track.getString("duration")
+                        )
                     )
                 }
 
                 val album: Album = Album(
-                    albumId, resp.getString("name"), resp.getString("name"),
-                    resp.getString("name"), resp.getString("releaseDate"), resp.getString("genre"),
-                    resp.getString("description"), comments, performers, tracks
+                    id = resp.getInt("id"),
+                    name = resp.getString("name"),
+                    cover = resp.getString("cover"),
+                    recordLabel = resp.getString("recordLabel"),
+                    releaseDate = resp.getString("releaseDate"),
+                    genre = resp.getString("genre"),
+                    description = resp.getString("description"),
+                    comments = comments,
+                    performers = performers,
+                    tracks = tracks
                 )
 
                 onComplete(album)
