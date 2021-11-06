@@ -7,7 +7,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.viewpager.widget.ViewPager
+import com.example.proyectomoviles.adapters.SectionsPagerAdapter
 import com.example.proyectomoviles.databinding.ActivityMainBinding
+import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +21,22 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        val sectionsPagerAdapter = SectionsPagerAdapter(
+            this,
+            supportFragmentManager
+        )
+        val viewPager: ViewPager = binding.viewPager
+        viewPager.adapter = sectionsPagerAdapter
+
+        val tabs: TabLayout = binding.tabs
+        tabs.setupWithViewPager(viewPager)
+
+
+
+
+
 
         val navView: BottomNavigationView = binding.navView
 
