@@ -22,43 +22,43 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class ListarAlbumesHUTest {
+class ListarArtistasHUTest {
 
     @Rule
     @JvmField
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun listarAlbumesHUTest() {
+    fun listarArtistasHUTest() {
         val bottomNavigationItemView = onView(
             allOf(
-                withId(R.id.navigation_albumes), withContentDescription("Albumes"),
+                withId(R.id.navigation_artists), withContentDescription("Artistas"),
                 childAtPosition(
                     childAtPosition(
                         withId(R.id.nav_view),
                         0
                     ),
-                    1
+                    2
                 ),
                 isDisplayed()
             )
         )
         bottomNavigationItemView.perform(click())
 
-        Thread.sleep(7000) //Esperar a que datos de la API carguen
+        Thread.sleep(7000) //Esperar a que la API retorne los Artistas
 
         val recyclerView = onView(
             allOf(
-                withId(R.id.albumesRV),
+                withId(R.id.rvArtist),
                 withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java))),
                 isDisplayed()
             )
         )
         recyclerView.check(matches(isDisplayed()))
 
-        val appCompatEditText = onView(
+        val appCompatEditText2 = onView(
             allOf(
-                withId(R.id.AlbumSearchEt),
+                withId(R.id.etArtistSearch),
                 childAtPosition(
                     childAtPosition(
                         withClassName(`is`("android.widget.FrameLayout")),
@@ -69,18 +69,33 @@ class ListarAlbumesHUTest {
                 isDisplayed()
             )
         )
-        appCompatEditText.perform(replaceText("a night at the opera"), closeSoftKeyboard())
+        appCompatEditText2.perform(click())
 
-        Thread.sleep(1000) //Esperar a que filtre los datos
+        val appCompatEditText3 = onView(
+            allOf(
+                withId(R.id.etArtistSearch),
+                childAtPosition(
+                    childAtPosition(
+                        withClassName(`is`("android.widget.FrameLayout")),
+                        1
+                    ),
+                    0
+                ),
+                isDisplayed()
+            )
+        )
+        appCompatEditText3.perform(replaceText("carlos"), closeSoftKeyboard())
+
+        Thread.sleep(1000) //Esperar a que se filtren los artistas
 
         val textView = onView(
             allOf(
-                withId(R.id.textView), withText("A Night at the Opera"),
+                withId(R.id.tvArtistName), withText("Carlos Vives"),
                 withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
                 isDisplayed()
             )
         )
-        textView.check(matches(withText("A Night at the Opera")))
+        textView.check(matches(withText("Carlos Vives")))
     }
 
     private fun childAtPosition(
