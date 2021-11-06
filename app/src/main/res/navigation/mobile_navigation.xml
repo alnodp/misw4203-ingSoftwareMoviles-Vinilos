@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/albumesFragment">
+    app:startDestination="@id/album_navigation">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -29,8 +29,18 @@
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
     <fragment
-        android:id="@+id/albumesFragment"
+        android:id="@+id/navigation_albumes"
         android:name="com.example.proyectomoviles.ui.AlbumesFragment"
-        android:label="@string/title_albumes"
-        tools:layout="@layout/albumes_fragment" />
+        android:label="@string/title_albumes" >
+        <action
+            android:id="@+id/action_navigation_albumes_to_album_navigation"
+            app:destination="@id/album_navigation" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/album_navigation"
+        android:name="com.example.proyectomoviles.ui.AlbumFragment"
+        android:label="@string/album_detail_title"
+        tools:layout="@layout/album_fragment" >
+    </fragment>
 </navigation>

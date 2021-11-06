@@ -4,13 +4,14 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.models.AlbumRepository
-import com.example.proyectomoviles.network.NetworkServiceAdapter
 
-class AlbumesViewModel(application: Application) : AndroidViewModel(application){
-    private val _albumes = MutableLiveData<List<Album>>()
+class AlbumViewModel(application: Application, albumId: Int) : AndroidViewModel(application){
+    private val _album = MutableLiveData<Album>()
 
-    val albumes: LiveData<List<Album>>
-        get() = _albumes
+    val album: LiveData<Album>
+        get() = _album
+
+    val id:Int = albumId
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -27,10 +28,8 @@ class AlbumesViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun getDataFromRepository() {
-        AlbumRepository.getInstance(getApplication()).getAlbums({
-            val list = it
-
-            _albumes.postValue(list)
+        AlbumRepository.getInstance(getApplication()).getAlbum(id, {
+            _album.postValue(it)
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false
         },{
@@ -42,11 +41,11 @@ class AlbumesViewModel(application: Application) : AndroidViewModel(application)
         _isNetworkErrorShown.value = true
     }
 
-    class Factory(val app: Application) : ViewModelProvider.Factory {
+    class Factory(val app: Application, val albumId: Int) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(AlbumesViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(AlbumViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return AlbumesViewModel(app) as T
+                return AlbumViewModel(app, albumId) as T
             }
             throw IllegalArgumentException("Unable to construct viewmodel")
         }
