@@ -12,12 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.example.proyectomoviles.R
+import com.example.proyectomoviles.adapters.SectionsPagerAdapter
 import com.example.proyectomoviles.adapters.ComentariosAdapter
 import com.example.proyectomoviles.adapters.PerformersAdapter
 import com.example.proyectomoviles.adapters.TracksAdapter
 import com.example.proyectomoviles.databinding.AlbumFragmentBinding
 import com.example.proyectomoviles.models.Album
+import com.google.android.material.tabs.TabLayout
 import com.example.proyectomoviles.viewmodels.AlbumViewModel
 import com.squareup.picasso.Picasso
 
@@ -30,10 +33,13 @@ class AlbumFragment : Fragment() {
     private lateinit var trackRecyclerView: RecyclerView
 
     private lateinit var viewModel: AlbumViewModel
-
     private var commentViewModelAdapter: ComentariosAdapter? = null
     private var performerViewModelAdapter: PerformersAdapter? = null
     private var trackViewModelAdapter: TracksAdapter? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,16 +47,13 @@ class AlbumFragment : Fragment() {
     ): View? {
         _binding = AlbumFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
-
         commentViewModelAdapter = ComentariosAdapter()
         performerViewModelAdapter = PerformersAdapter()
         trackViewModelAdapter = TracksAdapter()
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         commentRecyclerView = binding.comentariosRV
         commentRecyclerView.layoutManager = LinearLayoutManager(context)
         commentRecyclerView.adapter = commentViewModelAdapter
@@ -62,7 +65,6 @@ class AlbumFragment : Fragment() {
         trackRecyclerView = binding.tracksRV
         trackRecyclerView.layoutManager = LinearLayoutManager(context)
         trackRecyclerView.adapter = trackViewModelAdapter
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -86,6 +88,7 @@ class AlbumFragment : Fragment() {
                     .placeholder(R.drawable.ic_album)
                     .error(R.drawable.ic_artist)
                     .into(binding.adCover);
+
 
                 commentViewModelAdapter!!.comments = this.comments
                 performerViewModelAdapter!!.performers = this.performers

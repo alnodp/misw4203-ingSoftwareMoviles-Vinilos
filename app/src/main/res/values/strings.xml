@@ -11,6 +11,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="album_detail_title">Detalle de álbum</string>
+    <string name="tab_text_1">Comentarios</string>
+    <string name="tab_text_2">Tracks</string>
     <string name="rating_label">Puntuación: </string>
     <string name="cover_description">Imagen de interprete</string>
 </resources>
