@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.ArtistAdapter
+import com.example.proyectomoviles.databinding.ArtistFragmentBinding
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.viewmodels.ArtistsViewModel
 
@@ -23,7 +24,7 @@ class ArtistFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: ArtistsViewModel
-    private lateinit var filterAlbumET: EditText
+    private lateinit var etFilterArtist: EditText
     private var viewModelAdapter: ArtistAdapter? = null
 
     override fun onCreateView(
@@ -34,7 +35,7 @@ class ArtistFragment : Fragment() {
         binding.isLoading = true
 
         val view = binding.root
-        filterAlbumET = view.findViewById<EditText>(R.id.AlbumSearchEt)
+        etFilterArtist = view.findViewById<EditText>(R.id.etArtistSearch)
 
         viewModelAdapter = ArtistAdapter()
 
@@ -42,7 +43,7 @@ class ArtistFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView = binding
+        recyclerView = binding.rvArtist
         recyclerView.layoutManager = GridLayoutManager(context, 2)
         recyclerView.adapter = viewModelAdapter
     }
@@ -52,19 +53,19 @@ class ArtistFragment : Fragment() {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
         }
-        viewModel = ViewModelProvider(this, ArtistViewModel.Factory(activity.application)).get(
+        viewModel = ViewModelProvider(this, ArtistsViewModel.Factory(activity.application)).get(
             ArtistsViewModel::class.java)
-        viewModel.artist.observe(viewLifecycleOwner, Observer<List<Artist>> {
+        viewModel.artists.observe(viewLifecycleOwner, Observer<List<Artist>> {
             it.apply {
                 if(it.isNotEmpty()) binding.isLoading = false
                 viewModelAdapter!!.artists = this
             }
         })
 
-        filterAlbumET.addTextChangedListener(object: TextWatcher {
+        etFilterArtist.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                viewModelAdapter!!.artists.filter(charSequence)
+                viewModelAdapter!!.filter.filter(charSequence)
             }
             override fun afterTextChanged(editable: Editable) {}
         })
@@ -75,8 +76,8 @@ class ArtistFragment : Fragment() {
     }
 
     override fun onResume() {
-        viewModelAdapter!!.artists.filter("")
-        filterAlbumET.setText("")
+        viewModelAdapter!!.filter.filter("")
+        etFilterArtist.setText("")
         super.onResume()
     }
 

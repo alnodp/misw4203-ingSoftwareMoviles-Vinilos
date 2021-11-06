@@ -1,9 +1,10 @@
 package com.example.proyectomoviles.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Filter
+import android.widget.Filterable
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,13 +13,13 @@ import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.databinding.ListItemArtistsBinding
 import com.squareup.picasso.Picasso
 
-class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(){
+class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(), Filterable {
 
     class ArtistViewHolder(val viewDataBinding: ListItemArtistsBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
         companion object {
             @LayoutRes
-            val LAYOUT = R.layout.list_item_albumes
+            val LAYOUT = R.layout.list_item_artists
         }
     }
 
@@ -26,10 +27,13 @@ class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(){
         set(value) {
             field = value
             artistsFiltered = value
+            this.filter
             notifyDataSetChanged()
         }
 
     var artistsFiltered: List<Artist> = emptyList()
+
+    private var lastQuery: String = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistViewHolder {
         val withDataBinding: ListItemArtistsBinding = DataBindingUtil.inflate(
@@ -46,13 +50,48 @@ class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(){
             Picasso.get()
                 .load(it.artist!!.image)
                 .placeholder(R.drawable.ic_artist)
-                .error(R.drawable.ic_artist)
                 .into(it.ivArtistImage);
+        }
+
+        holder.viewDataBinding.root.setOnClickListener {
+            val text = "Navegar a Artista con id " + artistsFiltered[position].id
+            val duration = Toast.LENGTH_SHORT
+
+            val toast = Toast.makeText(holder.viewDataBinding.root.context, text, duration)
+            toast.show()
         }
     }
 
     override fun getItemCount(): Int {
         return artists.size
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                lastQuery = constraint?.toString()?.lowercase() ?: ""
+                val charString = lastQuery
+                if (charString.isEmpty()) artistsFiltered = artists else {
+                    val filteredList = ArrayList<Artist>()
+                    artists
+                        .filter {
+                            (it.name.lowercase().contains(lastQuery))
+                        }
+                        .forEach { filteredList.add(it) }
+                    artistsFiltered = filteredList
+                }
+                return FilterResults().apply { values = artistsFiltered }
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+
+                artistsFiltered = if (results?.values == null)
+                    emptyList()
+                else
+                    results.values as List<Artist>
+                notifyDataSetChanged()
+            }
+        }
     }
 
 

@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/navigation_artists"
-        android:name="com.example.proyectomoviles.ui.ArtistFragment2"
+        android:name="com.example.proyectomoviles.ui.ArtistFragment"
         android:label="@string/title_artists"
-        tools:layout="@layout/fragment_artist" />
+        tools:layout="@layout/artist_fragment" />
 
     <fragment
         android:id="@+id/navigation_notifications"

@@ -4,57 +4,37 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.models.ArtistRepository
-import java.lang.Exception
 
 class ArtistsViewModel(application: Application) : AndroidViewModel(application){
+    private val _artists = MutableLiveData<List<Artist>>()
 
-    private var artistRepository: ArtistRepository = ArtistRepository.getInstance(application)
+    val artists: LiveData<List<Artist>>
+        get() = _artists
 
-    private val _artist = MutableLiveData<List<Artist>>()
+    private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
-    val artist: LiveData<List<Artist>>
-        get() = _artist
+    val eventNetworkError: LiveData<Boolean>
+        get() = _eventNetworkError
+
+    private var _isNetworkErrorShown = MutableLiveData<Boolean>(false)
+
+    val isNetworkErrorShown: LiveData<Boolean>
+        get() = _isNetworkErrorShown
 
     init {
-        artistRepository.getArtist({
-            _artist.value = it
-        }, {
-            throw Exception("Fallo el llamado getArtist al repo")
-        })
+        getDataFromRepository()
     }
 
-
-    private fun refreshDataFromNetwork() {
-        // TODO: Que use el repositorio para traer datos, y cambiar el nombre del metodo
-
-        val tempList = mutableListOf<Artist>()
-        val _artist = Artist(
-            id = "1",
-            name = "Metallica",
-            image = "",
-            description = "Metal band",
-            creationDate = "1984-10-01"
-        )
-
-        tempList.add(_artist)
-        tempList.add(_artist)
-        tempList.add(_artist)
-
-        _artists.postValue(
-            tempList
-        )
-
-        /*
-        NetworkServiceAdapter.getInstance(getApplication()).getAlbums({
+    private fun getDataFromRepository() {
+        ArtistRepository.getInstance(getApplication()).getArtist({
             val list = it
 
-            _albums.postValue(list)
+            _artists.postValue(list)
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false
         },{
             _eventNetworkError.value = true
         })
-         */
     }
 
     fun onNetworkErrorShown() {
@@ -67,7 +47,7 @@ class ArtistsViewModel(application: Application) : AndroidViewModel(application)
                 @Suppress("UNCHECKED_CAST")
                 return ArtistsViewModel(app) as T
             }
-            throw IllegalArgumentException("Unable to construct viewmodel")
+            throw IllegalArgumentException("Unable to construct artistviewmodel")
         }
     }
 }
