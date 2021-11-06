@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.databinding.ListItemArtistsBinding
+import com.squareup.picasso.Picasso
 
 class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(){
 
@@ -24,8 +25,11 @@ class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(){
     var artists :List<Artist> = emptyList()
         set(value) {
             field = value
+            artistsFiltered = value
             notifyDataSetChanged()
         }
+
+    var artistsFiltered: List<Artist> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistViewHolder {
         val withDataBinding: ListItemArtistsBinding = DataBindingUtil.inflate(
@@ -38,7 +42,12 @@ class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(){
 
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
         holder.viewDataBinding.also {
-            it.artist = artists[position]
+            it.artist = artistsFiltered[position]
+            Picasso.get()
+                .load(it.artist!!.image)
+                .placeholder(R.drawable.ic_artist)
+                .error(R.drawable.ic_artist)
+                .into(it.ivArtistImage);
         }
     }
 

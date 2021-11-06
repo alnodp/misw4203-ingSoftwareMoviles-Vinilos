@@ -1,7 +1,7 @@
 package com.example.proyectomoviles.models
 
 open class Artist (
-    val id: String,
+    val id: Int,
     val name: String,
     val image: String,
     val description: String,

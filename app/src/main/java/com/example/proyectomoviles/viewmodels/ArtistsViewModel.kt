@@ -2,7 +2,6 @@ package com.example.proyectomoviles.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.models.ArtistRepository
 import java.lang.Exception
