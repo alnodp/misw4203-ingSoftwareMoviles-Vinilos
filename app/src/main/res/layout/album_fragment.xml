@@ -58,8 +58,22 @@
                 android:id="@+id/comentariosRV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/list_item_comentarios" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tracksRV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/list_item_tracks" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/performersRV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/list_item_performers" />
 
         </LinearLayout>
 
