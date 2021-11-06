@@ -55,7 +55,7 @@ class CommentAlbumFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, CommentAlbumViewModel.Factory(activity?.application!!, 100)).get(
             CommentAlbumViewModel::class.java)
-        
+
         viewModel.album.observe(viewLifecycleOwner, Observer<Album> {
 
             Log.d("COMMENTS", it.comments.toString())
