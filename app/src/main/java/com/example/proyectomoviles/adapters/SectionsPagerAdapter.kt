@@ -5,10 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.proyectomoviles.MainActivity
 import com.example.proyectomoviles.R
-import com.example.proyectomoviles.ui.AlbumFragment
-import com.example.proyectomoviles.ui.AlbumesFragment
-import com.example.proyectomoviles.ui.CommentAlbumFragment
-import com.example.proyectomoviles.ui.DashboardFragment
+import com.example.proyectomoviles.ui.*
 
 private val TAB_TITLES = arrayOf(
     R.string.tab_text_1,
@@ -32,7 +29,7 @@ class SectionsPagerAdapter(private val context: MainActivity, fm: FragmentManage
         var fragment: Fragment? = null
         when (position) {
             0 -> fragment = CommentAlbumFragment()
-            1 -> fragment = AlbumFragment()
+            1 -> fragment = TrackAlbumFragment()
 //            2 -> fragment = DashboardFragment()
         }
         return fragment!!

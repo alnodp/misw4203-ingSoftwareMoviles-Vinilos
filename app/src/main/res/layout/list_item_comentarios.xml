@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{comment.description}"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 tools:text="The most relevant album of Ruben Blades" />
 
         <LinearLayout
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rating_label"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 tools:text="Puntuación: " />
 
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{comment.rating}"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 tools:text="5" />
 
         </LinearLayout>

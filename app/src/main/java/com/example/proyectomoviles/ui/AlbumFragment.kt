@@ -28,7 +28,7 @@ class AlbumFragment : Fragment() {
     private var _binding: AlbumFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var commentRecyclerView: RecyclerView
+//    private lateinit var commentRecyclerView: RecyclerView
     private lateinit var performerRecyclerView: RecyclerView
     private lateinit var trackRecyclerView: RecyclerView
 
@@ -39,6 +39,7 @@ class AlbumFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -54,9 +55,9 @@ class AlbumFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        commentRecyclerView = binding.comentariosRV
-        commentRecyclerView.layoutManager = LinearLayoutManager(context)
-        commentRecyclerView.adapter = commentViewModelAdapter
+//        commentRecyclerView = binding.comentariosRV
+//        commentRecyclerView.layoutManager = LinearLayoutManager(context)
+//        commentRecyclerView.adapter = commentViewModelAdapter
 
         performerRecyclerView = binding.performersRV
         performerRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -75,7 +76,7 @@ class AlbumFragment : Fragment() {
         viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application, 100)).get(
             AlbumViewModel::class.java)
 
-        viewModel.album.observe(viewLifecycleOwner, Observer<Album> {
+        viewModel.album.observe(viewLifecycleOwner,     Observer<Album> {
 
             Log.d("COMMENTS", it.comments.toString())
             Log.d("PERFORMERS", it.performers.toString())
@@ -95,10 +96,10 @@ class AlbumFragment : Fragment() {
                 trackViewModelAdapter!!.tracks = this.tracks
 
                 if(it.comments.isNotEmpty()){
-                    binding.comentariosRV.visibility = View.VISIBLE
+//                    binding.comentariosRV.visibility = View.VISIBLE
                     binding.tracksRV.visibility = View.VISIBLE
                 }else{
-                    binding.comentariosRV.visibility = View.GONE
+//                    binding.comentariosRV.visibility = View.GONE
                     binding.tracksRV.visibility = View.GONE
                 }
 
