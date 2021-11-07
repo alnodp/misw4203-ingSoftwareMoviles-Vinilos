@@ -9,25 +9,21 @@
         android:id="@+id/navigation_home"
         android:name="com.example.proyectomoviles.ui.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.proyectomoviles.ui.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_albumes"
+            app:destination="@id/navigation_albumes" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_artists"
+            app:destination="@id/navigation_artists" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_artists"
         android:name="com.example.proyectomoviles.ui.ArtistFragment"
         android:label="@string/title_artists"
-        tools:layout="@layout/fragment_artist" />
+        tools:layout="@layout/artist_fragment" />
 
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.proyectomoviles.ui.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/navigation_albumes"
         android:name="com.example.proyectomoviles.ui.AlbumesFragment"

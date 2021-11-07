@@ -11,6 +11,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.models.Comment
+import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.models.Performer
 import com.example.proyectomoviles.models.Track
 import org.json.JSONArray
@@ -68,6 +69,29 @@ class NetworkServiceAdapter constructor(context: Context) {
                         genre = item.getString("genre"),
                         description = item.getString("description"),
                         performers = performers
+                    )
+                )
+            }
+            onComplete(list)
+        }, {
+            onError(it)
+        }))
+    }
+
+    fun getArtists(onComplete:(resp:List<Artist>)->Unit, onError: (error: VolleyError)->Unit){
+        requestQueue.add(getRequest("musicians", { response ->
+            val resp = JSONArray(response)
+            val list = mutableListOf<Artist>()
+            for (i in 0 until resp.length()) {
+                val item = resp.getJSONObject(i)
+                list.add(
+                    i,
+                    Artist(
+                        id = item.getInt("id"),
+                        name = item.getString("name"),
+                        description = item.getString("description"),
+                        image = item.getString("image"),
+                        birthDate = item.getString("birthDate")
                     )
                 )
             }
