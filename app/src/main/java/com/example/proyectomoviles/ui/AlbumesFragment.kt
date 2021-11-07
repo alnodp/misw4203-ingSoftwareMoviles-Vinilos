@@ -38,6 +38,8 @@ class AlbumesFragment : Fragment() {
         filterAlbumET = view.findViewById<EditText>(R.id.AlbumSearchEt)
 
         viewModelAdapter = AlbumesAdapter()
+
+
         return view
     }
 

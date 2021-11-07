@@ -60,19 +60,12 @@ class AlbumesAdapter() : RecyclerView.Adapter<AlbumesAdapter.AlbumViewHolder>(),
                 .error(R.drawable.ic_artist)
                 .into(it.albumItemCoverIv)
         }
-        // TODO Configurar click para lanzar fragmento detalle album, on click album
 
         holder.viewDataBinding.root.setOnClickListener {
-//            val toast = Toast.makeText(holder.viewDataBinding.root.context, text, duration)
-//            toast.show()
-
-            holder.viewDataBinding.root.setOnClickListener {
-                val action = AlbumesFragmentDirections.actionAlbumesFragmentToAlbumFragment(albums[position].id)
-                // Navigate using that action
-                holder.viewDataBinding.root.findNavController().navigate(action)
-            }
+            val action = AlbumesFragmentDirections.actionAlbumesFragmentToAlbumFragment(albums[position].id)
+            // Navigate using that action
+            holder.viewDataBinding.root.findNavController().navigate(action)
         }
-
     }
 
     override fun getItemCount(): Int {

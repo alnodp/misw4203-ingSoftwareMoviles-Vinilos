@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,13 +29,11 @@ class CommentAlbumFragment : Fragment() {
     private val binding get() = _binding
     private lateinit var viewModel: CommentAlbumViewModel
 
-
-
+    private var albumId : Int? = null
+    private val ALBUMID_ARG = "albumId"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,19 +49,21 @@ class CommentAlbumFragment : Fragment() {
         recyclerView = binding!!.comentariosRV
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = viewModelAdapter
+
+        arguments?.takeIf { it.containsKey(ALBUMID_ARG) }?.apply {
+            albumId = getInt(ALBUMID_ARG)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, CommentAlbumViewModel.Factory(activity?.application!!, 4)).get(
+        if (albumId == null)
+            throw Exception("albumId no esta inicializado en CommentAlbum")
+
+        viewModel = ViewModelProvider(this, CommentAlbumViewModel.Factory(activity?.application!!, albumId!!)).get(
             CommentAlbumViewModel::class.java)
 
         viewModel.album.observe(viewLifecycleOwner, Observer<Album> {
-
-            Log.d("COMMENTS", it.comments.toString())
-            Log.d("PERFORMERS", it.performers.toString())
-            Log.d("TRACKS", it.tracks.toString())
-
             it.apply {
                 binding!!.album = this
                 Picasso.get()

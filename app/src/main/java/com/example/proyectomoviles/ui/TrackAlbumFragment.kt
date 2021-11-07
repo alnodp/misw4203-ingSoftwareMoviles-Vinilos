@@ -28,6 +28,9 @@ class TrackAlbumFragment : Fragment() {
     private val binding get() = _binding
     private lateinit var viewModel: TrackAlbumViewModel
 
+    private var albumId : Int? = null
+    private val ALBUMID_ARG = "albumId"
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,27 +46,27 @@ class TrackAlbumFragment : Fragment() {
         trackRecyclerView = binding!!.tracksRV
         trackRecyclerView.layoutManager = LinearLayoutManager(context)
         trackRecyclerView.adapter = viewModelAdapter
+
+        arguments?.takeIf { it.containsKey(ALBUMID_ARG) }?.apply {
+            albumId = getInt(ALBUMID_ARG)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, TrackAlbumViewModel.Factory(activity?.application!!, 100)).get(
+        if (albumId == null)
+            throw Exception("albumId no esta inicializado en CommentAlbum")
+
+        viewModel = ViewModelProvider(this, TrackAlbumViewModel.Factory(activity?.application!!, albumId!!)).get(
             TrackAlbumViewModel::class.java)
 
         viewModel.album.observe(viewLifecycleOwner, Observer<Album> {
-
-            Log.d("COMMENTS", it.comments.toString())
-            Log.d("PERFORMERS", it.performers.toString())
-            Log.d("TRACKS", it.tracks.toString())
-
             it.apply {
                 binding!!.album = this
                 Picasso.get()
                     .load(it.cover)
                     .placeholder(R.drawable.ic_album)
                     .error(R.drawable.ic_artist)
-
-
 
                 val values = this.tracks
                 viewModelAdapter!!.tracks = values
