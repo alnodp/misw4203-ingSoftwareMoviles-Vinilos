@@ -10,12 +10,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.ComentariosAdapter
-import com.example.proyectomoviles.databinding.AlbumFragmentBinding
 import com.example.proyectomoviles.databinding.CommentAlbumFragmentBinding
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.viewmodels.AlbumViewModel
