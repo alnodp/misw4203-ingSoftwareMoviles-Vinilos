@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         val sectionsPagerAdapter = SectionsPagerAdapter(
             this,
             supportFragmentManager

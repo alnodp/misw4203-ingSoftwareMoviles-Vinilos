@@ -1,9 +1,9 @@
 package com.example.proyectomoviles.adapters
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.proyectomoviles.MainActivity
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.ui.*
 
@@ -12,7 +12,7 @@ private val TAB_TITLES = arrayOf(
     R.string.tab_text_2
 )
 
-class SectionsPagerAdapter(private val context: MainActivity, fm: FragmentManager) :
+class SectionsPagerAdapter(private val context: FragmentActivity?, fm: FragmentManager) :
     FragmentPagerAdapter(fm) {
 
 
@@ -20,7 +20,7 @@ class SectionsPagerAdapter(private val context: MainActivity, fm: FragmentManage
 
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return context.resources.getString(TAB_TITLES[position])
+        return context!!.resources.getString(TAB_TITLES[position])
     }
 
 

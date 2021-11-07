@@ -54,7 +54,7 @@ class CommentAlbumFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, CommentAlbumViewModel.Factory(activity?.application!!, 100)).get(
+        viewModel = ViewModelProvider(this, CommentAlbumViewModel.Factory(activity?.application!!, 4)).get(
             CommentAlbumViewModel::class.java)
 
         viewModel.album.observe(viewLifecycleOwner, Observer<Album> {
@@ -69,9 +69,6 @@ class CommentAlbumFragment : Fragment() {
                     .load(it.cover)
                     .placeholder(R.drawable.ic_album)
                     .error(R.drawable.ic_artist)
-
-
-
                 val values = this.comments
                 viewModelAdapter!!.comments = values
 

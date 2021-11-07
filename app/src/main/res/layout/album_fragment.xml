@@ -97,23 +97,10 @@
                 android:text="@{album.description}"
                 tools:text="Descripción" />
 
-            <com.google.android.material.appbar.AppBarLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="MissingConstraints">
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
-            </com.google.android.material.appbar.AppBarLayout>
-
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/comentariosRV"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                tools:listitem="@layout/list_item_tracks" />-->
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_pager"
@@ -135,7 +122,5 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/list_item_performers" />
         </LinearLayout>
-
     </FrameLayout>
-
 </layout>
