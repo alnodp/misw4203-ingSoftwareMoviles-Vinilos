@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -68,12 +69,13 @@ class AlbumFragment : Fragment() {
         trackRecyclerView.adapter = trackViewModelAdapter
     }
 
+    val args: AlbumFragmentArgs by navArgs()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
         }
-        viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application, 100)).get(
+        viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application, args.albumId)).get(
             AlbumViewModel::class.java)
 
         viewModel.album.observe(viewLifecycleOwner,     Observer<Album> {
