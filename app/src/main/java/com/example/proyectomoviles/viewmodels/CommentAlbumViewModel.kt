@@ -43,7 +43,7 @@ class CommentAlbumViewModel (application: Application, albumId: Int) : AndroidVi
     }
 
     class Factory(val app: Application, val albumId: Int) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(CommentAlbumViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
                 return CommentAlbumViewModel(app, albumId) as T

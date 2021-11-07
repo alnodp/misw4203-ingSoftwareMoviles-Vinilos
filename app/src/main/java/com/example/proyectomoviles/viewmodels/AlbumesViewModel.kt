@@ -43,7 +43,7 @@ class AlbumesViewModel(application: Application) : AndroidViewModel(application)
     }
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(AlbumesViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
                 return AlbumesViewModel(app) as T
