@@ -27,5 +27,20 @@
     <fragment
         android:id="@+id/navigation_albumes"
         android:name="com.example.proyectomoviles.ui.AlbumesFragment"
-        android:label="@string/title_albumes" />
+        android:label="@string/title_albumes"
+        tools:layout="@layout/albumes_fragment">
+        <action
+            android:id="@+id/action_albumesFragment_to_albumFragment"
+            app:destination="@id/albumFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.example.proyectomoviles.ui.AlbumFragment"
+        android:label="@string/album_detail_title"
+        tools:layout="@layout/album_fragment" >
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

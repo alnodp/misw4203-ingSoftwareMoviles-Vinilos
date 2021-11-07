@@ -10,8 +10,10 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.proyectomoviles.models.Album
+import com.example.proyectomoviles.models.Comment
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.models.Performer
+import com.example.proyectomoviles.models.Track
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -38,8 +40,8 @@ class NetworkServiceAdapter constructor(context: Context) {
             for (i in 0 until resp.length()) {
                 val item = resp.getJSONObject(i)
                 //TODO add tracks and comments
-                val performers = mutableListOf<Performer>()
 
+                val performers = mutableListOf<Performer>()
                 if (item.has("performers")){
                     val performersJsonArray = item.getJSONArray("performers")
                     for(index in 0 until performersJsonArray.length()){
@@ -97,6 +99,76 @@ class NetworkServiceAdapter constructor(context: Context) {
         }, {
             onError(it)
         }))
+    }
+
+    fun getAlbum(albumId: Int, onComplete: (resp: Album) -> Unit, onError: (error: VolleyError) -> Unit) {
+        requestQueue.add(getRequest("albums/$albumId",
+            { response ->
+                Log.d("tagb", response)
+                val resp = JSONObject(response)
+
+                val commentsList: JSONArray = resp.getJSONArray("comments")
+                val comments = mutableListOf<Comment>()
+                var comment: JSONObject? = null
+
+                for (i in 0 until commentsList.length()) {
+                    comment = commentsList.getJSONObject(i)
+                    comments.add(
+                        Comment(comment.getString("description"),
+                            comment.getInt("rating").toString(), albumId)
+                    )
+                }
+
+                val performers = mutableListOf<Performer>()
+                if (resp.has("performers")){
+                    val performersJsonArray = resp.getJSONArray("performers")
+                    for(index in 0 until performersJsonArray.length()){
+                        val perfItem = performersJsonArray.getJSONObject(index)
+                        performers.add(
+                            Performer(
+                                id = perfItem.getInt("id"),
+                                name = perfItem.getString("name"),
+                                image = perfItem.getString("image"),
+                                description = perfItem.getString("description"),
+                                birthDate = if (perfItem.has("birthDate")) perfItem.getString("birthDate") else "",
+                            )
+                        )
+                    }
+                }
+
+                val tracksList: JSONArray = resp.getJSONArray("tracks")
+                val tracks = mutableListOf<Track>()
+                var track: JSONObject? = null
+
+                for (i in 0 until tracksList.length()) {
+                    track = tracksList.getJSONObject(i)
+                    tracks.add(
+                        Track(
+                            track.getInt("id"),
+                            track.getString("name"),
+                            track.getString("duration")
+                        )
+                    )
+                }
+
+                val album: Album = Album(
+                    id = resp.getInt("id"),
+                    name = resp.getString("name"),
+                    cover = resp.getString("cover"),
+                    recordLabel = resp.getString("recordLabel"),
+                    releaseDate = resp.getString("releaseDate"),
+                    genre = resp.getString("genre"),
+                    description = resp.getString("description"),
+                    comments = comments,
+                    performers = performers,
+                    tracks = tracks
+                )
+
+                onComplete(album)
+            },
+            {
+                onError(it)
+            }))
     }
 
     /*

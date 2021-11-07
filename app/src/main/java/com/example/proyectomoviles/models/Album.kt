@@ -1,7 +1,5 @@
 package com.example.proyectomoviles.models
 
-import androidx.room.Entity
-
 data class Album(
     val id:Int,
     val name:String,
@@ -10,9 +8,9 @@ data class Album(
     val description:String,
     val genre:String,
     val recordLabel:String,
-    val performers: List<Performer> = mutableListOf<Performer>()
-    // TODO tracks
-    // TODO comments
+    val comments: List<Comment> = mutableListOf<Comment>(),
+    val performers: List<Performer> = mutableListOf<Performer>(),
+    val tracks: List<Track> = mutableListOf<Track>()
 ){
     val artistaRepresentation : String
         get() {
@@ -24,6 +22,15 @@ data class Album(
                     resp += ",..,"
                     resp += performers.last().name
                 }
+            }
+            return resp
+        }
+
+    val formattedReleaseDate : String
+        get() {
+            var resp = ""
+            if ( releaseDate.isNotBlank()) {
+                resp = releaseDate.substring(0, 10)
             }
             return resp
         }

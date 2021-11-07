@@ -7,4 +7,12 @@ data class Performer(
     val description: String,
     val birthDate: String
 ) {
+    val formattedBirthDate : String
+        get() {
+            var resp = ""
+            if (birthDate.isNotBlank()) {
+                resp = birthDate.substring(0, 10)
+            }
+            return resp
+        }
 }

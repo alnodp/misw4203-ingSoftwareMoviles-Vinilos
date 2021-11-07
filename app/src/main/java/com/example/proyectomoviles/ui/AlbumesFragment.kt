@@ -40,7 +40,6 @@ class AlbumesFragment : Fragment() {
         viewModelAdapter = AlbumesAdapter()
 
 
-
         return view
     }
 

@@ -1,5 +1,6 @@
 package com.example.proyectomoviles.adapters
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +11,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.databinding.ListItemAlbumesBinding
 import com.squareup.picasso.Picasso
+import com.example.proyectomoviles.ui.AlbumesFragmentDirections
 
 class AlbumesAdapter() : RecyclerView.Adapter<AlbumesAdapter.AlbumViewHolder>(), Filterable {
 
@@ -29,6 +32,7 @@ class AlbumesAdapter() : RecyclerView.Adapter<AlbumesAdapter.AlbumViewHolder>(),
     }
 
     var albums :List<Album> = emptyList()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             albumsFiltered = value
@@ -54,23 +58,14 @@ class AlbumesAdapter() : RecyclerView.Adapter<AlbumesAdapter.AlbumViewHolder>(),
                 .load(it.album!!.cover)
                 .placeholder(R.drawable.ic_album)
                 .error(R.drawable.ic_artist)
-                .into(it.albumItemCoverIv);
+                .into(it.albumItemCoverIv)
         }
-        // TODO Configurar click para lanzar fragmento detalle album, on click album
 
         holder.viewDataBinding.root.setOnClickListener {
-            val text = "Navegar a Album con id " + albumsFiltered[position].id
-            val duration = Toast.LENGTH_SHORT
-
-            val toast = Toast.makeText(holder.viewDataBinding.root.context, text, duration)
-            toast.show()
-            /*
-            val action = AlbumFragmentDirections.actionAlbumFragmentToCommentFragment(albums[position].albumId)
+            val action = AlbumesFragmentDirections.actionAlbumesFragmentToAlbumFragment(albumsFiltered[position].id)
             // Navigate using that action
             holder.viewDataBinding.root.findNavController().navigate(action)
-            */
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -94,13 +89,14 @@ class AlbumesAdapter() : RecyclerView.Adapter<AlbumesAdapter.AlbumViewHolder>(),
                 return FilterResults().apply { values = albumsFiltered }
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
 
                 albumsFiltered = if (results?.values == null)
                     emptyList()
                 else
                     results.values as List<Album>
-                notifyDataSetChanged()
+                    notifyDataSetChanged()
             }
         }
     }
