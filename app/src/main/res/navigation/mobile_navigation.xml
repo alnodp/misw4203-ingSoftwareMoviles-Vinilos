@@ -3,23 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.proyectomoviles.ui.home.HomeFragment"
+        android:name="com.example.proyectomoviles.ui.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_albumes"
+            app:destination="@id/navigation_albumes" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_artists"
+            app:destination="@id/navigation_artists" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.proyectomoviles.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_artists"
+        android:name="com.example.proyectomoviles.ui.ArtistFragment"
+        android:label="@string/title_artists"
+        tools:layout="@layout/artist_fragment" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.proyectomoviles.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_albumes"
+        android:name="com.example.proyectomoviles.ui.AlbumesFragment"
+        android:label="@string/title_albumes"
+        tools:layout="@layout/albumes_fragment">
+        <action
+            android:id="@+id/action_albumesFragment_to_albumFragment"
+            app:destination="@id/albumFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.example.proyectomoviles.ui.AlbumFragment"
+        android:label="@string/album_detail_title"
+        tools:layout="@layout/album_fragment" >
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
+    </fragment>
 </navigation>
