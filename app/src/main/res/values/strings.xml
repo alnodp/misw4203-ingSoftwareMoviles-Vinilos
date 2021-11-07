@@ -15,4 +15,5 @@
     <string name="tab_text_2">Tracks</string>
     <string name="rating_label">Puntuación: </string>
     <string name="cover_description">Imagen de interprete</string>
+    <string name="comment_rating_label">Rating</string>
 </resources>
