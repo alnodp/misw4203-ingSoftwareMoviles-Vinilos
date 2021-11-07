@@ -25,5 +25,14 @@ data class Album(
             }
             return resp
         }
+
+    val formattedReleaseDate : String
+        get() {
+            var resp = ""
+            if ( releaseDate.isNotBlank()) {
+                resp = releaseDate.substring(0, 10)
+            }
+            return resp
+        }
 }
 

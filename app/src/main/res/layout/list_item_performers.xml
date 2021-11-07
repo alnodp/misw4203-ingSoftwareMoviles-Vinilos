@@ -71,7 +71,7 @@
                         android:layout_marginEnd="3dp"
                         android:textSize="15sp"
                         android:textStyle="italic"
-                        android:text="@{performer.birthDate}"
+                        android:text="@{performer.formattedBirthDate}"
                         tools:text="1948-07-16" />
 
                 </LinearLayout>

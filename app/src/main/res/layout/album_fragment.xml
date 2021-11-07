@@ -58,7 +58,7 @@
                         tools:text="1984/08/01"
                         android:textSize="16sp"
                         android:textStyle="italic"
-                        android:text="@{album.releaseDate}" />
+                        android:text="@{album.formattedReleaseDate}" />
 
                     <TextView
                         android:id="@+id/ad_genre"
@@ -103,7 +103,7 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"/>
+                app:tabTextAppearance="@style/MyTabLayoutTextAppearance" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/pager"
