@@ -1,31 +1,19 @@
 package com.example.proyectomoviles.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.SectionsPagerAdapter
-import com.example.proyectomoviles.adapters.ComentariosAdapter
-import com.example.proyectomoviles.adapters.PerformersAdapter
-import com.example.proyectomoviles.adapters.TracksAdapter
 import com.example.proyectomoviles.databinding.AlbumFragmentBinding
 import com.example.proyectomoviles.models.Album
-import com.google.android.material.tabs.TabLayout
 import com.example.proyectomoviles.viewmodels.AlbumViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
@@ -39,13 +27,9 @@ class AlbumFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
 
     private lateinit var viewModel: AlbumViewModel
-    private var commentViewModelAdapter: ComentariosAdapter? = null
-    private var performerViewModelAdapter: PerformersAdapter? = null
-    private var trackViewModelAdapter: TracksAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -54,9 +38,6 @@ class AlbumFragment : Fragment() {
     ): View? {
         _binding = AlbumFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
-        commentViewModelAdapter = ComentariosAdapter()
-        performerViewModelAdapter = PerformersAdapter()
-        trackViewModelAdapter = TracksAdapter()
         return view
     }
 
@@ -65,7 +46,7 @@ class AlbumFragment : Fragment() {
         viewPager = binding.pager
         viewPager.adapter = sectionsCollectionAdapter
 
-        val tabNames = arrayListOf<String>("Comentarios","Canciones")
+        val tabNames = arrayListOf<String>("Canciones", "Intérpretes", "Comentarios")
         val tabLayout = binding.tabLayout
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabNames[position]

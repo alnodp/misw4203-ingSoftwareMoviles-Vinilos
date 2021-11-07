@@ -8,76 +8,78 @@
         <variable name="performer" type="com.example.proyectomoviles.models.Performer"/>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/pdImage"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@color/gray"
                 android:scaleType="centerInside"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintEnd_toStartOf="@id/pd_info"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 tools:srcCompat="@drawable/ic_launcher_background"
                 android:contentDescription="@string/cover_description" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/pd_info"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_height="80dp"
-                android:layout_width="220dp">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/pd_name"
-                    android:layout_width="220dp"
-                    android:layout_height="40dp"
-                    app:layout_constraintHorizontal_bias="0.05"
-                    app:layout_constraintVertical_bias="0.05"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:text="@{performer.name}"
                     tools:text="Rubén Blades Bellido de Luna" />
 
-                <TextView
-                    android:id="@+id/pd_birth_date"
-                    android:layout_width="220dp"
-                    android:layout_height="40dp"
-                    app:layout_constraintHorizontal_bias="0.05"
-                    app:layout_constraintVertical_bias="0.05"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/pd_name"
-                    android:textSize="14sp"
-                    android:textStyle="italic"
-                    android:text="@{performer.birthDate}"
-                    tools:text="1948-07-16" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="15dp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/pd_birth_date_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:textSize="15sp"
+                        android:textStyle="italic"
+                        android:text="@string/pd_birdthdate_label"
+                        tools:text="Fecha de nacimiento: " />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                    <TextView
+                        android:id="@+id/pd_birth_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:textSize="15sp"
+                        android:textStyle="italic"
+                        android:text="@{performer.birthDate}"
+                        tools:text="1948-07-16" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </layout>

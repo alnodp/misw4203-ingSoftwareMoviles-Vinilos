@@ -11,18 +11,20 @@ import com.example.proyectomoviles.ui.*
 
 private val TAB_TITLES = arrayOf(
     R.string.tab_text_1,
-    R.string.tab_text_2
+    R.string.tab_text_2,
+    R.string.tab_text_3
 )
 
 class SectionsPagerAdapter(fragment: Fragment, private val albumId: Int) : FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = 3
 
     override fun createFragment(position: Int): Fragment {
         // Return a NEW fragment instance in createFragment(int)
         val fragment = when(position){
-            0 -> CommentAlbumFragment()
-            1 -> TrackAlbumFragment()
+            0 -> TrackAlbumFragment()
+            1 -> PerformerAlbumFragment()
+            2 -> CommentAlbumFragment()
             else -> throw Exception("No deberia pasar aca")
         }
 
