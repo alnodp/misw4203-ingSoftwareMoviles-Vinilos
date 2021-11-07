@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager.widget.ViewPager
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.SectionsPagerAdapter
@@ -28,7 +29,7 @@ class AlbumFragment : Fragment() {
     private var _binding: AlbumFragmentBinding? = null
     private val binding get() = _binding!!
 
-//    private lateinit var commentRecyclerView: RecyclerView
+    //    private lateinit var commentRecyclerView: RecyclerView
     private lateinit var performerRecyclerView: RecyclerView
     private lateinit var trackRecyclerView: RecyclerView
 
@@ -68,15 +69,16 @@ class AlbumFragment : Fragment() {
         trackRecyclerView.adapter = trackViewModelAdapter
     }
 
+    val args: AlbumFragmentArgs by navArgs()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
         }
-        viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application, 100)).get(
+        viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application, args.albumId)).get(
             AlbumViewModel::class.java)
 
-        viewModel.album.observe(viewLifecycleOwner,     Observer<Album> {
+        viewModel.album.observe(viewLifecycleOwner, {
 
             Log.d("COMMENTS", it.comments.toString())
             Log.d("PERFORMERS", it.performers.toString())
@@ -88,7 +90,7 @@ class AlbumFragment : Fragment() {
                     .load(it.cover)
                     .placeholder(R.drawable.ic_album)
                     .error(R.drawable.ic_artist)
-                    .into(binding.adCover);
+                    .into(binding.adCover)
 
 
                 commentViewModelAdapter!!.comments = this.comments
@@ -107,7 +109,7 @@ class AlbumFragment : Fragment() {
             }
         })
 
-        viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
+        viewModel.eventNetworkError.observe(viewLifecycleOwner, { isNetworkError ->
             if (isNetworkError) onNetworkError()
         })
     }
