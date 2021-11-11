@@ -9,11 +9,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.proyectomoviles.models.Album
-import com.example.proyectomoviles.models.Comment
-import com.example.proyectomoviles.models.Artist
-import com.example.proyectomoviles.models.Performer
-import com.example.proyectomoviles.models.Track
+import com.example.proyectomoviles.models.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -171,7 +167,6 @@ class NetworkServiceAdapter constructor(context: Context) {
             }))
     }
 
-    /*
     fun getCollectors(onComplete:(resp:List<Collector>)->Unit, onError: (error:VolleyError)->Unit) {
         requestQueue.add(getRequest("collectors",
             Response.Listener<String> { response ->
@@ -179,7 +174,11 @@ class NetworkServiceAdapter constructor(context: Context) {
                 val list = mutableListOf<Collector>()
                 for (i in 0 until resp.length()) {
                     val item = resp.getJSONObject(i)
-                    list.add(i, Collector(collectorId = item.getInt("id"),name = item.getString("name"), telephone = item.getString("telephone"), email = item.getString("email")))
+                    list.add(i, Collector(collectorId = item.getInt("id"),name = item.getString("name"),
+//                        image = item.getString("image"),
+                        //TODO
+                        image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFShZjn5qmtC67mXX5FeZX-BPujVPCXsHXMQ&usqp=CAU",
+                        telephone = item.getString("telephone"), email = item.getString("email")))
                 }
                 onComplete(list)
             },
@@ -187,6 +186,8 @@ class NetworkServiceAdapter constructor(context: Context) {
                 onError(it)
             }))
     }
+
+    /*
     fun getComments( albumId:Int, onComplete:(resp:List<Comment>)->Unit , onError: (error:VolleyError)->Unit) {
         requestQueue.add(getRequest("albums/$albumId/comments",
             Response.Listener<String> { response ->
