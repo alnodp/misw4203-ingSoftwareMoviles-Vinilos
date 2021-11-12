@@ -4,9 +4,8 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.models.AlbumRepository
-import com.example.proyectomoviles.models.Comment
 
-class CommentAlbumViewModel (application: Application, albumId: Int) : AndroidViewModel(application){
+class AlbumTracksViewModel (application: Application, albumId: Int) : AndroidViewModel(application){
     private val _album = MutableLiveData<Album>()
 
     val album: LiveData<Album>
@@ -44,9 +43,9 @@ class CommentAlbumViewModel (application: Application, albumId: Int) : AndroidVi
 
     class Factory(val app: Application, val albumId: Int) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(CommentAlbumViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(AlbumTracksViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return CommentAlbumViewModel(app, albumId) as T
+                return AlbumTracksViewModel(app, albumId) as T
             }
             throw IllegalArgumentException("Unable to construct viewmodel")
         }

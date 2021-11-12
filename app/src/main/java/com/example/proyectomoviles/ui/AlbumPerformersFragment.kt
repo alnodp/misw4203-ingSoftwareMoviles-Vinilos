@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.adapters.PerformersAdapter
 import com.example.proyectomoviles.databinding.PerformerAlbumFragmentBinding
 import com.example.proyectomoviles.models.Album
-import com.example.proyectomoviles.viewmodels.PerformerAlbumViewModel
+import com.example.proyectomoviles.viewmodels.AlbumPerformersViewModel
 
-class PerformerAlbumFragment : Fragment() {
+class AlbumPerformersFragment : Fragment() {
 
     private var viewModelAdapter: PerformersAdapter? = null
     private lateinit var performerRecyclerView: RecyclerView
     private var _binding: PerformerAlbumFragmentBinding? = null
     private val binding get() = _binding
-    private lateinit var viewModel: PerformerAlbumViewModel
+    private lateinit var viewModel: AlbumPerformersViewModel
 
     private var albumId : Int? = null
     private val ALBUMID_ARG = "albumId"
@@ -51,8 +51,8 @@ class PerformerAlbumFragment : Fragment() {
         if (albumId == null)
             throw Exception("albumId no esta inicializado en CommentAlbum")
 
-        viewModel = ViewModelProvider(this, PerformerAlbumViewModel.Factory(activity?.application!!, albumId!!)).get(
-            PerformerAlbumViewModel::class.java)
+        viewModel = ViewModelProvider(this, AlbumPerformersViewModel.Factory(activity?.application!!, albumId!!)).get(
+            AlbumPerformersViewModel::class.java)
 
         viewModel.album.observe(viewLifecycleOwner, Observer<Album> {
             it.apply {
