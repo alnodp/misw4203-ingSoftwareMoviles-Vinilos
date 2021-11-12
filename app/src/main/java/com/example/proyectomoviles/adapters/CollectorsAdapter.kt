@@ -13,7 +13,7 @@ import com.example.proyectomoviles.databinding.ListItemCollectorBinding
 import com.example.proyectomoviles.models.Collector
 import com.squareup.picasso.Picasso
 
-class CollectorAdapter() : RecyclerView.Adapter<CollectorAdapter.CollectorViewHolder>(), Filterable {
+class CollectorsAdapter() : RecyclerView.Adapter<CollectorsAdapter.CollectorViewHolder>(), Filterable {
     class CollectorViewHolder(val viewDataBinding: ListItemCollectorBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
         companion object {

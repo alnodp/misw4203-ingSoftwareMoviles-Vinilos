@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/navigation_collectors"
-        android:name="com.example.proyectomoviles.ui.CollectorFragment"
+        android:name="com.example.proyectomoviles.ui.CollectorsFragment"
         android:label="@string/title_collectors"
         tools:layout="@layout/collector_fragment" />
     <fragment

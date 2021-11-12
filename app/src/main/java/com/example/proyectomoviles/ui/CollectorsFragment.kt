@@ -11,23 +11,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.databinding.CollectorFragmentBinding
-import com.example.proyectomoviles.viewmodels.CollectorViewModel
+import com.example.proyectomoviles.viewmodels.CollectorsViewModel
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.proyectomoviles.adapters.CollectorAdapter
+import com.example.proyectomoviles.adapters.CollectorsAdapter
 import com.example.proyectomoviles.models.Collector
 
-class CollectorFragment : Fragment() {
+class CollectorsFragment : Fragment() {
     private var _binding: CollectorFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewModel: CollectorViewModel
+    private lateinit var viewModel: CollectorsViewModel
     private lateinit var etFilterCollector: EditText
-    private var viewModelAdapter: CollectorAdapter? = null
+    private var viewModelAdapter: CollectorsAdapter? = null
     companion object {
-        fun newInstance() = CollectorFragment()
+        fun newInstance() = CollectorsFragment()
     }
 
     override fun onCreateView(
@@ -40,7 +40,7 @@ class CollectorFragment : Fragment() {
         val view = binding.root
         etFilterCollector = view.findViewById<EditText>(R.id.etCollectorSearch)
 
-        viewModelAdapter = CollectorAdapter()
+        viewModelAdapter = CollectorsAdapter()
 
         return view
     }
@@ -56,8 +56,8 @@ class CollectorFragment : Fragment() {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
         }
-        viewModel = ViewModelProvider(this, CollectorViewModel.Factory(activity.application)).get(
-            CollectorViewModel::class.java)
+        viewModel = ViewModelProvider(this, CollectorsViewModel.Factory(activity.application)).get(
+            CollectorsViewModel::class.java)
         viewModel.collectors.observe(viewLifecycleOwner, Observer<List<Collector>> {
             it.apply {
                 if(it.isNotEmpty()) binding.isLoading = false

@@ -5,7 +5,7 @@ import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Collector
 import com.example.proyectomoviles.models.CollectorRepository
 
-class CollectorViewModel(application: Application) : AndroidViewModel(application){
+class CollectorsViewModel(application: Application) : AndroidViewModel(application){
     private val _collectors = MutableLiveData<List<Collector>>()
 
     val collectors: LiveData<List<Collector>>
@@ -43,9 +43,9 @@ class CollectorViewModel(application: Application) : AndroidViewModel(applicatio
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(CollectorViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(CollectorsViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return CollectorViewModel(app) as T
+                return CollectorsViewModel(app) as T
             }
             throw IllegalArgumentException("Unable to construct collectortviewmodel")
         }

@@ -26,7 +26,7 @@ xmlns:tools="http://schemas.android.com/tools">
 <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.CollectorFragment">
+    tools:context=".ui.CollectorsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
