@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
-import com.example.proyectomoviles.databinding.CollectorFragmentBinding
+import com.example.proyectomoviles.databinding.CollectorsFragmentBinding
 import com.example.proyectomoviles.viewmodels.CollectorsViewModel
 import android.widget.EditText
 import android.widget.Toast
@@ -20,7 +20,7 @@ import com.example.proyectomoviles.adapters.CollectorsAdapter
 import com.example.proyectomoviles.models.Collector
 
 class CollectorsFragment : Fragment() {
-    private var _binding: CollectorFragmentBinding? = null
+    private var _binding: CollectorsFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: CollectorsViewModel
@@ -34,7 +34,7 @@ class CollectorsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = CollectorFragmentBinding.inflate(inflater, container, false)
+        _binding = CollectorsFragmentBinding.inflate(inflater, container, false)
         binding.isLoading = true
 
         val view = binding.root

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.TracksAdapter
-import com.example.proyectomoviles.databinding.TrackAlbumFragmentBinding
+import com.example.proyectomoviles.databinding.TracksFragmentBinding
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.viewmodels.AlbumTracksViewModel
 import com.squareup.picasso.Picasso
@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso
 class AlbumTracksFragment : Fragment() {
     private var viewModelAdapter: TracksAdapter? = null
     private lateinit var trackRecyclerView: RecyclerView
-    private var _binding: TrackAlbumFragmentBinding? = null
+    private var _binding: TracksFragmentBinding? = null
     private val binding get() = _binding
     private lateinit var viewModel: AlbumTracksViewModel
 
@@ -32,7 +32,7 @@ class AlbumTracksFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = TrackAlbumFragmentBinding.inflate(inflater, container, false)
+        _binding = TracksFragmentBinding.inflate(inflater, container, false)
         val view = binding?.root
         viewModelAdapter = TracksAdapter()
         return view

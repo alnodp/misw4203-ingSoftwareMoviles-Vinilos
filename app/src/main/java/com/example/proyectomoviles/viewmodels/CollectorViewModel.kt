@@ -5,11 +5,13 @@ import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Collector
 import com.example.proyectomoviles.models.CollectorRepository
 
-class CollectorsViewModel(application: Application) : AndroidViewModel(application){
-    private val _collectors = MutableLiveData<List<Collector>>()
+class CollectorViewModel(application: Application, collectorId: Int) : AndroidViewModel(application){
+    private val _collector = MutableLiveData<Collector>()
 
-    val collectors: LiveData<List<Collector>>
-        get() = _collectors
+    val collector: LiveData<Collector>
+        get() = _collector
+
+    val id:Int = collectorId
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -26,10 +28,8 @@ class CollectorsViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     private fun getDataFromRepository() {
-        CollectorRepository.getInstance(getApplication()).getCollectors({
-            val list = it
-
-            _collectors.postValue(list)
+        CollectorRepository.getInstance(getApplication()).getCollector(id, {
+            _collector.postValue(it)
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false
         },{
@@ -41,13 +41,13 @@ class CollectorsViewModel(application: Application) : AndroidViewModel(applicati
         _isNetworkErrorShown.value = true
     }
 
-    class Factory(val app: Application) : ViewModelProvider.Factory {
+    class Factory(val app: Application, val collectorId: Int) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(CollectorsViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(CollectorViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return CollectorsViewModel(app) as T
+                return CollectorViewModel(app, collectorId) as T
             }
-            throw IllegalArgumentException("Unable to construct collectortviewmodel")
+            throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
 }

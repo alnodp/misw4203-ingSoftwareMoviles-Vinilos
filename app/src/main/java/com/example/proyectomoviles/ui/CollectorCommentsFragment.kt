@@ -10,26 +10,21 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.ComentariosAdapter
 import com.example.proyectomoviles.databinding.CommentsFragmentBinding
-import com.example.proyectomoviles.models.Album
-import com.example.proyectomoviles.viewmodels.AlbumCommentsViewModel
-import com.squareup.picasso.Picasso
+import com.example.proyectomoviles.models.Collector
+import com.example.proyectomoviles.viewmodels.CollectorCommentsViewModel
 
-class AlbumCommentsFragment : Fragment() {
+class CollectorCommentsFragment : Fragment() {
     private var viewModelAdapter: ComentariosAdapter? = null
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var commentRecyclerView: RecyclerView
     private var _binding: CommentsFragmentBinding? = null
     private val binding get() = _binding
-    private lateinit var viewModel: AlbumCommentsViewModel
+    private lateinit var viewModel: CollectorCommentsViewModel
 
-    private var albumId : Int? = null
-    private val ALBUMID_ARG = "albumId"
+    private var collectorId : Int? = null
+    private val COLLECTORID_ARG = "collectorId"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,30 +36,25 @@ class AlbumCommentsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView = binding!!.comentariosRV
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = viewModelAdapter
+        commentRecyclerView = binding!!.comentariosRV
+        commentRecyclerView.layoutManager = LinearLayoutManager(context)
+        commentRecyclerView.adapter = viewModelAdapter
 
-        arguments?.takeIf { it.containsKey(ALBUMID_ARG) }?.apply {
-            albumId = getInt(ALBUMID_ARG)
+        arguments?.takeIf { it.containsKey(COLLECTORID_ARG) }?.apply {
+            collectorId = getInt(COLLECTORID_ARG)
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (albumId == null)
-            throw Exception("albumId no esta inicializado en CommentAlbum")
+        if (collectorId == null)
+            throw Exception("collectorId no esta inicializado en CollectorComments")
 
-        viewModel = ViewModelProvider(this, AlbumCommentsViewModel.Factory(activity?.application!!, albumId!!)).get(
-            AlbumCommentsViewModel::class.java)
+        viewModel = ViewModelProvider(this, CollectorCommentsViewModel.Factory(activity?.application!!,
+            collectorId!!))[CollectorCommentsViewModel::class.java]
 
-        viewModel.album.observe(viewLifecycleOwner, Observer<Album> {
+        viewModel.collector.observe(viewLifecycleOwner, Observer<Collector> {
             it.apply {
-                binding!!.album = this
-                Picasso.get()
-                    .load(it.cover)
-                    .placeholder(R.drawable.ic_album)
-                    .error(R.drawable.ic_artist)
                 val values = this.comments
                 viewModelAdapter!!.comments = values
 
@@ -73,7 +63,6 @@ class AlbumCommentsFragment : Fragment() {
                 }else{
                     binding!!.comentariosRV.visibility = View.GONE
                 }
-
 
             }
         })
@@ -88,4 +77,5 @@ class AlbumCommentsFragment : Fragment() {
             viewModel.onNetworkErrorShown()
         }
     }
+
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="album" type="com.example.proyectomoviles.models.Album"/>
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ad_cover"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@color/gray"
+                android:scaleType="centerInside"
+                tools:srcCompat="@drawable/ic_launcher_background"
+                android:contentDescription="@string/cover_description" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/ad_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@{album.name}"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Buscando América" />
+
+                <TextView
+                    android:id="@+id/ad_release_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@{album.formattedReleaseDate}"
+                    android:textSize="14sp"
+                    android:textStyle="italic"
+                    tools:text="1984/08/01" />
+
+                <TextView
+                    android:id="@+id/ad_genre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@{album.genre}"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Salsa" />
+
+                <TextView
+                    android:id="@+id/ad_record_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@{album.recordLabel}"
+                    android:textSize="14sp"
+                    android:textStyle="italic"
+                    tools:text="Elektra" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
