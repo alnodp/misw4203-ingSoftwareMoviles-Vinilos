@@ -4,14 +4,14 @@ import android.app.Application
 import com.android.volley.VolleyError
 import com.example.proyectomoviles.network.NetworkServiceAdapter
 
-class ArtistsRepository(application: Application)  {
+class ArtistRepository(application: Application)  {
     private var serviceAdapter: NetworkServiceAdapter
 
     companion object {
-        var instance: ArtistsRepository? = null
+        var instance: ArtistRepository? = null
         fun getInstance(application: Application) =
             instance ?: synchronized(this) {
-                instance ?: ArtistsRepository(application).also {
+                instance ?: ArtistRepository(application).also {
                     instance = it
                 }
             }
