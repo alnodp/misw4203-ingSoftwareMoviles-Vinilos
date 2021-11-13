@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.proyectomoviles.R
-import com.example.proyectomoviles.adapters.SectionsPagerAdapter
+import com.example.proyectomoviles.adapters.AlbumSectionsPagerAdapter
 import com.example.proyectomoviles.databinding.AlbumFragmentBinding
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.viewmodels.AlbumViewModel
@@ -23,7 +23,7 @@ class AlbumFragment : Fragment() {
     private val binding get() = _binding!!
     private val args: AlbumFragmentArgs by navArgs()
 
-    private lateinit var sectionsCollectionAdapter: SectionsPagerAdapter
+    private lateinit var sectionsCollectionAdapter: AlbumSectionsPagerAdapter
     private lateinit var viewPager: ViewPager2
 
     private lateinit var viewModel: AlbumViewModel
@@ -42,7 +42,7 @@ class AlbumFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        sectionsCollectionAdapter = SectionsPagerAdapter(this, args.albumId)
+        sectionsCollectionAdapter = AlbumSectionsPagerAdapter(this, args.albumId)
         viewPager = binding.pager
         viewPager.adapter = sectionsCollectionAdapter
 
