@@ -14,30 +14,30 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
-import com.example.proyectomoviles.adapters.ArtistAdapter
-import com.example.proyectomoviles.databinding.ArtistFragmentBinding
+import com.example.proyectomoviles.adapters.ArtistsAdapter
+import com.example.proyectomoviles.databinding.ArtistsFragmentBinding
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.viewmodels.ArtistsViewModel
 
-class ArtistFragment : Fragment() {
-    private var _binding: ArtistFragmentBinding? = null
+class ArtistsFragment : Fragment() {
+    private var _binding: ArtistsFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: ArtistsViewModel
     private lateinit var etFilterArtist: EditText
-    private var viewModelAdapter: ArtistAdapter? = null
+    private var viewModelAdapter: ArtistsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = ArtistFragmentBinding.inflate(inflater, container, false)
+        _binding = ArtistsFragmentBinding.inflate(inflater, container, false)
         binding.isLoading = true
 
         val view = binding.root
         etFilterArtist = view.findViewById<EditText>(R.id.etArtistSearch)
 
-        viewModelAdapter = ArtistAdapter()
+        viewModelAdapter = ArtistsAdapter()
 
         return view
     }

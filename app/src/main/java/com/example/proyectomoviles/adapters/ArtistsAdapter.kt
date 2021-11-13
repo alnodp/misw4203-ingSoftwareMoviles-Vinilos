@@ -13,7 +13,7 @@ import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.databinding.ListItemArtistsBinding
 import com.squareup.picasso.Picasso
 
-class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(), Filterable {
+class ArtistsAdapter() : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>(), Filterable {
 
     class ArtistViewHolder(val viewDataBinding: ListItemArtistsBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {

@@ -3,7 +3,7 @@ package com.example.proyectomoviles.viewmodels
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Artist
-import com.example.proyectomoviles.models.ArtistRepository
+import com.example.proyectomoviles.models.ArtistsRepository
 
 class ArtistsViewModel(application: Application) : AndroidViewModel(application){
     private val _artists = MutableLiveData<List<Artist>>()
@@ -26,7 +26,7 @@ class ArtistsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun getDataFromRepository() {
-        ArtistRepository.getInstance(getApplication()).getArtist({
+        ArtistsRepository.getInstance(getApplication()).getArtist({
             val list = it
 
             _artists.postValue(list)

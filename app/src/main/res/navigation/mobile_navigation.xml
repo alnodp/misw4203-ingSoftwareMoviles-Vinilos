@@ -23,9 +23,9 @@
 
     <fragment
         android:id="@+id/navigation_artists"
-        android:name="com.example.proyectomoviles.ui.ArtistFragment"
+        android:name="com.example.proyectomoviles.ui.ArtistsFragment"
         android:label="@string/title_artists"
-        tools:layout="@layout/artist_fragment" />
+        tools:layout="@layout/artists_fragment" />
 
     <fragment
         android:id="@+id/navigation_collectors"
