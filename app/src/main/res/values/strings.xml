@@ -12,6 +12,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="album_detail_title">Detalle de álbum</string>
+    <string name="artist_detail_title">Detalle de artista</string>
     <string name="tab_text_3">Comentarios</string>
     <string name="tab_text_2">Intérpretes</string>
     <string name="tab_text_1">Canciones</string>

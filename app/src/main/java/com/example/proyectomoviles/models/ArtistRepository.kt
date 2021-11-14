@@ -21,8 +21,11 @@ class ArtistRepository(application: Application)  {
         serviceAdapter = NetworkServiceAdapter.getInstance(application)
     }
 
-
-    fun getArtist(onComplete:(resp: List<Artist>)->Unit, onError: (error: VolleyError)->Unit){
+    fun getArtists(onComplete:(resp: List<Artist>)->Unit, onError: (error: VolleyError)->Unit){
         serviceAdapter.getArtists(onComplete, onError)
+    }
+
+    fun getArtist(artistId: Int, onComplete:(resp: Artist)->Unit, onError: (error: VolleyError)->Unit){
+        serviceAdapter.getArtist(artistId, onComplete, onError)
     }
 }

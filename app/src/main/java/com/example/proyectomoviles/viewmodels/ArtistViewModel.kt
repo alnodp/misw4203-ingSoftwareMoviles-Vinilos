@@ -5,11 +5,13 @@ import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.models.ArtistRepository
 
-class ArtistsViewModel(application: Application) : AndroidViewModel(application){
-    private val _artists = MutableLiveData<List<Artist>>()
+class ArtistViewModel (application: Application, artistId: Int) : AndroidViewModel(application){
+    private val _artist = MutableLiveData <Artist>()
 
-    val artists: LiveData<List<Artist>>
-        get() = _artists
+    val artist: LiveData<Artist>
+        get() = _artist
+
+    val id:Int = artistId
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -26,10 +28,8 @@ class ArtistsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun getDataFromRepository() {
-        ArtistRepository.getInstance(getApplication()).getArtists({
-            val list = it
-
-            _artists.postValue(list)
+        ArtistRepository.getInstance(getApplication()).getArtist(id, {
+            _artist.postValue(it)
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false
         },{
@@ -41,13 +41,15 @@ class ArtistsViewModel(application: Application) : AndroidViewModel(application)
         _isNetworkErrorShown.value = true
     }
 
-    class Factory(val app: Application) : ViewModelProvider.Factory {
+    class Factory(val app: Application, val artistId: Int) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(ArtistsViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(ArtistViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return ArtistsViewModel(app) as T
+                return ArtistViewModel(app, artistId) as T
             }
-            throw IllegalArgumentException("Unable to construct artistsViewModel")
+            throw IllegalArgumentException("Unable to construct artistViewModel")
         }
     }
+
+
 }
