@@ -10,14 +10,14 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.TrackAlbumFragment">
+        tools:context=".ui.AlbumPerformersFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tracksRV"
+            android:id="@+id/performersRV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/list_item_tracks" />
+            tools:listitem="@layout/list_item_performers" />
 
     </FrameLayout>
 </layout>

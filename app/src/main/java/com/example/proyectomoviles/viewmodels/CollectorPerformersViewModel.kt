@@ -2,16 +2,16 @@ package com.example.proyectomoviles.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.proyectomoviles.models.Album
-import com.example.proyectomoviles.models.AlbumRepository
+import com.example.proyectomoviles.models.Collector
+import com.example.proyectomoviles.models.CollectorRepository
 
-class TrackAlbumViewModel (application: Application, albumId: Int) : AndroidViewModel(application){
-    private val _album = MutableLiveData<Album>()
+class CollectorPerformersViewModel (application: Application, collectorId: Int) : AndroidViewModel(application){
+    private val _collector = MutableLiveData<Collector>()
 
-    val album: LiveData<Album>
-        get() = _album
+    val collector: LiveData<Collector>
+        get() = _collector
 
-    val id:Int = albumId
+    val id:Int = collectorId
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -28,8 +28,8 @@ class TrackAlbumViewModel (application: Application, albumId: Int) : AndroidView
     }
 
     private fun getDataFromRepository() {
-        AlbumRepository.getInstance(getApplication()).getAlbum(id, {
-            _album.postValue(it)
+        CollectorRepository.getInstance(getApplication()).getCollector(id, {
+            _collector.postValue(it)
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false
         },{
@@ -41,11 +41,11 @@ class TrackAlbumViewModel (application: Application, albumId: Int) : AndroidView
         _isNetworkErrorShown.value = true
     }
 
-    class Factory(val app: Application, val albumId: Int) : ViewModelProvider.Factory {
+    class Factory(val app: Application, val collectorId: Int) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(TrackAlbumViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(CollectorPerformersViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return TrackAlbumViewModel(app, albumId) as T
+                return CollectorPerformersViewModel(app, collectorId) as T
             }
             throw IllegalArgumentException("Unable to construct viewmodel")
         }

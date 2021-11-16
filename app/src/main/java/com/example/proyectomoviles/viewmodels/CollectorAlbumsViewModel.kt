@@ -2,14 +2,15 @@ package com.example.proyectomoviles.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.models.Collector
 import com.example.proyectomoviles.models.CollectorRepository
 
-class CollectorViewModel(application: Application, collectorId: Int) : AndroidViewModel(application){
-    private val _collector = MutableLiveData<Collector>()
+class CollectorAlbumsViewModel (application: Application, collectorId: Int) : AndroidViewModel(application){
+    private val _albumes = MutableLiveData<List<Album>>()
 
-    val collector: LiveData<Collector>
-        get() = _collector
+    val albumes: LiveData<List<Album>>
+        get() = _albumes
 
     val id:Int = collectorId
 
@@ -28,8 +29,10 @@ class CollectorViewModel(application: Application, collectorId: Int) : AndroidVi
     }
 
     private fun getDataFromRepository() {
-        CollectorRepository.getInstance(getApplication()).getCollector(id, {
-            _collector.postValue(it)
+        CollectorRepository.getInstance(getApplication()).getCollectorAlbums(id, {
+            val list = it
+
+            _albumes.postValue(list)
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false
         },{
@@ -43,9 +46,9 @@ class CollectorViewModel(application: Application, collectorId: Int) : AndroidVi
 
     class Factory(val app: Application, val collectorId: Int) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(CollectorViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(CollectorAlbumsViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return CollectorViewModel(app, collectorId) as T
+                return CollectorAlbumsViewModel(app, collectorId) as T
             }
             throw IllegalArgumentException("Unable to construct viewmodel")
         }

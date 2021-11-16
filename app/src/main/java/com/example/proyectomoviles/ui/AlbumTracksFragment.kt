@@ -2,7 +2,6 @@ package com.example.proyectomoviles.ui
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,21 +11,18 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
-import com.example.proyectomoviles.adapters.ComentariosAdapter
 import com.example.proyectomoviles.adapters.TracksAdapter
-import com.example.proyectomoviles.databinding.CommentAlbumFragmentBinding
-import com.example.proyectomoviles.databinding.TrackAlbumFragmentBinding
+import com.example.proyectomoviles.databinding.TracksFragmentBinding
 import com.example.proyectomoviles.models.Album
-import com.example.proyectomoviles.viewmodels.CommentAlbumViewModel
-import com.example.proyectomoviles.viewmodels.TrackAlbumViewModel
+import com.example.proyectomoviles.viewmodels.AlbumTracksViewModel
 import com.squareup.picasso.Picasso
 
-class TrackAlbumFragment : Fragment() {
+class AlbumTracksFragment : Fragment() {
     private var viewModelAdapter: TracksAdapter? = null
     private lateinit var trackRecyclerView: RecyclerView
-    private var _binding: TrackAlbumFragmentBinding? = null
+    private var _binding: TracksFragmentBinding? = null
     private val binding get() = _binding
-    private lateinit var viewModel: TrackAlbumViewModel
+    private lateinit var viewModel: AlbumTracksViewModel
 
     private var albumId : Int? = null
     private val ALBUMID_ARG = "albumId"
@@ -36,7 +32,7 @@ class TrackAlbumFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = TrackAlbumFragmentBinding.inflate(inflater, container, false)
+        _binding = TracksFragmentBinding.inflate(inflater, container, false)
         val view = binding?.root
         viewModelAdapter = TracksAdapter()
         return view
@@ -57,8 +53,8 @@ class TrackAlbumFragment : Fragment() {
         if (albumId == null)
             throw Exception("albumId no esta inicializado en CommentAlbum")
 
-        viewModel = ViewModelProvider(this, TrackAlbumViewModel.Factory(activity?.application!!, albumId!!)).get(
-            TrackAlbumViewModel::class.java)
+        viewModel = ViewModelProvider(this, AlbumTracksViewModel.Factory(activity?.application!!, albumId!!)).get(
+            AlbumTracksViewModel::class.java)
 
         viewModel.album.observe(viewLifecycleOwner, Observer<Album> {
             it.apply {

@@ -11,7 +11,6 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.proyectomoviles.models.*
 import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
 
 class NetworkServiceAdapter constructor(context: Context) {
@@ -189,20 +188,121 @@ class NetworkServiceAdapter constructor(context: Context) {
 
     fun getCollectors(onComplete:(resp:List<Collector>)->Unit, onError: (error:VolleyError)->Unit) {
         requestQueue.add(getRequest("collectors",
-            Response.Listener<String> { response ->
+            { response ->
                 val resp = JSONArray(response)
                 val list = mutableListOf<Collector>()
                 for (i in 0 until resp.length()) {
                     val item = resp.getJSONObject(i)
                     list.add(i, Collector(collectorId = item.getInt("id"),name = item.getString("name"),
-//                        image = item.getString("image"),
-                        //TODO
-                        image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFShZjn5qmtC67mXX5FeZX-BPujVPCXsHXMQ&usqp=CAU",
                         telephone = item.getString("telephone"), email = item.getString("email")))
                 }
                 onComplete(list)
             },
-            Response.ErrorListener {
+            {
+                onError(it)
+            }))
+    }
+
+    fun getCollector(collectorId: Int, onComplete: (resp: Collector) -> Unit, onError: (error: VolleyError) -> Unit) {
+        requestQueue.add(getRequest("collectors/$collectorId",
+            { response ->
+                Log.d("tagb", response)
+                val resp = JSONObject(response)
+
+                val commentsList: JSONArray = resp.getJSONArray("comments")
+                val comments = mutableListOf<Comment>()
+                var comment: JSONObject? = null
+
+                for (i in 0 until commentsList.length()) {
+                    comment = commentsList.getJSONObject(i)
+                    comments.add(
+                        Comment(comment.getString("description"),
+                            comment.getInt("rating").toString(), collectorId)
+                    )
+                }
+
+                val favPerformers = mutableListOf<Performer>()
+                if (resp.has("favoritePerformers")){
+                    val performersJsonArray = resp.getJSONArray("favoritePerformers")
+                    for(index in 0 until performersJsonArray.length()){
+                        val perfItem = performersJsonArray.getJSONObject(index)
+                        favPerformers.add(
+                            Performer(
+                                id = perfItem.getInt("id"),
+                                name = perfItem.getString("name"),
+                                image = perfItem.getString("image"),
+                                description = perfItem.getString("description"),
+                                birthDate = if (perfItem.has("birthDate")) perfItem.getString("birthDate") else "",
+                            )
+                        )
+                    }
+                }
+
+                val albumList: JSONArray = resp.getJSONArray("collectorAlbums")
+                val albums = mutableListOf<Album>()
+                var album: JSONObject? = null
+
+                for (i in 0 until albumList.length()) {
+                    album = albumList.getJSONObject(i)
+                    albums.add(
+                        Album(
+                            id = album.getInt("id"),
+                            name = if (album.has("name")) album.getString("name") else "",
+                            cover = if (album.has("cover")) album.getString("cover") else "",
+                            recordLabel = if (album.has("recordLabel")) album.getString("recordLabel") else "",
+                            releaseDate = if (album.has("releaseDate")) album.getString("releaseDate") else "",
+                            genre = if (album.has("genre")) album.getString("genre") else "",
+                            description = if (album.has("description")) album.getString("description") else "",
+                            price = album.getString("price"),
+                            status = album.getString("status")
+                        )
+                    )
+                }
+
+                val collector: Collector = Collector(
+                    collectorId = resp.getInt("id"),
+                    name = resp.getString("name"),
+                    telephone = resp.getString("telephone"),
+                    email = resp.getString("email"),
+                    comments = comments,
+                    favoritePerformers = favPerformers,
+                    collectorAlbums = albums
+                )
+
+                onComplete(collector)
+            },
+            {
+                onError(it)
+            }))
+    }
+
+    fun getCollectorAlbums(collectorId: Int, onComplete: (resp: List<Album>) -> Unit, onError: (error: VolleyError) -> Unit) {
+        requestQueue.add(getRequest("collectors/$collectorId/albums",
+            { response ->
+                Log.d("tagb", response)
+                val resp = JSONArray(response)
+                val list = mutableListOf<Album>()
+                for (i in 0 until resp.length()) {
+                    val item = resp.getJSONObject(i)
+
+                    if (item.has("album")){
+                        val albumItem = item.getJSONObject("album")
+                        list.add(i,
+                            Album(id = albumItem.getInt("id"),
+                                name = albumItem.getString("name"),
+                                price = item.getString("price"),
+                                status = item.getString("status"),
+                                cover = albumItem.getString("cover"),
+                                description = albumItem.getString("description"),
+                                genre = albumItem.getString("genre"),
+                                recordLabel = albumItem.getString("recordLabel"),
+                                releaseDate = albumItem.getString("releaseDate")))
+                    }
+
+                }
+                onComplete(list)
+            },
+            {
                 onError(it)
             }))
     }

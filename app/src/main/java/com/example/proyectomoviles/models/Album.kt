@@ -8,6 +8,8 @@ data class Album(
     val description:String,
     val genre:String,
     val recordLabel:String,
+    val price: String = "",
+    val status: String = "",
     val comments: List<Comment> = mutableListOf<Comment>(),
     val performers: List<Performer> = mutableListOf<Performer>(),
     val tracks: List<Track> = mutableListOf<Track>()

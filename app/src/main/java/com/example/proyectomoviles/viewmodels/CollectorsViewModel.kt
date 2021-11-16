@@ -5,13 +5,11 @@ import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Collector
 import com.example.proyectomoviles.models.CollectorRepository
 
-class CollectorViewModel(application: Application, collectorId: Int) : AndroidViewModel(application){
-    private val _collector = MutableLiveData<Collector>()
+class CollectorsViewModel(application: Application) : AndroidViewModel(application){
+    private val _collectors = MutableLiveData<List<Collector>>()
 
-    val collector: LiveData<Collector>
-        get() = _collector
-
-    val id:Int = collectorId
+    val collectors: LiveData<List<Collector>>
+        get() = _collectors
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -28,8 +26,10 @@ class CollectorViewModel(application: Application, collectorId: Int) : AndroidVi
     }
 
     private fun getDataFromRepository() {
-        CollectorRepository.getInstance(getApplication()).getCollector(id, {
-            _collector.postValue(it)
+        CollectorRepository.getInstance(getApplication()).getCollectors({
+            val list = it
+
+            _collectors.postValue(list)
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false
         },{
@@ -41,13 +41,13 @@ class CollectorViewModel(application: Application, collectorId: Int) : AndroidVi
         _isNetworkErrorShown.value = true
     }
 
-    class Factory(val app: Application, val collectorId: Int) : ViewModelProvider.Factory {
+    class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(CollectorViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(CollectorsViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return CollectorViewModel(app, collectorId) as T
+                return CollectorsViewModel(app) as T
             }
-            throw IllegalArgumentException("Unable to construct viewmodel")
+            throw IllegalArgumentException("Unable to construct collectortviewmodel")
         }
     }
 }

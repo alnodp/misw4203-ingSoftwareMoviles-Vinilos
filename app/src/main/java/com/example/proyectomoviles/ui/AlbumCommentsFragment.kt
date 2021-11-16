@@ -2,30 +2,27 @@ package com.example.proyectomoviles.ui
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.ComentariosAdapter
-import com.example.proyectomoviles.databinding.CommentAlbumFragmentBinding
+import com.example.proyectomoviles.databinding.CommentsFragmentBinding
 import com.example.proyectomoviles.models.Album
-import com.example.proyectomoviles.viewmodels.AlbumViewModel
-import com.example.proyectomoviles.viewmodels.CommentAlbumViewModel
+import com.example.proyectomoviles.viewmodels.AlbumCommentsViewModel
 import com.squareup.picasso.Picasso
 
-class CommentAlbumFragment : Fragment() {
+class AlbumCommentsFragment : Fragment() {
     private var viewModelAdapter: ComentariosAdapter? = null
     private lateinit var recyclerView: RecyclerView
-    private var _binding: CommentAlbumFragmentBinding? = null
+    private var _binding: CommentsFragmentBinding? = null
     private val binding get() = _binding
-    private lateinit var viewModel: CommentAlbumViewModel
+    private lateinit var viewModel: AlbumCommentsViewModel
 
     private var albumId : Int? = null
     private val ALBUMID_ARG = "albumId"
@@ -37,7 +34,7 @@ class CommentAlbumFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = CommentAlbumFragmentBinding.inflate(inflater, container, false)
+        _binding = CommentsFragmentBinding.inflate(inflater, container, false)
         val view = binding?.root
         viewModelAdapter = ComentariosAdapter()
         return view
@@ -58,8 +55,8 @@ class CommentAlbumFragment : Fragment() {
         if (albumId == null)
             throw Exception("albumId no esta inicializado en CommentAlbum")
 
-        viewModel = ViewModelProvider(this, CommentAlbumViewModel.Factory(activity?.application!!, albumId!!)).get(
-            CommentAlbumViewModel::class.java)
+        viewModel = ViewModelProvider(this, AlbumCommentsViewModel.Factory(activity?.application!!, albumId!!)).get(
+            AlbumCommentsViewModel::class.java)
 
         viewModel.album.observe(viewLifecycleOwner, Observer<Album> {
             it.apply {

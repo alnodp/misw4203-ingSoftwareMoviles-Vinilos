@@ -7,18 +7,19 @@ import android.widget.Filterable
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
-import com.example.proyectomoviles.databinding.ListItemCollectorBinding
+import com.example.proyectomoviles.databinding.ListItemCollectorsBinding
 import com.example.proyectomoviles.models.Collector
-import com.squareup.picasso.Picasso
+import com.example.proyectomoviles.ui.CollectorsFragmentDirections
 
-class CollectorAdapter() : RecyclerView.Adapter<CollectorAdapter.CollectorViewHolder>(), Filterable {
-    class CollectorViewHolder(val viewDataBinding: ListItemCollectorBinding) :
+class CollectorsAdapter() : RecyclerView.Adapter<CollectorsAdapter.CollectorViewHolder>(), Filterable {
+    class CollectorViewHolder(val viewDataBinding: ListItemCollectorsBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
         companion object {
             @LayoutRes
-            val LAYOUT = R.layout.list_item_collector
+            val LAYOUT = R.layout.list_item_collectors
         }
     }
 
@@ -35,7 +36,7 @@ class CollectorAdapter() : RecyclerView.Adapter<CollectorAdapter.CollectorViewHo
     private var lastQuery: String = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectorViewHolder {
-        val withDataBinding: ListItemCollectorBinding = DataBindingUtil.inflate(
+        val withDataBinding: ListItemCollectorsBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             CollectorViewHolder.LAYOUT,
             parent,
@@ -46,18 +47,12 @@ class CollectorAdapter() : RecyclerView.Adapter<CollectorAdapter.CollectorViewHo
     override fun onBindViewHolder(holder: CollectorViewHolder, position: Int) {
         holder.viewDataBinding.also {
             it.collector = collectorsFiltered[position]
-            Picasso.get()
-                .load(it.collector!!.image)
-                .placeholder(R.drawable.ic_collectors)
-                .into(it.ivCollectorImage);
         }
 
         holder.viewDataBinding.root.setOnClickListener {
-            val text = "Navegar a Coleccionista con id " + collectorsFiltered[position].collectorId
-            val duration = Toast.LENGTH_SHORT
-
-            val toast = Toast.makeText(holder.viewDataBinding.root.context, text, duration)
-            toast.show()
+            val action = CollectorsFragmentDirections.actionCollectorsFragmentToCollectorFragment(collectorsFiltered[position].collectorId)
+            // Navigate using that action
+            holder.viewDataBinding.root.findNavController().navigate(action)
         }
     }
 

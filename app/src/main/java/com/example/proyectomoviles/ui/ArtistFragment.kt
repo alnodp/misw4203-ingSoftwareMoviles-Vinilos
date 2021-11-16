@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.proyectomoviles.R
-import com.example.proyectomoviles.adapters.SectionsPagerAdapter
 import com.example.proyectomoviles.databinding.ArtistFragmentBinding
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.viewmodels.ArtistViewModel
@@ -23,7 +22,7 @@ class ArtistFragment : Fragment() {
     private val binding get() = _binding!!
     private val args: ArtistFragmentArgs by navArgs()
 
-    private lateinit var sectionsCollectionAdapter: SectionsPagerAdapter
+    //private lateinit var sectionsCollectionAdapter: SectionsPagerAdapter
     private lateinit var viewPager: ViewPager2
 
     private lateinit var viewModel: ArtistViewModel
@@ -42,9 +41,9 @@ class ArtistFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        sectionsCollectionAdapter = SectionsPagerAdapter(this, args.artistId)
+        //sectionsCollectionAdapter = SectionsPagerAdapter(this, args.artistId)
         viewPager = binding.pager
-        viewPager.adapter = sectionsCollectionAdapter
+        //viewPager.adapter = sectionsCollectionAdapter
 
         val tabNames = arrayListOf<String>("Álbumes", "Artistas", "Comentarios")
         val tabLayout = binding.tabLayout
