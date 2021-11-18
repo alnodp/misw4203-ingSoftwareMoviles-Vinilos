@@ -56,12 +56,6 @@ class ArtistsAdapter() : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>()
         }
 
         holder.viewDataBinding.root.setOnClickListener {
-            val text = "Navegar a Artista con id " + artistsFiltered[position].id
-            val duration = Toast.LENGTH_SHORT
-
-            val toast = Toast.makeText(holder.viewDataBinding.root.context, text, duration)
-            toast.show()
-
             val action = ArtistsFragmentDirections.actionArtistsFragmentToArtistFragment(artistsFiltered[position].id)
             // Navigate using that action
             holder.viewDataBinding.root.findNavController().navigate(action)

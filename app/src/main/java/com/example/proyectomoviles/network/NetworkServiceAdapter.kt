@@ -116,6 +116,61 @@ class NetworkServiceAdapter constructor(context: Context) {
         }))
     }
 
+    fun getArtistAlbums(artistId: Int, onComplete: (resp: List<Album>) -> Unit, onError: (error: VolleyError) -> Unit) {
+        requestQueue.add(getRequest("musicians/$artistId/albums",
+            { response ->
+                Log.d("tagb", response)
+                val resp = JSONArray(response)
+                val list = mutableListOf<Album>()
+                for (i in 0 until resp.length()) {
+                    val albumItem = resp.getJSONObject(i)
+                    list.add(i,
+                        Album(id = albumItem.getInt("id"),
+                            name = albumItem.getString("name"),
+                            cover = albumItem.getString("cover"),
+                            releaseDate = albumItem.getString("releaseDate"),
+                            description = albumItem.getString("description"),
+                            genre = albumItem.getString("genre"),
+                            recordLabel = albumItem.getString("recordLabel")))
+
+                }
+                onComplete(list)
+            },
+            {
+                onError(it)
+            }))
+    }
+
+    fun getArtistPrizes(artistId: Int, onComplete: (resp: List<Prize>) -> Unit, onError: (error: VolleyError) -> Unit) {
+        requestQueue.add(getRequest("musicians/$artistId/",
+            { response ->
+                Log.d("tagb", response)
+                val resp = JSONObject(response)
+                val list = mutableListOf<Prize>()
+
+                if (resp.has("performerPrizes")) {
+                    val prizesJsonArray = resp.getJSONArray("performerPrizes")
+                    for (index in 0 until prizesJsonArray.length()) {
+                        val perfItem = prizesJsonArray.getJSONObject(index)
+                        list.add(
+                            Prize(
+                                id = perfItem.getInt("id"),
+                                name = "Premio id " + perfItem.getInt("id"),
+                                description = "Descripción premio id " + perfItem.getInt("id"),
+                                organization = "Organización " + perfItem.getInt("id"),
+                                premiationDate = perfItem.getString("premiationDate"),
+                            )
+                        )
+                    }
+                }
+
+                onComplete(list)
+            },
+            {
+                onError(it)
+            }))
+    }
+
     fun getAlbum(albumId: Int, onComplete: (resp: Album) -> Unit, onError: (error: VolleyError) -> Unit) {
         requestQueue.add(getRequest("albums/$albumId",
             { response ->

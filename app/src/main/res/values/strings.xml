@@ -20,10 +20,14 @@
     <string name="collector_tab1">Álbumes</string>
     <string name="collector_tab2">Artistas Favoritos</string>
     <string name="collector_tab3">Comentarios</string>
+    <string name="artist_tab1">Álbumes</string>
+    <string name="artist_tab2">Premios</string>
     <string name="rating_label">Puntuación: </string>
     <string name="cover_description">Imagen de interprete</string>
     <string name="comment_rating_label">Rating</string>
     <string name="pd_birdthdate_label">"Fecha de nacimiento: "</string>
     <string name="collector_email_label">Email: </string>
     <string name="collector_telephone_label">Teléfono: </string>
+    <string name="pd_organization_label">Organización: </string>
+    <string name="pd_prize_date_label">"Fecha de premiación: "</string>
 </resources>

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.proyectomoviles.R
+import com.example.proyectomoviles.adapters.ArtistSectionsPagerAdapter
 import com.example.proyectomoviles.databinding.ArtistFragmentBinding
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.viewmodels.ArtistViewModel
@@ -22,7 +23,7 @@ class ArtistFragment : Fragment() {
     private val binding get() = _binding!!
     private val args: ArtistFragmentArgs by navArgs()
 
-    //private lateinit var sectionsCollectionAdapter: SectionsPagerAdapter
+    private lateinit var artistSectionsPagerAdapter: ArtistSectionsPagerAdapter
     private lateinit var viewPager: ViewPager2
 
     private lateinit var viewModel: ArtistViewModel
@@ -41,11 +42,11 @@ class ArtistFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //sectionsCollectionAdapter = SectionsPagerAdapter(this, args.artistId)
+        artistSectionsPagerAdapter = ArtistSectionsPagerAdapter(this, args.artistId)
         viewPager = binding.pager
-        //viewPager.adapter = sectionsCollectionAdapter
+        viewPager.adapter = artistSectionsPagerAdapter
 
-        val tabNames = arrayListOf<String>("Álbumes", "Artistas", "Comentarios")
+        val tabNames = arrayListOf<String>("Álbumes", "Premios")
         val tabLayout = binding.tabLayout
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabNames[position]
