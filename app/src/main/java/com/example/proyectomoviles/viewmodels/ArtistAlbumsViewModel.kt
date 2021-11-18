@@ -2,14 +2,16 @@ package com.example.proyectomoviles.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.proyectomoviles.models.Artist
+import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.models.ArtistRepository
 
-class ArtistsViewModel(application: Application) : AndroidViewModel(application){
-    private val _artists = MutableLiveData<List<Artist>>()
+class ArtistAlbumsViewModel (application: Application, artistId: Int) : AndroidViewModel(application){
+    private val _albumes = MutableLiveData<List<Album>>()
 
-    val artists: LiveData<List<Artist>>
-        get() = _artists
+    val albumes: LiveData<List<Album>>
+        get() = _albumes
+
+    val id:Int = artistId
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -26,10 +28,10 @@ class ArtistsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun getDataFromRepository() {
-        ArtistRepository.getInstance(getApplication()).getArtists({
+        ArtistRepository.getInstance(getApplication()).getArtistAlbums(id, {
             val list = it
 
-            _artists.postValue(list)
+            _albumes.postValue(list)
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false
         },{
@@ -41,13 +43,13 @@ class ArtistsViewModel(application: Application) : AndroidViewModel(application)
         _isNetworkErrorShown.value = true
     }
 
-    class Factory(val app: Application) : ViewModelProvider.Factory {
+    class Factory(val app: Application, val artistId: Int) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(ArtistsViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(ArtistAlbumsViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return ArtistsViewModel(app) as T
+                return ArtistAlbumsViewModel(app, artistId) as T
             }
-            throw IllegalArgumentException("Unable to construct artistsViewModel")
+            throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
 }
