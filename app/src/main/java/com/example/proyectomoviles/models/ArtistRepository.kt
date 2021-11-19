@@ -36,4 +36,8 @@ class ArtistRepository(application: Application)  {
     fun getArtistPrizes(artistId: Int, onComplete:(resp: List<Prize>)->Unit, onError: (error: VolleyError)->Unit){
         serviceAdapter.getArtistPrizes(artistId, onComplete, onError)
     }
+
+    fun getPrize(prizeId: Int, onComplete:(resp: Prize)->Unit, onError: (error: VolleyError)->Unit){
+        serviceAdapter.getPrize(prizeId, onComplete, onError)
+    }
 }

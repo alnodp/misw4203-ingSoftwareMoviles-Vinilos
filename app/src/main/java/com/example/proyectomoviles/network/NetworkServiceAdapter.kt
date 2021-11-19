@@ -141,34 +141,59 @@ class NetworkServiceAdapter constructor(context: Context) {
             }))
     }
 
-    fun getArtistPrizes(artistId: Int, onComplete: (resp: List<Prize>) -> Unit, onError: (error: VolleyError) -> Unit) {
-        requestQueue.add(getRequest("musicians/$artistId/",
-            { response ->
-                Log.d("tagb", response)
-                val resp = JSONObject(response)
-                val list = mutableListOf<Prize>()
+    fun getArtistPrizes(
+        artistId: Int,
+        onComplete: (resp: List<Prize>) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        requestQueue.add(
+            getRequest("musicians/$artistId/",
+                { response ->
+                    Log.d("tagb", response)
+                    val resp = JSONObject(response)
+                    val list = mutableListOf<Prize>()
 
-                if (resp.has("performerPrizes")) {
-                    val prizesJsonArray = resp.getJSONArray("performerPrizes")
-                    for (index in 0 until prizesJsonArray.length()) {
-                        val perfItem = prizesJsonArray.getJSONObject(index)
-                        list.add(
-                            Prize(
-                                id = perfItem.getInt("id"),
-                                name = "Premio id " + perfItem.getInt("id"),
-                                description = "Descripción premio id " + perfItem.getInt("id"),
-                                organization = "Organización " + perfItem.getInt("id"),
-                                premiationDate = perfItem.getString("premiationDate"),
+                    if (resp.has("performerPrizes")) {
+                        val prizesJsonArray = resp.getJSONArray("performerPrizes")
+                        for (index in 0 until prizesJsonArray.length()) {
+                            val perfItem = prizesJsonArray.getJSONObject(index)
+                            list.add(
+                                Prize(
+                                    id = perfItem.getInt("id"),
+                                    premiationDate = perfItem.getString("premiationDate")
+                                )
                             )
-                        )
+                        }
                     }
-                }
 
-                onComplete(list)
-            },
-            {
-                onError(it)
-            }))
+                    onComplete(list)
+                },
+                {
+                    onError(it)
+                })
+        )
+    }
+
+    fun getPrize(
+        prizeId: Int,
+        onComplete: (resp: Prize) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        requestQueue.add(getRequest("prizes/$prizeId", { response ->
+            Log.d("getPrize $prizeId ", response)
+            val resp = JSONObject(response)
+
+            val prize = Prize(
+                id = prizeId,
+                name = resp.getString("name"),
+                organization = resp.getString("organization"),
+                description = resp.getString("description")
+            )
+
+            onComplete(prize)
+        }, {
+            onError(it)
+        }))
     }
 
     fun getAlbum(albumId: Int, onComplete: (resp: Album) -> Unit, onError: (error: VolleyError) -> Unit) {
