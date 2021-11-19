@@ -2,9 +2,9 @@ package com.example.proyectomoviles.models
 
 data class Prize (
     val id: Int,
-    val organization: String,
-    val name: String,
-    val description: String,
+    var organization: String = "",
+    var name: String = "",
+    var description: String = "",
     val premiationDate: String = ""
 ) {
     val formattedPremiationDate : String

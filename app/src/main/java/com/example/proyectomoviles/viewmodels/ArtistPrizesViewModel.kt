@@ -1,6 +1,7 @@
 package com.example.proyectomoviles.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.ArtistRepository
 import com.example.proyectomoviles.models.Prize
@@ -28,10 +29,21 @@ class ArtistPrizesViewModel (application: Application, prizeId: Int) : AndroidVi
     }
 
     private fun getDataFromRepository() {
-        ArtistRepository.getInstance(getApplication()).getArtistPrizes(id, {
-            val list = it
+        ArtistRepository.getInstance(getApplication()).getArtistPrizes(id, { list ->
+            val list2 = mutableListOf<Prize>()
 
-            _prizes.postValue(list)
+            for (prize in list) {
+                ArtistRepository.getInstance(getApplication()).getPrize(prize.id, { detail ->
+                    prize.name = detail.name
+                    prize.description = detail.description
+                    prize.organization = detail.organization
+
+                    list2.add(prize)
+                    _prizes.postValue(list2)
+                }, {
+                    _eventNetworkError.value = true
+                })
+            }
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false
         },{
