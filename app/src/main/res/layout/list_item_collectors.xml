@@ -30,7 +30,7 @@
                 android:layout_height="100dp"
                 android:background="@color/gray"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/ic_collectors" />
+                app:srcCompat="@drawable/icons8_llamada_de_conferencia_64" />
 
             <LinearLayout
                 android:layout_width="match_parent"

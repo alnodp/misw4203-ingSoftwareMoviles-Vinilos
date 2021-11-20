@@ -75,6 +75,7 @@ class NetworkServiceAdapter constructor(context: Context) {
 
     fun getArtists(onComplete:(resp:List<Artist>)->Unit, onError: (error: VolleyError)->Unit){
         requestQueue.add(getRequest("musicians", { response ->
+            Log.d("getArtists ", response)
             val resp = JSONArray(response)
             val list = mutableListOf<Artist>()
             for (i in 0 until resp.length()) {
@@ -91,6 +92,105 @@ class NetworkServiceAdapter constructor(context: Context) {
                 )
             }
             onComplete(list)
+        }, {
+            onError(it)
+        }))
+    }
+
+    fun getArtist(artistId: Int, onComplete:(resp:Artist)->Unit, onError: (error: VolleyError)->Unit){
+        requestQueue.add(getRequest("musicians/$artistId", { response ->
+            Log.d("getArtist $artistId ", response)
+            val resp = JSONObject(response)
+
+            val artist = Artist(
+                id = resp.getInt("id"),
+                name = resp.getString("name"),
+                description = resp.getString("description"),
+                image = resp.getString("image"),
+                birthDate = resp.getString("birthDate")
+            )
+
+            onComplete(artist)
+        }, {
+            onError(it)
+        }))
+    }
+
+    fun getArtistAlbums(artistId: Int, onComplete: (resp: List<Album>) -> Unit, onError: (error: VolleyError) -> Unit) {
+        requestQueue.add(getRequest("musicians/$artistId/albums",
+            { response ->
+                Log.d("tagb", response)
+                val resp = JSONArray(response)
+                val list = mutableListOf<Album>()
+                for (i in 0 until resp.length()) {
+                    val albumItem = resp.getJSONObject(i)
+                    list.add(i,
+                        Album(id = albumItem.getInt("id"),
+                            name = albumItem.getString("name"),
+                            cover = albumItem.getString("cover"),
+                            releaseDate = albumItem.getString("releaseDate"),
+                            description = albumItem.getString("description"),
+                            genre = albumItem.getString("genre"),
+                            recordLabel = albumItem.getString("recordLabel")))
+
+                }
+                onComplete(list)
+            },
+            {
+                onError(it)
+            }))
+    }
+
+    fun getArtistPrizes(
+        artistId: Int,
+        onComplete: (resp: List<Prize>) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        requestQueue.add(
+            getRequest("musicians/$artistId/",
+                { response ->
+                    Log.d("tagb", response)
+                    val resp = JSONObject(response)
+                    val list = mutableListOf<Prize>()
+
+                    if (resp.has("performerPrizes")) {
+                        val prizesJsonArray = resp.getJSONArray("performerPrizes")
+                        for (index in 0 until prizesJsonArray.length()) {
+                            val perfItem = prizesJsonArray.getJSONObject(index)
+                            list.add(
+                                Prize(
+                                    id = perfItem.getInt("id"),
+                                    premiationDate = perfItem.getString("premiationDate")
+                                )
+                            )
+                        }
+                    }
+
+                    onComplete(list)
+                },
+                {
+                    onError(it)
+                })
+        )
+    }
+
+    fun getPrize(
+        prizeId: Int,
+        onComplete: (resp: Prize) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        requestQueue.add(getRequest("prizes/$prizeId", { response ->
+            Log.d("getPrize $prizeId ", response)
+            val resp = JSONObject(response)
+
+            val prize = Prize(
+                id = prizeId,
+                name = resp.getString("name"),
+                organization = resp.getString("organization"),
+                description = resp.getString("description")
+            )
+
+            onComplete(prize)
         }, {
             onError(it)
         }))

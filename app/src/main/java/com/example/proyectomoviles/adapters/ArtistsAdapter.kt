@@ -7,13 +7,15 @@ import android.widget.Filterable
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.databinding.ListItemArtistsBinding
+import com.example.proyectomoviles.ui.ArtistsFragmentDirections
 import com.squareup.picasso.Picasso
 
-class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(), Filterable {
+class ArtistsAdapter() : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>(), Filterable {
 
     class ArtistViewHolder(val viewDataBinding: ListItemArtistsBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
@@ -54,11 +56,10 @@ class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(), 
         }
 
         holder.viewDataBinding.root.setOnClickListener {
-            val text = "Navegar a Artista con id " + artistsFiltered[position].id
-            val duration = Toast.LENGTH_SHORT
+            val action = ArtistsFragmentDirections.actionArtistsFragmentToArtistFragment(artistsFiltered[position].id)
+            // Navigate using that action
+            holder.viewDataBinding.root.findNavController().navigate(action)
 
-            val toast = Toast.makeText(holder.viewDataBinding.root.context, text, duration)
-            toast.show()
         }
     }
 
