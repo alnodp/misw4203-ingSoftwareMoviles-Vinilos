@@ -24,20 +24,20 @@ import org.hamcrest.core.IsInstanceOf
 import org.junit.Rule
 import org.junit.Test
 
-class ConsultaArtistaTest2 {
+class ConsultaArtistaTest {
 
     @Rule
     @JvmField
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun consultaArtistaTest2() {
+    fun consultaArtistaTest() {
 
         Thread.sleep(1000)
         val bottomNavigationItemView = Espresso.onView(
             Matchers.allOf(
                 ViewMatchers.withId(R.id.navigation_artists),
-                ViewMatchers.withContentDescription("Artista"),
+                ViewMatchers.withContentDescription("Artistas"),
                 childAtPosition(
                     childAtPosition(
                         ViewMatchers.withId(R.id.nav_view),
@@ -50,7 +50,7 @@ class ConsultaArtistaTest2 {
         )
         bottomNavigationItemView.perform(ViewActions.click())
 
-        Thread.sleep(4000)
+        Thread.sleep(3000)
 
         val recyclerView = Espresso.onView(
             Matchers.allOf(
@@ -75,18 +75,32 @@ class ConsultaArtistaTest2 {
             )
         )
 
+        val textView = Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withId(R.id.tvArtistName), ViewMatchers.withText("Rubén Blades Bellido de Luna"),
+                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
+                ViewMatchers.isDisplayed()
+            )
+        )
+        textView.check(ViewAssertions.matches(ViewMatchers.withText("Rubén Blades Bellido de Luna")))
+        textView.perform(ViewActions.click())
+
         Thread.sleep(2500)
 
         val titleView = Espresso.onView(
             Matchers.allOf(
-                ViewMatchers.withId(R.id.ad_name), ViewMatchers.withText("Premios"),
+                ViewMatchers.withId(R.id.ad_name), ViewMatchers.withText("Rubén Blades Bellido de Luna"),
                 ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
                 ViewMatchers.isDisplayed()
             )
         )
 
-        titleView.check(ViewAssertions.matches(ViewMatchers.withText("Premios")))
+        titleView.check(ViewAssertions.matches(ViewMatchers.withText("Rubén Blades Bellido de Luna")))
         Thread.sleep(2000)
+
+        onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(1))
+        Thread.sleep(2000)
+
     }
 
     private fun childAtPosition(
