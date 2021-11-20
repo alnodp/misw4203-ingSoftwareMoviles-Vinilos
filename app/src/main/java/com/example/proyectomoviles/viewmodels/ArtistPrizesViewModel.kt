@@ -5,6 +5,9 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.ArtistRepository
 import com.example.proyectomoviles.models.Prize
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ArtistPrizesViewModel (application: Application, prizeId: Int) : AndroidViewModel(application){
     private val _prizes = MutableLiveData<List<Prize>>()
@@ -29,26 +32,30 @@ class ArtistPrizesViewModel (application: Application, prizeId: Int) : AndroidVi
     }
 
     private fun getDataFromRepository() {
-        ArtistRepository.getInstance(getApplication()).getArtistPrizes(id, { list ->
-            val list2 = mutableListOf<Prize>()
+        try {
+            viewModelScope.launch (Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    val data = ArtistRepository.getInstance(getApplication()).getArtistPrizes(id)
+                    val list2 = mutableListOf<Prize>()
 
-            for (prize in list) {
-                ArtistRepository.getInstance(getApplication()).getPrize(prize.id, { detail ->
-                    prize.name = detail.name
-                    prize.description = detail.description
-                    prize.organization = detail.organization
+                    for (prize in data) {
+                        val prizeDetail = ArtistRepository.getInstance(getApplication()).getPrize(prize.id)
+                        prize.name = prizeDetail.name
+                        prize.description = prizeDetail.description
+                        prize.organization = prizeDetail.organization
 
-                    list2.add(prize)
-                    _prizes.postValue(list2)
-                }, {
-                    _eventNetworkError.value = true
-                })
+                        list2.add(prize)
+                        _prizes.postValue(list2)
+                    }
+                }
+
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
             }
-            _eventNetworkError.value = false
-            _isNetworkErrorShown.value = false
-        },{
+        }
+        catch (e:Exception){
             _eventNetworkError.value = true
-        })
+        }
     }
 
     fun onNetworkErrorShown() {

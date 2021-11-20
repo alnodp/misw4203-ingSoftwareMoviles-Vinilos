@@ -4,6 +4,10 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.models.ArtistRepository
+import com.example.proyectomoviles.models.CollectorRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ArtistViewModel (application: Application, artistId: Int) : AndroidViewModel(application){
     private val _artist = MutableLiveData <Artist>()
@@ -28,13 +32,19 @@ class ArtistViewModel (application: Application, artistId: Int) : AndroidViewMod
     }
 
     private fun getDataFromRepository() {
-        ArtistRepository.getInstance(getApplication()).getArtist(id, {
-            _artist.postValue(it)
-            _eventNetworkError.value = false
-            _isNetworkErrorShown.value = false
-        },{
+        try {
+            viewModelScope.launch (Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    val data = ArtistRepository.getInstance(getApplication()).getArtist(id)
+                    _artist.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
             _eventNetworkError.value = true
-        })
+        }
     }
 
     fun onNetworkErrorShown() {

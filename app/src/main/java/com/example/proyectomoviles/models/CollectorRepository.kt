@@ -23,15 +23,15 @@ class CollectorRepository (application: Application)  {
     }
 
 
-    fun getCollectors(onComplete:(resp: List<Collector>)->Unit, onError: (error: VolleyError)->Unit){
-        serviceAdapter.getCollectors(onComplete, onError)
+    suspend fun getCollectors(): List<Collector>{
+        return serviceAdapter.getCollectors()
     }
 
-    fun getCollector(collectorId: Int, onComplete: (resp:Collector)->Unit, onError: (error: VolleyError)->Unit) {
-        serviceAdapter.getCollector(collectorId, onComplete, onError)
+    suspend fun getCollector(collectorId: Int): Collector {
+        return serviceAdapter.getCollector(collectorId)
     }
 
-    fun getCollectorAlbums(collectorId: Int, onComplete: (resp:List<Album>)->Unit, onError: (error: VolleyError)->Unit) {
-        serviceAdapter.getCollectorAlbums(collectorId, onComplete, onError)
+    suspend fun getCollectorAlbums(collectorId: Int): List<Album> {
+        return serviceAdapter.getCollectorAlbums(collectorId)
     }
 }
