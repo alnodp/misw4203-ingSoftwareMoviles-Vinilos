@@ -53,8 +53,7 @@ class ArtistsFragment : Fragment() {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
         }
-        viewModel = ViewModelProvider(this, ArtistsViewModel.Factory(activity.application)).get(
-            ArtistsViewModel::class.java)
+        viewModel = ViewModelProvider(this, ArtistsViewModel.Factory(activity.application))[ArtistsViewModel::class.java]
         viewModel.artists.observe(viewLifecycleOwner, Observer<List<Artist>> {
             it.apply {
                 if(it.isNotEmpty()) binding.isLoading = false
@@ -92,5 +91,4 @@ class ArtistsFragment : Fragment() {
             viewModel.onNetworkErrorShown()
         }
     }
-
 }

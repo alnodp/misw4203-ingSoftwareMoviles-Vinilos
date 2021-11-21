@@ -6,17 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.ArtistSectionsPagerAdapter
 import com.example.proyectomoviles.databinding.ArtistFragmentBinding
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.viewmodels.ArtistViewModel
 import com.google.android.material.tabs.TabLayoutMediator
-import com.squareup.picasso.Picasso
 
 class ArtistFragment : Fragment() {
     private var _binding: ArtistFragmentBinding? = null
@@ -66,11 +69,13 @@ class ArtistFragment : Fragment() {
 
             it.apply {
                 binding.artist = this
-                Picasso.get()
-                    .load(it.image)
-                    .placeholder(R.drawable.ic_artist)
-                    .error(R.drawable.ic_artist)
-                    .into(binding.adCover);
+                Glide.with(this@ArtistFragment)
+                    .load(it.image.toUri().buildUpon().scheme("https").build())
+                    .apply(
+                        RequestOptions().placeholder(R.drawable.ic_artist)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .error(R.drawable.ic_artist)
+                    ).into(binding.adCover)
             }
         })
 

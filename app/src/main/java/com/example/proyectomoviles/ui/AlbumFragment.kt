@@ -5,18 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.AlbumSectionsPagerAdapter
 import com.example.proyectomoviles.databinding.AlbumFragmentBinding
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.viewmodels.AlbumViewModel
 import com.google.android.material.tabs.TabLayoutMediator
-import com.squareup.picasso.Picasso
 
 class AlbumFragment : Fragment() {
     private var _binding: AlbumFragmentBinding? = null
@@ -66,14 +69,13 @@ class AlbumFragment : Fragment() {
 
             it.apply {
                 binding.album = this
-                Picasso.get()
-                    .load(it.cover)
-                    .placeholder(R.drawable.ic_album)
-                    .error(R.drawable.ic_artist)
-                    .into(binding.adCover);
-                /*
-                    Cuando se actualice el album, quiero actualizar los viewpager o puede que ya lo haga porque escuchan del mismo LiveData
-                 */
+                Glide.with(this@AlbumFragment)
+                    .load(it.cover.toUri().buildUpon().scheme("https").build())
+                    .apply(
+                        RequestOptions().placeholder(R.drawable.ic_album)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .error(R.drawable.ic_artist)
+                    ).into(binding.adCover)
             }
         })
 
