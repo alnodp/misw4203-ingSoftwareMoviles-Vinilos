@@ -21,23 +21,23 @@ class ArtistRepository(application: Application)  {
         serviceAdapter = NetworkServiceAdapter.getInstance(application)
     }
 
-    fun getArtists(onComplete:(resp: List<Artist>)->Unit, onError: (error: VolleyError)->Unit){
-        serviceAdapter.getArtists(onComplete, onError)
+    suspend fun getArtists(): List<Artist> {
+        return serviceAdapter.getArtists()
     }
 
-    fun getArtist(artistId: Int, onComplete:(resp: Artist)->Unit, onError: (error: VolleyError)->Unit){
-        serviceAdapter.getArtist(artistId, onComplete, onError)
+    suspend fun getArtist(artistId: Int): Artist {
+        return serviceAdapter.getArtist(artistId)
     }
 
-    fun getArtistAlbums(artistId: Int, onComplete:(resp: List<Album>)->Unit, onError: (error: VolleyError)->Unit){
-        serviceAdapter.getArtistAlbums(artistId, onComplete, onError)
+    suspend fun getArtistAlbums(artistId: Int): List<Album> {
+        return serviceAdapter.getArtistAlbums(artistId)
     }
 
-    fun getArtistPrizes(artistId: Int, onComplete:(resp: List<Prize>)->Unit, onError: (error: VolleyError)->Unit){
-        serviceAdapter.getArtistPrizes(artistId, onComplete, onError)
+    suspend fun getArtistPrizes(artistId: Int): List<Prize> {
+        return serviceAdapter.getArtistPrizes(artistId)
     }
 
-    fun getPrize(prizeId: Int, onComplete:(resp: Prize)->Unit, onError: (error: VolleyError)->Unit){
-        serviceAdapter.getPrize(prizeId, onComplete, onError)
+    suspend fun getPrize(prizeId: Int): Prize {
+        return serviceAdapter.getPrize(prizeId)
     }
 }

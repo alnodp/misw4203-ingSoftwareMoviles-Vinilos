@@ -18,11 +18,11 @@ class AlbumRepository(context: Context) {
             }
     }
 
-    fun getAlbums(onComplete:(resp:List<Album>)->Unit, onError: (error: VolleyError)->Unit){
-        networkServiceAdapter.getAlbums(onComplete, onError)
+    suspend fun getAlbums(): List<Album>{
+        return networkServiceAdapter.getAlbums()
     }
 
-    fun getAlbum(albumId: Int, onComplete: (resp:Album)->Unit, onError: (error: VolleyError)->Unit) {
-        networkServiceAdapter.getAlbum(albumId, onComplete, onError)
+    suspend fun getAlbum(albumId: Int): Album {
+        return networkServiceAdapter.getAlbum(albumId)
     }
 }
