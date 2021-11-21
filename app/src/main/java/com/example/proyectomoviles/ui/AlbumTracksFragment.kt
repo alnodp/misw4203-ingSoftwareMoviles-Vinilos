@@ -10,12 +10,9 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.TracksAdapter
 import com.example.proyectomoviles.databinding.TracksFragmentBinding
-import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.viewmodels.AlbumTracksViewModel
-import com.squareup.picasso.Picasso
 
 class AlbumTracksFragment : Fragment() {
     private var viewModelAdapter: TracksAdapter? = null
@@ -56,14 +53,8 @@ class AlbumTracksFragment : Fragment() {
         viewModel = ViewModelProvider(this, AlbumTracksViewModel.Factory(activity?.application!!, albumId!!)).get(
             AlbumTracksViewModel::class.java)
 
-        viewModel.album.observe(viewLifecycleOwner, Observer<Album> {
+        viewModel.album.observe(viewLifecycleOwner, {
             it.apply {
-                binding!!.album = this
-                Picasso.get()
-                    .load(it.cover)
-                    .placeholder(R.drawable.ic_album)
-                    .error(R.drawable.ic_artist)
-
                 val values = this.tracks
                 viewModelAdapter!!.tracks = values
 
@@ -72,8 +63,6 @@ class AlbumTracksFragment : Fragment() {
                 }else{
                     binding!!.tracksRV.visibility = View.GONE
                 }
-
-
             }
         })
 

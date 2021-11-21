@@ -10,12 +10,10 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.ComentariosAdapter
 import com.example.proyectomoviles.databinding.CommentsFragmentBinding
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.viewmodels.AlbumCommentsViewModel
-import com.squareup.picasso.Picasso
 
 class AlbumCommentsFragment : Fragment() {
     private var viewModelAdapter: ComentariosAdapter? = null
@@ -61,10 +59,6 @@ class AlbumCommentsFragment : Fragment() {
         viewModel.album.observe(viewLifecycleOwner, Observer<Album> {
             it.apply {
                 binding!!.album = this
-                Picasso.get()
-                    .load(it.cover)
-                    .placeholder(R.drawable.ic_album)
-                    .error(R.drawable.ic_artist)
                 val values = this.comments
                 viewModelAdapter!!.comments = values
 

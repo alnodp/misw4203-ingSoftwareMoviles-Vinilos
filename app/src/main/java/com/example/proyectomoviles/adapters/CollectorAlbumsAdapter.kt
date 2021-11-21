@@ -4,13 +4,15 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.models.Album
-import com.example.proyectomoviles.databinding.ListItemAlbumesBinding
 import com.example.proyectomoviles.databinding.ListItemAlbumesContentTabBinding
-import com.squareup.picasso.Picasso
 
 class CollectorAlbumsAdapter() : RecyclerView.Adapter<CollectorAlbumsAdapter.CollectorAlbumsViewHolder>() {
 
@@ -19,6 +21,16 @@ class CollectorAlbumsAdapter() : RecyclerView.Adapter<CollectorAlbumsAdapter.Col
         companion object {
             @LayoutRes
             val LAYOUT = R.layout.list_item_albumes_content_tab
+        }
+
+        fun bind(album: Album) {
+            Glide.with(itemView)
+                .load(album.cover.toUri().buildUpon().scheme("https").build())
+                .apply(
+                    RequestOptions().placeholder(R.drawable.ic_album)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .error(R.drawable.ic_artist)
+                ).into(viewDataBinding.adCover)
         }
     }
 
@@ -41,12 +53,8 @@ class CollectorAlbumsAdapter() : RecyclerView.Adapter<CollectorAlbumsAdapter.Col
     override fun onBindViewHolder(holder: CollectorAlbumsViewHolder, position: Int) {
         holder.viewDataBinding.also {
             it.album = albums[position]
-            Picasso.get()
-                .load(it.album!!.cover)
-                .placeholder(R.drawable.ic_album)
-                .error(R.drawable.ic_artist)
-                .into(it.adCover)
         }
+        holder.bind(albums[position])
     }
 
     override fun getItemCount(): Int {
