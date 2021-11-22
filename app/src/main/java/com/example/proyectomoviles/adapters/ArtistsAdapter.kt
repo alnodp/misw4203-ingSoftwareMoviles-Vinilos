@@ -95,6 +95,7 @@ class ArtistsAdapter() : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>()
                 return FilterResults().apply { values = artistsFiltered }
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
 
                 artistsFiltered = if (results?.values == null)

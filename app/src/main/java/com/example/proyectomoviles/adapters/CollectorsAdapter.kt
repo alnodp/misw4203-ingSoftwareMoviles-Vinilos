@@ -1,5 +1,6 @@
 package com.example.proyectomoviles.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -77,6 +78,7 @@ class CollectorsAdapter() : RecyclerView.Adapter<CollectorsAdapter.CollectorView
                 return FilterResults().apply { values = collectorsFiltered }
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
 
                 collectorsFiltered = if (results?.values == null)

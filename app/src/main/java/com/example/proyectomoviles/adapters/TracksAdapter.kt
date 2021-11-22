@@ -1,5 +1,6 @@
 package com.example.proyectomoviles.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
@@ -20,6 +21,7 @@ class TracksAdapter() : RecyclerView.Adapter<TracksAdapter.TrackViewHolder>() {
     }
 
     var tracks :List<Track> = emptyList()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
