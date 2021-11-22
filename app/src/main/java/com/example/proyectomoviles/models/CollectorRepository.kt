@@ -1,14 +1,16 @@
 package com.example.proyectomoviles.models
 
+import android.annotation.SuppressLint
 import android.app.Application
-import com.android.volley.VolleyError
+import android.content.Context
+import com.example.proyectomoviles.network.CacheManager
 import com.example.proyectomoviles.network.NetworkServiceAdapter
 
-class CollectorRepository (application: Application)  {
-
-    private var serviceAdapter: NetworkServiceAdapter
+class CollectorRepository (val context: Context)  {
+    private var serviceAdapter: NetworkServiceAdapter = NetworkServiceAdapter.getInstance(context)
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         var instance: CollectorRepository? = null
         fun getInstance(application: Application) =
             instance ?: synchronized(this) {
@@ -18,13 +20,16 @@ class CollectorRepository (application: Application)  {
             }
     }
 
-    init {
-        serviceAdapter = NetworkServiceAdapter.getInstance(application)
-    }
-
 
     suspend fun getCollectors(): List<Collector>{
-        return serviceAdapter.getCollectors()
+        val potentialResp = CacheManager.getInstance(context).getCollectors()
+        return if(potentialResp.isEmpty()){
+            val collectors = serviceAdapter.getCollectors()
+            CacheManager.getInstance(context).addCollectors(collectors)
+            collectors
+        } else{
+            potentialResp
+        }
     }
 
     suspend fun getCollector(collectorId: Int): Collector {
