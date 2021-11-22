@@ -3,21 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable name="album" type="com.example.proyectomoviles.models.Album"/>
-    </data>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.PerformerAlbumFragment">
+        tools:context=".ui.ArtistPrizesFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/performersRV"
+            android:id="@+id/prizesRV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/list_item_performers" />
+            tools:listitem="@layout/list_item_prizes" />
 
     </FrameLayout>
 </layout>

@@ -4,8 +4,11 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.models.AlbumRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class PerformerAlbumViewModel (application: Application, albumId: Int) : AndroidViewModel(application){
+class AlbumCommentsViewModel (application: Application, albumId: Int) : AndroidViewModel(application){
     private val _album = MutableLiveData<Album>()
 
     val album: LiveData<Album>
@@ -28,13 +31,19 @@ class PerformerAlbumViewModel (application: Application, albumId: Int) : Android
     }
 
     private fun getDataFromRepository() {
-        AlbumRepository.getInstance(getApplication()).getAlbum(id, {
-            _album.postValue(it)
-            _eventNetworkError.value = false
-            _isNetworkErrorShown.value = false
-        },{
+        try {
+            viewModelScope.launch (Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    val data = AlbumRepository.getInstance(getApplication()).getAlbum(id)
+                    _album.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
             _eventNetworkError.value = true
-        })
+        }
     }
 
     fun onNetworkErrorShown() {
@@ -43,9 +52,9 @@ class PerformerAlbumViewModel (application: Application, albumId: Int) : Android
 
     class Factory(val app: Application, val albumId: Int) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(PerformerAlbumViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(AlbumCommentsViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return PerformerAlbumViewModel(app, albumId) as T
+                return AlbumCommentsViewModel(app, albumId) as T
             }
             throw IllegalArgumentException("Unable to construct viewmodel")
         }

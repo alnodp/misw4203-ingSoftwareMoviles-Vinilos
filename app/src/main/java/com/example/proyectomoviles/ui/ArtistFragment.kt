@@ -1,51 +1,60 @@
 package com.example.proyectomoviles.ui
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.proyectomoviles.R
-import com.example.proyectomoviles.adapters.ArtistAdapter
+import com.example.proyectomoviles.adapters.ArtistSectionsPagerAdapter
 import com.example.proyectomoviles.databinding.ArtistFragmentBinding
 import com.example.proyectomoviles.models.Artist
-import com.example.proyectomoviles.viewmodels.ArtistsViewModel
+import com.example.proyectomoviles.viewmodels.ArtistViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 
 class ArtistFragment : Fragment() {
     private var _binding: ArtistFragmentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewModel: ArtistsViewModel
-    private lateinit var etFilterArtist: EditText
-    private var viewModelAdapter: ArtistAdapter? = null
+    private val args: ArtistFragmentArgs by navArgs()
+
+    private lateinit var artistSectionsPagerAdapter: ArtistSectionsPagerAdapter
+    private lateinit var viewPager: ViewPager2
+
+    private lateinit var viewModel: ArtistViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = ArtistFragmentBinding.inflate(inflater, container, false)
-        binding.isLoading = true
-
         val view = binding.root
-        etFilterArtist = view.findViewById<EditText>(R.id.etArtistSearch)
-
-        viewModelAdapter = ArtistAdapter()
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView = binding.rvArtist
-        recyclerView.layoutManager = GridLayoutManager(context, 2)
-        recyclerView.adapter = viewModelAdapter
+        artistSectionsPagerAdapter = ArtistSectionsPagerAdapter(this, args.artistId)
+        viewPager = binding.pager
+        viewPager.adapter = artistSectionsPagerAdapter
+
+        val tabNames = arrayListOf<String>("Álbumes", "Premios")
+        val tabLayout = binding.tabLayout
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = tabNames[position]
+        }.attach()
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -53,32 +62,26 @@ class ArtistFragment : Fragment() {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
         }
-        viewModel = ViewModelProvider(this, ArtistsViewModel.Factory(activity.application)).get(
-            ArtistsViewModel::class.java)
-        viewModel.artists.observe(viewLifecycleOwner, Observer<List<Artist>> {
+        viewModel = ViewModelProvider(this, ArtistViewModel.Factory(activity.application, args.artistId)).get(
+            ArtistViewModel::class.java)
+
+        viewModel.artist.observe(viewLifecycleOwner,     Observer<Artist> {
+
             it.apply {
-                if(it.isNotEmpty()) binding.isLoading = false
-                viewModelAdapter!!.artists = this
+                binding.artist = this
+                Glide.with(this@ArtistFragment)
+                    .load(it.image.toUri().buildUpon().scheme("https").build())
+                    .apply(
+                        RequestOptions().placeholder(R.drawable.ic_artist)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .error(R.drawable.ic_artist)
+                    ).into(binding.adCover)
             }
         })
 
-        etFilterArtist.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                viewModelAdapter!!.filter.filter(charSequence)
-            }
-            override fun afterTextChanged(editable: Editable) {}
-        })
-        
         viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
             if (isNetworkError) onNetworkError()
         })
-    }
-
-    override fun onResume() {
-        viewModelAdapter!!.filter.filter("")
-        etFilterArtist.setText("")
-        super.onResume()
     }
 
     override fun onDestroyView() {

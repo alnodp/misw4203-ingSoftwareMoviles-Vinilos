@@ -4,6 +4,10 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.models.AlbumRepository
+import com.example.proyectomoviles.models.CollectorRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AlbumViewModel(application: Application, albumId: Int) : AndroidViewModel(application){
     private val _album = MutableLiveData<Album>()
@@ -28,13 +32,19 @@ class AlbumViewModel(application: Application, albumId: Int) : AndroidViewModel(
     }
 
     private fun getDataFromRepository() {
-        AlbumRepository.getInstance(getApplication()).getAlbum(id, {
-            _album.postValue(it)
-            _eventNetworkError.value = false
-            _isNetworkErrorShown.value = false
-        },{
+        try {
+            viewModelScope.launch (Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    val data = AlbumRepository.getInstance(getApplication()).getAlbum(id)
+                    _album.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
             _eventNetworkError.value = true
-        })
+        }
     }
 
     fun onNetworkErrorShown() {

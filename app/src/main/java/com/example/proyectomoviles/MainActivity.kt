@@ -8,7 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.proyectomoviles.adapters.SectionsPagerAdapter
+import com.example.proyectomoviles.adapters.AlbumSectionsPagerAdapter
 import com.example.proyectomoviles.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayout
 
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_albumes, R.id.navigation_artists
+                R.id.navigation_home, R.id.navigation_albumes, R.id.navigation_artists, R.id.navigation_collectors
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

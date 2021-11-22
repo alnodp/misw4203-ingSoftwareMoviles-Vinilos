@@ -1,19 +1,24 @@
 package com.example.proyectomoviles.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.proyectomoviles.R
 import com.example.proyectomoviles.models.Artist
 import com.example.proyectomoviles.databinding.ListItemArtistsBinding
-import com.squareup.picasso.Picasso
+import com.example.proyectomoviles.ui.ArtistsFragmentDirections
 
-class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(), Filterable {
+class ArtistsAdapter() : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>(), Filterable {
 
     class ArtistViewHolder(val viewDataBinding: ListItemArtistsBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
@@ -21,9 +26,20 @@ class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(), 
             @LayoutRes
             val LAYOUT = R.layout.list_item_artists
         }
+
+        fun bind(artist: Artist) {
+            Glide.with(itemView)
+                .load(artist.image.toUri().buildUpon().scheme("https").build())
+                .apply(
+                    RequestOptions().placeholder(R.drawable.ic_artist)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .error(R.drawable.ic_artist)
+                ).into(viewDataBinding.ivArtistImage)
+        }
     }
 
     var artists :List<Artist> = emptyList()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             artistsFiltered = value
@@ -47,18 +63,14 @@ class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(), 
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
         holder.viewDataBinding.also {
             it.artist = artistsFiltered[position]
-            Picasso.get()
-                .load(it.artist!!.image)
-                .placeholder(R.drawable.ic_artist)
-                .into(it.ivArtistImage);
         }
+        holder.bind(artistsFiltered[position])
 
         holder.viewDataBinding.root.setOnClickListener {
-            val text = "Navegar a Artista con id " + artistsFiltered[position].id
-            val duration = Toast.LENGTH_SHORT
+            val action = ArtistsFragmentDirections.actionArtistsFragmentToArtistFragment(artistsFiltered[position].id)
+            // Navigate using that action
+            holder.viewDataBinding.root.findNavController().navigate(action)
 
-            val toast = Toast.makeText(holder.viewDataBinding.root.context, text, duration)
-            toast.show()
         }
     }
 
@@ -83,6 +95,7 @@ class ArtistAdapter() : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>(), 
                 return FilterResults().apply { values = artistsFiltered }
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
 
                 artistsFiltered = if (results?.values == null)

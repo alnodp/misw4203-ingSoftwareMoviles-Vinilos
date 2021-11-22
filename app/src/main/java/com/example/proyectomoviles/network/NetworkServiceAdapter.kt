@@ -9,14 +9,12 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.proyectomoviles.models.Album
-import com.example.proyectomoviles.models.Comment
-import com.example.proyectomoviles.models.Artist
-import com.example.proyectomoviles.models.Performer
-import com.example.proyectomoviles.models.Track
+import com.example.proyectomoviles.models.*
 import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class NetworkServiceAdapter constructor(context: Context) {
     companion object{
@@ -33,30 +31,13 @@ class NetworkServiceAdapter constructor(context: Context) {
         // applicationContext keeps you from leaking the Activity or BroadcastReceiver if someone passes one in.
         Volley.newRequestQueue(context.applicationContext)
     }
-    fun getAlbums(onComplete:(resp:List<Album>)->Unit, onError: (error: VolleyError)->Unit){
+
+    suspend fun getAlbums() = suspendCoroutine<List<Album>> { cont ->
+        val list = mutableListOf<Album>()
         requestQueue.add(getRequest("albums", { response ->
             val resp = JSONArray(response)
-            val list = mutableListOf<Album>()
             for (i in 0 until resp.length()) {
                 val item = resp.getJSONObject(i)
-                //TODO add tracks and comments
-
-                val performers = mutableListOf<Performer>()
-                if (item.has("performers")){
-                    val performersJsonArray = item.getJSONArray("performers")
-                    for(index in 0 until performersJsonArray.length()){
-                        val perfItem = performersJsonArray.getJSONObject(index)
-                        performers.add(
-                            Performer(
-                                id = perfItem.getInt("id"),
-                                name = perfItem.getString("name"),
-                                image = perfItem.getString("image"),
-                                description = perfItem.getString("description"),
-                                birthDate = if (perfItem.has("birthDate")) perfItem.getString("birthDate") else "",
-                            )
-                        )
-                    }
-                }
 
                 list.add(
                     i,
@@ -67,21 +48,21 @@ class NetworkServiceAdapter constructor(context: Context) {
                         recordLabel = item.getString("recordLabel"),
                         releaseDate = item.getString("releaseDate"),
                         genre = item.getString("genre"),
-                        description = item.getString("description"),
-                        performers = performers
+                        description = item.getString("description")
                     )
                 )
             }
-            onComplete(list)
+            cont.resume(list)
         }, {
-            onError(it)
+            cont.resumeWithException(it)
         }))
     }
 
-    fun getArtists(onComplete:(resp:List<Artist>)->Unit, onError: (error: VolleyError)->Unit){
+    suspend fun getArtists() = suspendCoroutine<List<Artist>> { cont ->
+        val list = mutableListOf<Artist>()
         requestQueue.add(getRequest("musicians", { response ->
+            Log.d("getArtists ", response)
             val resp = JSONArray(response)
-            val list = mutableListOf<Artist>()
             for (i in 0 until resp.length()) {
                 val item = resp.getJSONObject(i)
                 list.add(
@@ -95,13 +76,106 @@ class NetworkServiceAdapter constructor(context: Context) {
                     )
                 )
             }
-            onComplete(list)
+            cont.resume(list)
         }, {
-            onError(it)
+            cont.resumeWithException(it)
         }))
     }
 
-    fun getAlbum(albumId: Int, onComplete: (resp: Album) -> Unit, onError: (error: VolleyError) -> Unit) {
+    suspend fun getArtist(artistId: Int) = suspendCoroutine<Artist>{ cont ->
+        var artist: Artist? = null
+        requestQueue.add(getRequest("musicians/$artistId", { response ->
+            Log.d("getArtist $artistId ", response)
+            val resp = JSONObject(response)
+
+            artist = Artist(
+                id = resp.getInt("id"),
+                name = resp.getString("name"),
+                description = resp.getString("description"),
+                image = resp.getString("image"),
+                birthDate = resp.getString("birthDate")
+            )
+
+            cont.resume(artist!!)
+        }, {
+            cont.resumeWithException(it)
+        }))
+    }
+
+    suspend fun getArtistAlbums(artistId: Int) = suspendCoroutine<List<Album>> { cont ->
+        val list = mutableListOf<Album>()
+        requestQueue.add(getRequest("musicians/$artistId/albums",
+            { response ->
+                Log.d("tagb", response)
+                val resp = JSONArray(response)
+                for (i in 0 until resp.length()) {
+                    val albumItem = resp.getJSONObject(i)
+                    list.add(i,
+                        Album(id = albumItem.getInt("id"),
+                            name = albumItem.getString("name"),
+                            cover = albumItem.getString("cover"),
+                            releaseDate = albumItem.getString("releaseDate"),
+                            description = albumItem.getString("description"),
+                            genre = albumItem.getString("genre"),
+                            recordLabel = albumItem.getString("recordLabel")))
+
+                }
+                cont.resume(list)
+            },
+            {
+                cont.resumeWithException(it)
+            }))
+    }
+
+    suspend fun getArtistPrizes(artistId: Int) = suspendCoroutine<List<Prize>> { cont ->
+        val list = mutableListOf<Prize>()
+        requestQueue.add(
+            getRequest("musicians/$artistId/",
+                { response ->
+                    Log.d("tagb", response)
+                    val resp = JSONObject(response)
+
+                    if (resp.has("performerPrizes")) {
+                        val prizesJsonArray = resp.getJSONArray("performerPrizes")
+                        for (index in 0 until prizesJsonArray.length()) {
+                            val perfItem = prizesJsonArray.getJSONObject(index)
+                            list.add(
+                                Prize(
+                                    id = perfItem.getInt("id"),
+                                    premiationDate = perfItem.getString("premiationDate")
+                                )
+                            )
+                        }
+                    }
+                    cont.resume(list)
+                },
+                {
+                    cont.resumeWithException(it)
+                })
+        )
+    }
+
+    suspend fun getPrize(prizeId: Int) = suspendCoroutine<Prize> { cont ->
+        var prize: Prize? = null
+        requestQueue.add(getRequest("prizes/$prizeId", { response ->
+            Log.d("getPrize $prizeId ", response)
+            val resp = JSONObject(response)
+
+            prize = Prize(
+                id = prizeId,
+                name = resp.getString("name"),
+                organization = resp.getString("organization"),
+                description = resp.getString("description")
+            )
+
+            cont.resume(prize!!)
+        }, {
+            cont.resumeWithException(it)
+        }))
+    }
+
+    suspend fun getAlbum(albumId: Int) = suspendCoroutine<Album> { cont ->
+        var album: Album? = null
         requestQueue.add(getRequest("albums/$albumId",
             { response ->
                 Log.d("tagb", response)
@@ -151,7 +225,7 @@ class NetworkServiceAdapter constructor(context: Context) {
                     )
                 }
 
-                val album: Album = Album(
+                album = Album(
                     id = resp.getInt("id"),
                     name = resp.getString("name"),
                     cover = resp.getString("cover"),
@@ -164,29 +238,149 @@ class NetworkServiceAdapter constructor(context: Context) {
                     tracks = tracks
                 )
 
-                onComplete(album)
+                cont.resume(album!!)
             },
             {
-                onError(it)
+                cont.resumeWithException(it)
             }))
     }
 
-    /*
-    fun getCollectors(onComplete:(resp:List<Collector>)->Unit, onError: (error:VolleyError)->Unit) {
-        requestQueue.add(getRequest("collectors",
-            Response.Listener<String> { response ->
-                val resp = JSONArray(response)
-                val list = mutableListOf<Collector>()
-                for (i in 0 until resp.length()) {
-                    val item = resp.getJSONObject(i)
-                    list.add(i, Collector(collectorId = item.getInt("id"),name = item.getString("name"), telephone = item.getString("telephone"), email = item.getString("email")))
+    suspend fun getCollectors() = suspendCoroutine<List<Collector>> { cont ->
+        val list = mutableListOf<Collector>()
+        requestQueue.add(
+            getRequest("collectors",
+                { response ->
+                    val resp = JSONArray(response)
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        list.add(
+                            i, Collector(
+                                collectorId = item.getInt("id"),
+                                name = item.getString("name"),
+                                telephone = item.getString("telephone"),
+                                email = item.getString("email")
+                            )
+                        )
+                    }
+                    cont.resume(list)
+                },
+                {
+                    cont.resumeWithException(it)
+                })
+        )
+    }
+
+    suspend fun getCollector(collectorId: Int) = suspendCoroutine<Collector> { cont ->
+        var collector: Collector? = null
+        requestQueue.add(getRequest("collectors/$collectorId",
+            { response ->
+                Log.d("tagb", response)
+                val resp = JSONObject(response)
+
+                val commentsList: JSONArray = resp.getJSONArray("comments")
+                val comments = mutableListOf<Comment>()
+                var comment: JSONObject? = null
+
+                for (i in 0 until commentsList.length()) {
+                    comment = commentsList.getJSONObject(i)
+                    comments.add(
+                        Comment(comment.getString("description"),
+                            comment.getInt("rating").toString(), collectorId)
+                    )
                 }
-                onComplete(list)
+
+                val favPerformers = mutableListOf<Performer>()
+                if (resp.has("favoritePerformers")){
+                    val performersJsonArray = resp.getJSONArray("favoritePerformers")
+                    for(index in 0 until performersJsonArray.length()){
+                        val perfItem = performersJsonArray.getJSONObject(index)
+                        favPerformers.add(
+                            Performer(
+                                id = perfItem.getInt("id"),
+                                name = perfItem.getString("name"),
+                                image = perfItem.getString("image"),
+                                description = perfItem.getString("description"),
+                                birthDate = if (perfItem.has("birthDate")) perfItem.getString("birthDate") else "",
+                            )
+                        )
+                    }
+                }
+
+                val albumList: JSONArray = resp.getJSONArray("collectorAlbums")
+                val albums = mutableListOf<Album>()
+                var album: JSONObject? = null
+
+                for (i in 0 until albumList.length()) {
+                    album = albumList.getJSONObject(i)
+                    albums.add(
+                        Album(
+                            id = album.getInt("id"),
+                            name = if (album.has("name")) album.getString("name") else "",
+                            cover = if (album.has("cover")) album.getString("cover") else "",
+                            recordLabel = if (album.has("recordLabel")) album.getString("recordLabel") else "",
+                            releaseDate = if (album.has("releaseDate")) album.getString("releaseDate") else "",
+                            genre = if (album.has("genre")) album.getString("genre") else "",
+                            description = if (album.has("description")) album.getString("description") else "",
+                            price = album.getString("price"),
+                            status = album.getString("status")
+                        )
+                    )
+                }
+
+                collector = Collector(
+                    collectorId = resp.getInt("id"),
+                    name = resp.getString("name"),
+                    telephone = resp.getString("telephone"),
+                    email = resp.getString("email"),
+                    comments = comments,
+                    favoritePerformers = favPerformers,
+                    collectorAlbums = albums
+                )
+
+                cont.resume(collector!!)
             },
-            Response.ErrorListener {
-                onError(it)
+            {
+                cont.resumeWithException(it)
             }))
     }
+
+    suspend fun getCollectorAlbums(collectorId: Int) = suspendCoroutine<List<Album>> { cont ->
+        val list = mutableListOf<Album>()
+        requestQueue.add(
+            getRequest("collectors/$collectorId/albums",
+                { response ->
+                    Log.d("tagb", response)
+                    val resp = JSONArray(response)
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+
+                        if (item.has("album")) {
+                            val albumItem = item.getJSONObject("album")
+                            list.add(
+                                i,
+                                Album(
+                                    id = albumItem.getInt("id"),
+                                    name = albumItem.getString("name"),
+                                    price = item.getString("price"),
+                                    status = item.getString("status"),
+                                    cover = albumItem.getString("cover"),
+                                    description = albumItem.getString("description"),
+                                    genre = albumItem.getString("genre"),
+                                    recordLabel = albumItem.getString("recordLabel"),
+                                    releaseDate = albumItem.getString("releaseDate")
+                                )
+                            )
+                        }
+                    }
+                    cont.resume(list)
+                },
+                {
+                    cont.resumeWithException(it)
+                })
+        )
+    }
+
+    /*
     fun getComments( albumId:Int, onComplete:(resp:List<Comment>)->Unit , onError: (error:VolleyError)->Unit) {
         requestQueue.add(getRequest("albums/$albumId/comments",
             Response.Listener<String> { response ->

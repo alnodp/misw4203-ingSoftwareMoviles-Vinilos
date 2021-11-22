@@ -54,8 +54,7 @@ class AlbumesFragment : Fragment() {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
         }
-        viewModel = ViewModelProvider(this, AlbumesViewModel.Factory(activity.application)).get(
-            AlbumesViewModel::class.java)
+        viewModel = ViewModelProvider(this, AlbumesViewModel.Factory(activity.application))[AlbumesViewModel::class.java]
         viewModel.albumes.observe(viewLifecycleOwner, Observer<List<Album>> {
             it.apply {
                 if(it.isNotEmpty()) binding.isLoading = false

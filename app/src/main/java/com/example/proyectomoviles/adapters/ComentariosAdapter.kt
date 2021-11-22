@@ -1,5 +1,6 @@
 package com.example.proyectomoviles.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
@@ -20,6 +21,7 @@ class ComentariosAdapter() : RecyclerView.Adapter<ComentariosAdapter.CommentView
     }
 
     var comments :List<Comment> = emptyList()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
