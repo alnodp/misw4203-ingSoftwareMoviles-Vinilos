@@ -1,14 +1,15 @@
 package com.example.proyectomoviles.models
 
-import android.app.Application
+import android.annotation.SuppressLint
 import android.content.Context
-import com.android.volley.VolleyError
+import com.example.proyectomoviles.network.CacheManager
 import com.example.proyectomoviles.network.NetworkServiceAdapter
 
-class AlbumRepository(context: Context) {
-    private var networkServiceAdapter: NetworkServiceAdapter = NetworkServiceAdapter.getInstance(context)
+class AlbumRepository(val context: Context) {
+    private var serviceAdapter: NetworkServiceAdapter = NetworkServiceAdapter.getInstance(context)
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         var instance: AlbumRepository? = null
         fun getInstance(context: Context) =
             instance ?: synchronized(this) {
@@ -19,10 +20,17 @@ class AlbumRepository(context: Context) {
     }
 
     suspend fun getAlbums(): List<Album>{
-        return networkServiceAdapter.getAlbums()
+        val potentialResp = CacheManager.getInstance(context).getAlbums()
+        return if(potentialResp.isEmpty()){
+            val albums = serviceAdapter.getAlbums()
+            CacheManager.getInstance(context).addAlbums(albums)
+            albums
+        } else{
+            potentialResp
+        }
     }
 
     suspend fun getAlbum(albumId: Int): Album {
-        return networkServiceAdapter.getAlbum(albumId)
+        return serviceAdapter.getAlbum(albumId)
     }
 }
