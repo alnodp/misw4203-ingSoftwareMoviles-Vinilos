@@ -29,4 +29,5 @@
     <string name="tv_string_titulo">"VINILOS"</string>
     <string name="tv_string_descripcion">"Encuentra el próximo hit"</string>
     <string name="tv_string_funciones">"Albumes, Artistas y Coleccionistas"</string>
+    <string name="fab_content_desc">Agregar canción al álbum</string>
 </resources>
