@@ -9,6 +9,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="album_detail_title">Detalle de álbum</string>
+    <string name="new_album_track_label">Agregar canción</string>
     <string name="collector_detail_title">Detalle de coleccionista</string>
     <string name="artist_detail_title">Detalle de artista</string>
     <string name="tab_text_1">Canciones</string>
@@ -30,4 +31,10 @@
     <string name="tv_string_descripcion">"Encuentra el próximo hit"</string>
     <string name="tv_string_funciones">"Albumes, Artistas y Coleccionistas"</string>
     <string name="fab_content_desc">Agregar canción al álbum</string>
+    <string name="new_track_title">Datos de la canción</string>
+    <string name="track_name">Nombre</string>
+    <string name="track_minutes">Minutos</string>
+    <string name="track_seconds">Segundos</string>
+    <string name="required">Requerido*</string>
+    <string name="track_detail_title">Detalles de canción</string>
 </resources>

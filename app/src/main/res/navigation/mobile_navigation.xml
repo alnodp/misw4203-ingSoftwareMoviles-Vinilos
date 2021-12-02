@@ -55,6 +55,19 @@
         android:name="com.example.proyectomoviles.ui.AlbumFragment"
         android:label="@string/album_detail_title"
         tools:layout="@layout/album_fragment">
+        <action
+            android:id="@+id/action_albumFragment_to_newAlbumTrackFragment"
+            app:destination="@id/NewAlbumTrackFragment" />
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/NewAlbumTrackFragment"
+        android:name="com.example.proyectomoviles.ui.NewAlbumTrackFragment"
+        android:label="@string/new_album_track_label"
+        tools:layout="@layout/new_album_track_fragment">
         <argument
             android:name="albumId"
             app:argType="integer" />
