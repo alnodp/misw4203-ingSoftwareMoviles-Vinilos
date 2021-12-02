@@ -4,15 +4,20 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.models.AlbumRepository
+import com.example.proyectomoviles.models.Track
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class NewAlbumTrackViewModel(application: Application, albumId: Int) : AndroidViewModel(application){
     private val _album = MutableLiveData<Album>()
+    private val _track = MutableLiveData<Track>()
 
     val album: LiveData<Album>
         get() = _album
+
+    val track: LiveData<Track>
+        get() = _track
 
     val id:Int = albumId
 

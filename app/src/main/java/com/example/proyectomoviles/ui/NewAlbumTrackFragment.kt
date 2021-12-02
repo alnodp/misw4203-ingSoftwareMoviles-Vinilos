@@ -1,6 +1,7 @@
 package com.example.proyectomoviles.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.example.proyectomoviles.R
 import com.example.proyectomoviles.databinding.NewAlbumTrackFragmentBinding
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.viewmodels.NewAlbumTrackViewModel
+import com.google.android.material.textfield.TextInputLayout
 
 class NewAlbumTrackFragment : Fragment() {
     private var _binding: NewAlbumTrackFragmentBinding? = null
@@ -38,56 +40,49 @@ class NewAlbumTrackFragment : Fragment() {
         val view = binding.root
 
         binding.nameInputEditText.doOnTextChanged { text, start, before, count ->
-            if (text!!.length > 64){
-                binding.nameTextInputLayout.error = "No puede exceder los 64 caractéres."
-            }else{
-                binding.nameTextInputLayout.error = null
-            }
+            validateName(text, binding.nameTextInputLayout)
         }
 
-        val timeFields = arrayOf(
-            arrayOf(binding.minuteInputEditText, binding.minuteTextInputLayout),
-            arrayOf(binding.secondInputEditText, binding.secondTextInputLayout))
-
         binding.minuteInputEditText.doOnTextChanged { text, start, before, count ->
-            if (text.toString() == "") {
-                binding.minuteTextInputLayout.error = null
-            }else{
-                if("^[0-9][0-9]?\$".toRegex().matches(text.toString())) {
-                    val minutes: Int = text.toString().toInt()
-                    if (minutes > 60){
-                        binding.minuteTextInputLayout.error = "No puede ser un número mayor a 60."
-                    }else{
-                        binding.minuteTextInputLayout.error = null
-                    }
-                }else{
-                    binding.minuteTextInputLayout.error = "No usar símbolos , + - . ó espacios en blanco."
-                }
-            }
+            validateMinutesOrSeconds(text, binding.minuteTextInputLayout)
         }
 
         binding.secondInputEditText.doOnTextChanged { text, start, before, count ->
-            if (text.toString() == "") {
-                binding.secondTextInputLayout.error = null
-            }else{
-                if("^[0-9][0-9]?\$".toRegex().matches(text.toString())) {
-                    val minutes: Int = text.toString().toInt()
-                    if (minutes > 60){
-                        binding.secondTextInputLayout.error = "No puede ser un número mayor a 60."
-                    }else{
-                        binding.secondTextInputLayout.error = null
-                    }
-                }else{
-                    binding.secondTextInputLayout.error = "No usar símbolos , + - . ó espacios en blanco."
-                }
-            }
+            validateMinutesOrSeconds(text, binding.secondTextInputLayout)
         }
-        
+
+        binding.saveButton.setOnClickListener{
+            Log.d("trackInfo ", binding.track.toString())
+        }
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    private fun validateName(text: CharSequence?, layout: TextInputLayout) {
+        if (text!!.length > 64){
+            layout.error = "No puede exceder los 64 caractéres."
+        }else{
+            layout.error = null
+        }
+    }
 
+    private fun validateMinutesOrSeconds(text: CharSequence?, layout: TextInputLayout) {
+        if (text.toString() == "") {
+            layout.error = null
+        }else{
+            if("^[0-9][0-9]?\$".toRegex().matches(text.toString())) {
+                val minutes: Int = text.toString().toInt()
+                if (minutes > 60){
+                    layout.error = "No puede ser un número mayor a 60."
+                }else{
+                    layout.error = null
+                }
+            }else{
+                binding.minuteTextInputLayout.error = "No usar símbolos , + - . ó espacios en blanco."
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

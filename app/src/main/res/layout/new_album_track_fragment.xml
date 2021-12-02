@@ -6,6 +6,7 @@
 
     <data>
         <variable name="album" type="com.example.proyectomoviles.models.Album"/>
+        <variable name="track" type="com.example.proyectomoviles.models.Track"/>
     </data>
 
     <LinearLayout
@@ -113,7 +114,8 @@
                 android:inputType="text"
                 android:maxLength="65"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="@{track.name}"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,7 +138,8 @@
                 android:maxLength="2"
                 android:inputType="number"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="@{track.minutes}"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,9 +162,42 @@
                 android:maxLength="2"
                 android:inputType="number"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="@{track.seconds}"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/saveButton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:backgroundTint="@color/red"
+                android:text="@string/cancel_button"
+                tools:text="Cancelar"/>
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cancelButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:backgroundTint="@color/primary"
+                android:text="@string/save_button"
+                tools:text="Guardar"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 </layout>

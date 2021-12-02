@@ -37,4 +37,6 @@
     <string name="track_seconds">Segundos</string>
     <string name="required">Requerido*</string>
     <string name="track_detail_title">Detalles de canción</string>
+    <string name="save_button">Guardar</string>
+    <string name="cancel_button">Cancelar</string>
 </resources>
