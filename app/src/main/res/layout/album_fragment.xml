@@ -66,7 +66,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="8dp"
                         android:text="@{album.genre}"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -81,6 +81,16 @@
                         android:textSize="16sp"
                         android:textStyle="italic"
                         tools:text="Elektra" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/addAlbumTrackButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_margin="8dp"
+                        android:contentDescription="@string/fab_content_desc"
+                        app:srcCompat="@drawable/ic_baseline_playlist_add_24"
+                        tools:ignore="RtlHardcoded" />
 
                 </LinearLayout>
 
@@ -112,6 +122,5 @@
                 android:layout_height="match_parent" />
 
         </LinearLayout>
-
     </FrameLayout>
 </layout>

@@ -33,4 +33,8 @@ class AlbumRepository(val context: Context) {
     suspend fun getAlbum(albumId: Int): Album {
         return serviceAdapter.getAlbum(albumId)
     }
+
+    suspend fun addAlbumTrack(albumId: Int, track: Track): Track {
+        return serviceAdapter.addTrack(albumId, track)
+    }
 }

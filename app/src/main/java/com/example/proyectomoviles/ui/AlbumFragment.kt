@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -19,6 +21,7 @@ import com.example.proyectomoviles.adapters.AlbumSectionsPagerAdapter
 import com.example.proyectomoviles.databinding.AlbumFragmentBinding
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.viewmodels.AlbumViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayoutMediator
 
 class AlbumFragment : Fragment() {
@@ -41,6 +44,13 @@ class AlbumFragment : Fragment() {
     ): View? {
         _binding = AlbumFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        val button = view.findViewById<FloatingActionButton>(R.id.addAlbumTrackButton)
+        button.setOnClickListener{
+            val action = AlbumFragmentDirections.actionAlbumFragmentToNewAlbumTrackFragment(args.albumId)
+            binding.root.findNavController().navigate(action)
+        }
+
         return view
     }
 
