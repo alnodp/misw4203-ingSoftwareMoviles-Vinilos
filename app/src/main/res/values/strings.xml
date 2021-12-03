@@ -20,7 +20,7 @@
     <string name="collector_tab3">Comentarios</string>
     <string name="artist_tab1">Álbumes</string>
     <string name="artist_tab2">Premios</string>
-    <string name="cover_description">Imagen de interprete</string>
+    <string name="cover_description">Cubierta de album</string>
     <string name="comment_rating_label">Rating</string>
     <string name="pd_birdthdate_label">"Fecha de nacimiento: "</string>
     <string name="collector_email_label">Email: </string>

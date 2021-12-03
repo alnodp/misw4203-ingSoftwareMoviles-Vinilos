@@ -5,7 +5,6 @@ import android.util.Log
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -380,37 +379,23 @@ class NetworkServiceAdapter constructor(context: Context) {
         )
     }
 
-    /*
-    fun getComments( albumId:Int, onComplete:(resp:List<Comment>)->Unit , onError: (error:VolleyError)->Unit) {
-        requestQueue.add(getRequest("albums/$albumId/comments",
-            Response.Listener<String> { response ->
-                val resp = JSONArray(response)
-                val list = mutableListOf<Comment>()
-                var item: JSONObject? = null
-                for (i in 0 until resp.length()) {
-                    item = resp.getJSONObject(i)
-                    Log.d("Response", item.toString())
-                    list.add(i, Comment(albumId = albumId, rating = item.getInt("rating"), description = item.getString("description")))
-                    Log.d("Rating", Comment(albumId = albumId, rating = item.getInt("rating"), description = item.getString("description")).rating.toString())
-                }
-                onComplete(list)
-            },
-            Response.ErrorListener {
-                onError(it)
-            }))
-    }
-    fun postComment(body: JSONObject, albumId: Int, onComplete:(resp: JSONObject)->Unit, onError: (error:VolleyError)->Unit){
-        requestQueue.add(postRequest("albums/$albumId/comments",
-            body,
-            Response.Listener<JSONObject> { response ->
-                onComplete(response)
-            },
-            Response.ErrorListener {
-                onError(it)
-            }))
+    suspend fun addTrack(albumId: Int, track: Track) = suspendCoroutine<Track> { cont ->
+        requestQueue.add(
+            postRequest("albums/$albumId/tracks", JSONObject("""{"name":"${track.name}", "duration":"${track.duration}"}"""),
+                { response ->
+                    val trackCreated = Track(
+                        name = response.getString("name"),
+                        duration = response.getString("duration")
+                    )
+
+                    cont.resume(trackCreated)
+                },
+                {
+                    cont.resumeWithException(it)
+                })
+        )
     }
 
-     */
     private fun getRequest(path:String, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener): StringRequest {
         return StringRequest(
             Request.Method.GET,

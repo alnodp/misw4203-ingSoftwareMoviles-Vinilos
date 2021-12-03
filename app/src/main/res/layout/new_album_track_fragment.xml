@@ -6,7 +6,6 @@
 
     <data>
         <variable name="album" type="com.example.proyectomoviles.models.Album"/>
-        <variable name="track" type="com.example.proyectomoviles.models.Track"/>
     </data>
 
     <LinearLayout
@@ -32,7 +31,7 @@
                 android:background="@color/gray"
                 android:scaleType="centerInside"
                 tools:srcCompat="@tools:sample/backgrounds/scenic"
-                android:contentDescription="TODO" />
+                android:contentDescription="@string/cover_description" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -114,8 +113,7 @@
                 android:inputType="text"
                 android:maxLength="65"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{track.name}"/>
+                android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,8 +136,7 @@
                 android:maxLength="2"
                 android:inputType="number"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{track.minutes}"/>
+                android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,8 +159,7 @@
                 android:maxLength="2"
                 android:inputType="number"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{track.seconds}"/>
+                android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

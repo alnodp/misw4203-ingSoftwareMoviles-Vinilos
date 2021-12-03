@@ -1,6 +1,7 @@
 package com.example.proyectomoviles.viewmodels
 
 import android.app.Application
+import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.models.AlbumRepository
@@ -10,14 +11,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class NewAlbumTrackViewModel(application: Application, albumId: Int) : AndroidViewModel(application){
+    var track = MutableLiveData<Track?>()
+
     private val _album = MutableLiveData<Album>()
-    private val _track = MutableLiveData<Track>()
 
     val album: LiveData<Album>
         get() = _album
-
-    val track: LiveData<Track>
-        get() = _track
 
     val id:Int = albumId
 
@@ -33,6 +32,7 @@ class NewAlbumTrackViewModel(application: Application, albumId: Int) : AndroidVi
 
     init {
         getDataFromRepository()
+        track = MutableLiveData()
     }
 
     private fun getDataFromRepository() {
@@ -48,6 +48,23 @@ class NewAlbumTrackViewModel(application: Application, albumId: Int) : AndroidVi
         }
         catch (e:Exception){
             _eventNetworkError.value = true
+        }
+    }
+
+    fun addNewAlbumTrack(track: Track): Boolean {
+        try {
+            viewModelScope.launch (Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    val data = AlbumRepository.getInstance(getApplication()).addAlbumTrack(id, track)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+            return true
+        }
+        catch (e:Exception){
+            _eventNetworkError.value = true
+            return false
         }
     }
 
