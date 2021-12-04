@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectomoviles.R
@@ -18,6 +19,7 @@ import com.example.proyectomoviles.adapters.AlbumesAdapter
 import com.example.proyectomoviles.databinding.AlbumesFragmentBinding
 import com.example.proyectomoviles.models.Album
 import com.example.proyectomoviles.viewmodels.AlbumesViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AlbumesFragment : Fragment() {
     private var _binding: AlbumesFragmentBinding? = null
@@ -30,15 +32,19 @@ class AlbumesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = AlbumesFragmentBinding.inflate(inflater, container, false)
         binding.isLoading = true
 
         val view = binding.root
         filterAlbumET = view.findViewById<EditText>(R.id.AlbumSearchEt)
-
         viewModelAdapter = AlbumesAdapter()
 
+        val button = view.findViewById<FloatingActionButton>(R.id.addAlbumButton)
+        button.setOnClickListener{
+            val action = AlbumesFragmentDirections.actionAlbumesFragmentToNewAlbumFragment()
+            binding.root.findNavController().navigate(action)
+        }
 
         return view
     }

@@ -22,12 +22,20 @@ class AlbumRepository(val context: Context) {
     suspend fun getAlbums(): List<Album>{
         val potentialResp = CacheManager.getInstance(context).getAlbums()
         return if(potentialResp.isEmpty()){
-            val albums = serviceAdapter.getAlbums()
-            CacheManager.getInstance(context).addAlbums(albums)
-            albums
+            getAlbumsFromNet()
         } else{
             potentialResp
         }
+    }
+
+    suspend fun getAlbumsFromNet(): List<Album>{
+        val albums = serviceAdapter.getAlbums()
+        CacheManager.getInstance(context).addAlbums(albums)
+        return albums
+    }
+
+    suspend fun addAlbum(album: Album): Album {
+        return serviceAdapter.addAlbum(album)
     }
 
     suspend fun getAlbum(albumId: Int): Album {
