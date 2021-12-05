@@ -48,6 +48,20 @@
         <action
             android:id="@+id/action_albumesFragment_to_albumFragment"
             app:destination="@id/albumFragment" />
+        <action
+            android:id="@+id/action_albumesFragment_to_newAlbumFragment"
+            app:destination="@id/newAlbumFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newAlbumFragment"
+        android:name="com.example.proyectomoviles.ui.NewAlbumFragment"
+        android:label="@string/new_album_title"
+        tools:layout="@layout/new_album_fragment">
+        <action
+            android:id="@+id/action_newAlbumFragment_to_albumesFragment"
+            app:destination="@id/navigation_albumes"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment

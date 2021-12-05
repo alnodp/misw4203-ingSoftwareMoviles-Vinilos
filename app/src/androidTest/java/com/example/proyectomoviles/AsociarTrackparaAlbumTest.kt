@@ -10,6 +10,7 @@ import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -24,7 +25,7 @@ import org.hamcrest.core.IsInstanceOf
 import org.junit.Rule
 import org.junit.Test
 
-class ConsultarAlbumTest {
+class AsociarTrackparaAlbumTest {
 
     @Rule
     @JvmField
@@ -35,6 +36,7 @@ class ConsultarAlbumTest {
         val bottomNavigationItemView = Espresso.onView(
             Matchers.allOf(
                 ViewMatchers.withId(R.id.navigation_albumes),
+                ViewMatchers.withContentDescription("Albumes"),
                 childAtPosition(
                     childAtPosition(
                         ViewMatchers.withId(R.id.nav_view),
@@ -72,33 +74,50 @@ class ConsultarAlbumTest {
             )
         )
 
+        onView(withId(R.id.AlbumSearchEt)).perform(typeText("Meejo"))
+        Thread.sleep(1000)
+
         val textView = Espresso.onView(
             Matchers.allOf(
-                ViewMatchers.withId(R.id.textView), ViewMatchers.withText("Buscando América"),
+                ViewMatchers.withId(R.id.textView), ViewMatchers.withText("Meejo"),
                 ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
                 ViewMatchers.isDisplayed()
             )
         )
-        textView.check(ViewAssertions.matches(ViewMatchers.withText("Buscando América")))
+        textView.check(ViewAssertions.matches(ViewMatchers.withText("Meejo")))
         textView.perform(ViewActions.click())
 
-        Thread.sleep(2500)
+        Thread.sleep(2000)
 
         val titleView = Espresso.onView(
             Matchers.allOf(
-                ViewMatchers.withId(R.id.ad_name), ViewMatchers.withText("Buscando América"),
+                ViewMatchers.withId(R.id.ad_name), ViewMatchers.withText("Meejo"),
                 ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
                 ViewMatchers.isDisplayed()
             )
         )
 
-        titleView.check(ViewAssertions.matches(ViewMatchers.withText("Buscando América")))
+        titleView.check(ViewAssertions.matches(ViewMatchers.withText("Meejo")))
 
-        onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(1))
+        Thread.sleep(1500)
+        onView(withId(R.id.addAlbumTrackButton)).perform(click())
+        Thread.sleep(1500)
+
+        val randomName = "Track ${(0..9999).random()}"
+        onView(withId(R.id.nameInputEditText)).perform(typeText(randomName))
+        onView(withId(R.id.minuteInputEditText)).perform(typeText("%02d".format((1..3).random())))
+        onView(withId(R.id.secondInputEditText)).perform(typeText("%02d".format((1..59).random())), closeSoftKeyboard())
+        Thread.sleep(1500)
+
+        onView(withId(R.id.saveButton)).perform(click())
         Thread.sleep(2000)
 
-        onView(withId(R.id.tab_layout)).perform(selectTabAtPosition(2))
-        Thread.sleep(2000)
+        onView(withId(R.id.tracksRV)).perform(swipeUp())
+        Thread.sleep(1500)
+
+        val trackView = Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.td_name), ViewMatchers.withText(randomName),))
+        trackView.check(ViewAssertions.matches(ViewMatchers.withText(randomName)))
+
     }
 
     private fun childAtPosition(

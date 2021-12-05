@@ -8,11 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AlbumesViewModel(application: Application) : AndroidViewModel(application){
-    private val _albumes = MutableLiveData<List<Album>>()
-
-    val albumes: LiveData<List<Album>>
-        get() = _albumes
+class NewAlbumViewModel(application: Application) : AndroidViewModel(application){
+    var album = MutableLiveData<Album?>()
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -26,26 +23,28 @@ class AlbumesViewModel(application: Application) : AndroidViewModel(application)
 
     init {
         getDataFromRepository()
+        album = MutableLiveData()
     }
 
-    private fun getDataFromRepository() {
-        try{
+    private fun getDataFromRepository() {}
+
+    fun addNewAlbum(album: Album): Boolean {
+        // Invalidate Synchronous the cache, lightweight process that just eliminate
+        AlbumRepository.getInstance(getApplication()).resetCache()
+        try {
             viewModelScope.launch (Dispatchers.Default){
                 withContext(Dispatchers.IO){
-                    val data = AlbumRepository.getInstance(getApplication()).getAlbums()
-                    _albumes.postValue(data)
+                    AlbumRepository.getInstance(getApplication()).addAlbum(album)
                 }
                 _eventNetworkError.postValue(false)
                 _isNetworkErrorShown.postValue(false)
             }
+            return true
         }
         catch (e:Exception){
             _eventNetworkError.value = true
+            return false
         }
-    }
-
-    fun refreshAlbums(){
-        getDataFromRepository()
     }
 
     fun onNetworkErrorShown() {
@@ -54,9 +53,9 @@ class AlbumesViewModel(application: Application) : AndroidViewModel(application)
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(AlbumesViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(NewAlbumViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return AlbumesViewModel(app) as T
+                return NewAlbumViewModel(app) as T
             }
             throw IllegalArgumentException("Unable to construct viewmodel")
         }

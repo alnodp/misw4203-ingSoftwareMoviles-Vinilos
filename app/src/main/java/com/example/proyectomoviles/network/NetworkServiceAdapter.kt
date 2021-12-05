@@ -31,6 +31,10 @@ class NetworkServiceAdapter constructor(context: Context) {
         Volley.newRequestQueue(context.applicationContext)
     }
 
+    fun resetCache() {
+        requestQueue.cache.clear()
+    }
+
     suspend fun getAlbums() = suspendCoroutine<List<Album>> { cont ->
         val list = mutableListOf<Album>()
         requestQueue.add(getRequest("albums", { response ->
@@ -171,6 +175,36 @@ class NetworkServiceAdapter constructor(context: Context) {
         }, {
             cont.resumeWithException(it)
         }))
+    }
+
+    suspend fun addAlbum(album: Album) = suspendCoroutine<Album> { cont ->
+        requestQueue.add(
+            postRequest("albums",
+                JSONObject(
+                    """{"name":"${album.name}",
+                    |"cover":"${album.cover}",
+                    |"releaseDate":"${album.releaseDate}",
+                    |"description":"${album.description}",
+                    |"genre":"${album.genre}",
+                    |"recordLabel":"${album.recordLabel}"}""".trimMargin()
+                ),
+                { response ->
+                    val albumCreated = Album(
+                        id = response.getInt("id"),
+                        name = response.getString("name"),
+                        cover = response.getString("cover"),
+                        releaseDate = response.getString("releaseDate"),
+                        description = response.getString("description"),
+                        genre = response.getString("genre"),
+                        recordLabel = response.getString("recordLabel")
+                    )
+
+                    cont.resume(albumCreated)
+                },
+                {
+                    cont.resumeWithException(it)
+                })
+        )
     }
 
     suspend fun getAlbum(albumId: Int) = suspendCoroutine<Album> { cont ->
