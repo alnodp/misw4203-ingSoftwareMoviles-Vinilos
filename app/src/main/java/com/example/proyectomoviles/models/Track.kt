@@ -1,7 +1,7 @@
 package com.example.proyectomoviles.models
 
 data class Track (
-    val id: Int,
-    val name: String,
-    val duration: String
+    val id: Int = 0,
+    var name: String,
+    var duration: String = ""
 )

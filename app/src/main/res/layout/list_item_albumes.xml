@@ -32,6 +32,7 @@
                 android:layout_height="100dp"
                 android:background="@color/gray"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/album_image_description"
                 app:srcCompat="@drawable/ic_album" />
 
             <LinearLayout

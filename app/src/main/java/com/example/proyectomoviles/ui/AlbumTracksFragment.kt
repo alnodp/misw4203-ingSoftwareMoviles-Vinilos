@@ -6,10 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyectomoviles.R
 import com.example.proyectomoviles.adapters.TracksAdapter
 import com.example.proyectomoviles.databinding.TracksFragmentBinding
 import com.example.proyectomoviles.viewmodels.AlbumTracksViewModel

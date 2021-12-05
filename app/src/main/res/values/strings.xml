@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Vinilos app</string>
     <string name="title_home">Home</string>
-    <string name="title_albumes">Albumes</string>
+    <string name="title_albumes">Álbumes</string>
     <string name="title_artists">Artistas</string>
     <string name="title_collectors">Coleccionistas</string>
     <string name="hint_artist_search">Filtrar por nombre</string>
@@ -9,8 +9,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="album_detail_title">Detalle de álbum</string>
+    <string name="new_album_title">Agregar álbum</string>
+    <string name="album_image_description">Imagen de álbum</string>
+    <string name="new_album_track_label">Agregar canción</string>
     <string name="collector_detail_title">Detalle de coleccionista</string>
+    <string name="collector_image_description">Imagen de coleccionista</string>
     <string name="artist_detail_title">Detalle de artista</string>
+    <string name="artist_image_description">Imagen de artista</string>
     <string name="tab_text_1">Canciones</string>
     <string name="tab_text_2">Intérpretes</string>
     <string name="tab_text_3">Comentarios</string>
@@ -19,7 +24,7 @@
     <string name="collector_tab3">Comentarios</string>
     <string name="artist_tab1">Álbumes</string>
     <string name="artist_tab2">Premios</string>
-    <string name="cover_description">Imagen de interprete</string>
+    <string name="cover_description">Cubierta de album</string>
     <string name="comment_rating_label">Rating</string>
     <string name="pd_birdthdate_label">"Fecha de nacimiento: "</string>
     <string name="collector_email_label">Email: </string>
@@ -29,4 +34,35 @@
     <string name="tv_string_titulo">"VINILOS"</string>
     <string name="tv_string_descripcion">"Encuentra el próximo hit"</string>
     <string name="tv_string_funciones">"Albumes, Artistas y Coleccionistas"</string>
+    <string name="add_album_button">Agregar nuevo álbum</string>
+    <string name="fab_content_desc">Agregar canción al álbum</string>
+    <string name="album_name_label">Nombre</string>
+    <string name="album_cover_url_label">Url de portada</string>
+    <string name="album_release_date_label">Fecha de lanzamiento</string>
+    <string name="album_description_label">Descripción</string>
+    <string name="album_genre">Género</string>
+    <string name="album_record_label">Sello discográfico</string>
+    <string name="track_name">Nombre</string>
+    <string name="track_minutes">Minutos</string>
+    <string name="track_seconds">Segundos</string>
+    <string name="required">Requerido*</string>
+    <string name="track_detail_title">Detalles de canción</string>
+    <string name="save_button">Guardar</string>
+    <string name="date_button">Seleccionar fecha</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="home_image_description">Logo vinilos app</string>
+    <string-array name="genres">
+        <item>Classical</item>
+        <item>Salsa</item>
+        <item>Rock</item>
+        <item>Folk</item>
+    </string-array>
+
+    <string-array name="record_labels">
+        <item>Sony Music</item>
+        <item>EMI</item>
+        <item>Discos Fuentes</item>
+        <item>Elektra</item>
+        <item>Fania Record</item>
+    </string-array>
 </resources>

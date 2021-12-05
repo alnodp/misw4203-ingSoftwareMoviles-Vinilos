@@ -25,6 +25,7 @@ class CollectorsAdapter() : RecyclerView.Adapter<CollectorsAdapter.CollectorView
     }
 
     var collector :List<Collector> = emptyList()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             collectorsFiltered = value
