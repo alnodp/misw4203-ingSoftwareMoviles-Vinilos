@@ -173,7 +173,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/recordLabelTextInputLayout"
-            android:hint="@string/album_genre"
             app:helperText="@string/required">
 
             <AutoCompleteTextView
@@ -181,7 +180,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:hint="@string/album_genre" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -195,7 +195,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/buttonSection"
-            android:hint="@string/album_record_label"
             app:helperText="@string/required">
 
             <AutoCompleteTextView
@@ -203,7 +202,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:hint="@string/album_record_label" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

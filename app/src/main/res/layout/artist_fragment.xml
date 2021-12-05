@@ -34,6 +34,7 @@
                     android:layout_gravity="start"
                     android:background="@color/gray"
                     android:scaleType="centerInside"
+                    android:contentDescription="@string/artist_image_description"
                     tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
                 <LinearLayout

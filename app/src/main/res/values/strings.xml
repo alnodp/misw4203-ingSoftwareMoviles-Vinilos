@@ -10,9 +10,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="album_detail_title">Detalle de álbum</string>
     <string name="new_album_title">Agregar álbum</string>
+    <string name="album_image_description">Imagen de álbum</string>
     <string name="new_album_track_label">Agregar canción</string>
     <string name="collector_detail_title">Detalle de coleccionista</string>
+    <string name="collector_image_description">Imagen de coleccionista</string>
     <string name="artist_detail_title">Detalle de artista</string>
+    <string name="artist_image_description">Imagen de artista</string>
     <string name="tab_text_1">Canciones</string>
     <string name="tab_text_2">Intérpretes</string>
     <string name="tab_text_3">Comentarios</string>
@@ -48,7 +51,7 @@
     <string name="save_button">Guardar</string>
     <string name="date_button">Seleccionar fecha</string>
     <string name="cancel_button">Cancelar</string>
-
+    <string name="home_image_description">Logo vinilos app</string>
     <string-array name="genres">
         <item>Classical</item>
         <item>Salsa</item>
