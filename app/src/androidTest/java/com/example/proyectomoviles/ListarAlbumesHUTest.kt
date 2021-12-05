@@ -32,7 +32,7 @@ class ListarAlbumesHUTest {
     fun listarAlbumesHUTest() {
         val bottomNavigationItemView = onView(
             allOf(
-                withId(R.id.navigation_albumes), withContentDescription("Albumes"),
+                withId(R.id.navigation_albumes),
                 childAtPosition(
                     childAtPosition(
                         withId(R.id.nav_view),

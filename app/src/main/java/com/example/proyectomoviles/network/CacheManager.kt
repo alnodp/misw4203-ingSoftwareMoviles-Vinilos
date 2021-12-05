@@ -26,6 +26,10 @@ class CacheManager(context: Context) {
         }
     }
 
+    fun resetAlbumCache(){
+        this.albums = listOf()
+    }
+
     fun getAlbums() : List<Album>{
         return if (albums.isEmpty()) listOf<Album>() else albums
     }
