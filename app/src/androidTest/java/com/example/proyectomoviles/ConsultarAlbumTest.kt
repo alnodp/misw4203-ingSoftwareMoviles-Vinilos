@@ -35,7 +35,6 @@ class ConsultarAlbumTest {
         val bottomNavigationItemView = Espresso.onView(
             Matchers.allOf(
                 ViewMatchers.withId(R.id.navigation_albumes),
-                ViewMatchers.withContentDescription("Albumes"),
                 childAtPosition(
                     childAtPosition(
                         ViewMatchers.withId(R.id.nav_view),
