@@ -36,7 +36,6 @@
     <string name="tv_string_funciones">"Albumes, Artistas y Coleccionistas"</string>
     <string name="add_album_button">Agregar nuevo álbum</string>
     <string name="fab_content_desc">Agregar canción al álbum</string>
-    <string name="new_track_title">Datos de la canción</string>
     <string name="album_name_label">Nombre</string>
     <string name="album_cover_url_label">Url de portada</string>
     <string name="album_release_date_label">Fecha de lanzamiento</string>
