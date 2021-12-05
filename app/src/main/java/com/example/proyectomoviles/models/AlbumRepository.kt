@@ -19,19 +19,28 @@ class AlbumRepository(val context: Context) {
             }
     }
 
-    suspend fun getAlbums(): List<Album>{
-        val potentialResp = CacheManager.getInstance(context).getAlbums()
-        return if(potentialResp.isEmpty()){
-            getAlbumsFromNet()
-        } else{
-            potentialResp
+    suspend fun getAlbums(invalidateCache: Boolean = false): List<Album>{
+
+        if (!invalidateCache) {
+            var potentialResp = CacheManager.getInstance(context).getAlbums()
+            if (potentialResp.isNotEmpty()) {
+                return potentialResp
+            }
         }
+        return getAlbumsFromNet()
     }
 
     suspend fun getAlbumsFromNet(): List<Album>{
+        this.resetCache()
         val albums = serviceAdapter.getAlbums()
+
         CacheManager.getInstance(context).addAlbums(albums)
         return albums
+    }
+
+    fun resetCache() {
+        CacheManager.getInstance(context).resetAlbumCache()
+        serviceAdapter.resetCache()
     }
 
     suspend fun addAlbum(album: Album): Album {

@@ -44,6 +44,10 @@ class AlbumesViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    fun refreshAlbums(){
+        getDataFromRepository()
+    }
+
     fun onNetworkErrorShown() {
         _isNetworkErrorShown.value = true
     }

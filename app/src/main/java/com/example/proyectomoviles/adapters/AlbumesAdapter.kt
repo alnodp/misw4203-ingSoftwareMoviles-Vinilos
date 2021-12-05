@@ -45,8 +45,8 @@ class AlbumesAdapter() : RecyclerView.Adapter<AlbumesAdapter.AlbumViewHolder>(),
         set(value) {
             field = value
             albumsFiltered = value
-            this.filter
             notifyDataSetChanged()
+            this.filter.filter("")
         }
 
     var albumsFiltered: List<Album> = emptyList()
@@ -96,7 +96,6 @@ class AlbumesAdapter() : RecyclerView.Adapter<AlbumesAdapter.AlbumViewHolder>(),
 
             @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-
                 (if (results?.values == null)
                     emptyList()
                 else

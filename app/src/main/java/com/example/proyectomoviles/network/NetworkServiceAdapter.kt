@@ -31,6 +31,10 @@ class NetworkServiceAdapter constructor(context: Context) {
         Volley.newRequestQueue(context.applicationContext)
     }
 
+    fun resetCache() {
+        requestQueue.cache.clear()
+    }
+
     suspend fun getAlbums() = suspendCoroutine<List<Album>> { cont ->
         val list = mutableListOf<Album>()
         requestQueue.add(getRequest("albums", { response ->

@@ -82,7 +82,7 @@ class AlbumesFragment : Fragment() {
     }
 
     override fun onResume() {
-        viewModelAdapter!!.filter.filter("")
+        viewModel.refreshAlbums()
         filterAlbumET.setText("")
         super.onResume()
     }

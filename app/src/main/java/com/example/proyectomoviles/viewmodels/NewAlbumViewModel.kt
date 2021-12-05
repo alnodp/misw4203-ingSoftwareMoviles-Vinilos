@@ -29,11 +29,12 @@ class NewAlbumViewModel(application: Application) : AndroidViewModel(application
     private fun getDataFromRepository() {}
 
     fun addNewAlbum(album: Album): Boolean {
+        // Invalidate Synchronous the cache, lightweight process that just eliminate
+        AlbumRepository.getInstance(getApplication()).resetCache()
         try {
             viewModelScope.launch (Dispatchers.Default){
                 withContext(Dispatchers.IO){
                     AlbumRepository.getInstance(getApplication()).addAlbum(album)
-                    AlbumRepository.getInstance(getApplication()).getAlbumsFromNet()
                 }
                 _eventNetworkError.postValue(false)
                 _isNetworkErrorShown.postValue(false)
